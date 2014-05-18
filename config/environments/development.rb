@@ -27,4 +27,15 @@ WebcamApp::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.paperclip_defaults = {
+    storage: :s3,
+#    url: "photos-webapp.s3-website-us-east-1.amazonaws.com",
+    s3_credentials: {
+      bucket: 'photos-webapp',
+      access_key_id: 'AKIAI3KQ5MBQK3T7M2NA',
+      secret_access_key: '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'
+    }
+  }
+
 end

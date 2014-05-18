@@ -20,6 +20,14 @@ WebcamApp::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket: 'elasticbeanstalk-ap-southeast-1-621157081447',
+      access_key_id: 'AKIAI3KQ5MBQK3T7M2NA',
+      secret_access_key: '0o+rv1ZxoDr+rfIpRxjJS5rsQKjfXNt/TEFMa5qN'
+    }
+  }
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 
