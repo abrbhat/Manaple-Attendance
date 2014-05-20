@@ -49,6 +49,6 @@ group :production do
   gem 'rails_12factor'
 end
 
-#gem 'devise'
-#gem 'activeadmin', github: 'gregbell/active_admin'
-#gem 'sass-rails'
+gem 'sass-rails', github: 'rails/sass-rails'
+gem 'devise'
+gem 'activeadmin', github: 'gregbell/active_admin'
