@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140520064750) do
+ActiveRecord::Schema.define(version: 20140521164514) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -46,6 +46,17 @@ ActiveRecord::Schema.define(version: 20140520064750) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
 
+  create_table "authorizations", force: true do |t|
+    t.string   "permission"
+    t.integer  "user_id"
+    t.integer  "store_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authorizations", ["store_id"], name: "index_authorizations_on_store_id"
+  add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id"
+
   create_table "photos", force: true do |t|
     t.string   "description"
     t.datetime "created_at"
@@ -54,6 +65,14 @@ ActiveRecord::Schema.define(version: 20140520064750) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+  end
+
+  create_table "stores", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
