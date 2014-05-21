@@ -48,3 +48,7 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
+
+gem 'sass-rails', github: 'rails/sass-rails'
+gem 'devise'
+gem 'activeadmin', github: 'gregbell/active_admin'
