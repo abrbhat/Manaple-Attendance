@@ -1,7 +1,17 @@
 ActiveAdmin.register Photo do
 
-  permit_params :description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at
-  
+  permit_params :description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at, :is_valid
+
+  index do
+    column :description
+    column :user
+    column :image_updated_at
+    column :is_valid
+    column :image do |photo|
+      image_tag photo.image.url(:medium)
+    end
+    actions
+  end
   # See permitted parameters documentation:
   # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #

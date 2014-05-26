@@ -45,10 +45,9 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg'
-  gem 'rails_12factor'
+  gem 'mysql12'
 end
 
-gem 'sass-rails', github: 'rails/sass-rails'
+gem 'sass-rails', '4.0.3' #, github: 'rails/sass-rails'
 gem 'devise'
 gem 'activeadmin', github: 'gregbell/active_admin'
