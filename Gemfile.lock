@@ -109,12 +109,10 @@ GEM
       rack-contrib
       railties
     mime-types (1.25.1)
-    mini_portile (0.6.0)
     minitest (5.3.4)
     multi_json (1.10.1)
     mysql2 (0.3.16)
-    nokogiri (1.6.2.1)
-      mini_portile (= 0.6.0)
+    nokogiri (1.5.11)
     orm_adapter (0.5.0)
     paperclip (4.1.1)
       activemodel (>= 3.0.0)
@@ -194,6 +192,7 @@ DEPENDENCIES
   jquery-rails
   meta_request
   mysql2
+  nokogiri (< 1.6)
   paperclip
   rails
   sass-rails (= 4.0.3)

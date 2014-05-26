@@ -30,6 +30,8 @@ gem 'rails'
 #   gem 'webrat'
 # end
 
+gem 'nokogiri', '< 1.6'
+
 gem 'paperclip'
 gem 'jquery-rails'
 gem 'aws-sdk'
