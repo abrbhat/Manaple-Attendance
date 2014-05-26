@@ -45,7 +45,7 @@ group :development, :test do
 end
 
 group :production do
-  gem 'mysql12'
+  gem 'mysql2'
 end
 
 gem 'sass-rails', '4.0.3' #, github: 'rails/sass-rails'
