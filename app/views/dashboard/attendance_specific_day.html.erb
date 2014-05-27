@@ -1,0 +1,34 @@
+<div class="panel-header">
+  <div class="left-side"><h3>Attendance:</h3></br></div>
+</div>
+<div class="attendance-navigator-container">
+	<%= render "attendance_data_navigator" %>
+	<div class="date-chooser-container">
+		<input type="text" class="form-element" value="<%= Time.now.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" >
+	</div>
+	<button class="proceed-button" id="download-customer-data-button">Go</button>
+</div>
+<table class="list-table">
+  <thead>
+    <tr>
+      <th>Store </th>
+      <th>Employee</th>
+      <th>In Time</th>
+      <th>Out Time</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <% @attendance_data_today.each do |attendance_data| %>
+      <tr>
+        <td> <%= attendance_data['employee'].store.name %></td>
+        <td> <%= attendance_data['employee'].name %></td>
+        <td> <%= print_hyphen_if_empty(attendance_data['in_time']) %></td>
+        <td> <%= print_hyphen_if_empty(attendance_data['out_time']) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<hr>
+<div id="pagination_navigation">
+  <%#= will_paginate @attendance_data_today %>
+</div>
