@@ -6,6 +6,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 @import "bootstrap";
+@import "datepicker";
 
 html {
   height:100%;
@@ -275,6 +276,19 @@ label{
 }
 .store-list-header{
   float:left;
+}
+.attendance-data-navigator{
+  float:left;
+}
+.attendance-navigator-container{
+  width:100%;
+  clear:both;
+}
+.date-chooser-container{
+  width:15%;
+  float:left;
+  margin-left:20px;
+  margin-right:10px;
 }
 #data-key-box{
   text-align:center;

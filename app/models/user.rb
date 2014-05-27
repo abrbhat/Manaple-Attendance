@@ -43,4 +43,11 @@ class User < ActiveRecord::Base
   	end
   	return stores
   end
+  def store
+    stores = []
+    authorizations.each do |authorization|
+      stores << authorization.store
+    end
+    return stores.first
+  end
 end

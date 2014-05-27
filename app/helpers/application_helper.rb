@@ -5,4 +5,11 @@ module ApplicationHelper
 		action=split_page_name[1]
   		"present_location" if params[:action] == action && params[:controller] == controller
 	end
+	def print_hyphen_if_empty(value)
+		if value.blank?
+			"-"
+		else
+			value
+		end
+	end
 end
