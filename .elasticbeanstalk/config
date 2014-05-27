@@ -12,19 +12,5 @@ RdsEnabled=Yes
 RdsSourceSnapshotName=
 Region=ap-southeast-1
 ServiceEndpoint=https://elasticbeanstalk.ap-southeast-1.amazonaws.com
-SolutionStack=64bit Amazon Linux 2014.03 v1.0.2 running Ruby 1.9.3
-
-[branches]
-master=webcamapp-master-env
-
-[branch:master]
-ApplicationVersionName=Sample Application
-EnvironmentName=webcamapp-master-env
-EnvironmentTier=WebServer::Standard::1.0
-EnvironmentType=SingleInstance
-InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.webcamapp-master-env
-RdsDeletionPolicy=Delete
-RdsEnabled=Yes
-RdsSourceSnapshotName=
+SolutionStack=64bit Amazon Linux 2014.03 v1.0.2 running Ruby 2.0 (Passenger Standalone)
 
