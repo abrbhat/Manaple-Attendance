@@ -39,7 +39,7 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     storage: :s3,
-#    url: "photos-webapp.s3-website-us-east-1.amazonaws.com",
+#    url: "http://photos-webapp.s3-website-us-east-1.amazonaws.com",
     s3_credentials: {
       bucket: 'photos-webapp',
       access_key_id: 'AKIAI3KQ5MBQK3T7M2NA',

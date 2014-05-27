@@ -84,7 +84,7 @@ Rails.application.configure do
   config.paperclip_defaults = {
     storage: :s3,
     s3_credentials: {
-      bucket: 'elasticbeanstalk-ap-southeast-1-621157081447',
+      bucket: 'photos-webapp',
       access_key_id: 'AKIAI3KQ5MBQK3T7M2NA',
       secret_access_key: '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'
     }
