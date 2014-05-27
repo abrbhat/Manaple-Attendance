@@ -50,6 +50,10 @@ group :production do
   gem 'mysql2'
 end
 
-gem 'sass-rails', '4.0.3' #, github: 'rails/sass-rails'
+gem 'sass-rails', github: 'rails/sass-rails'
 gem 'devise'
 gem 'activeadmin', github: 'gregbell/active_admin'
+
+group :assets do
+  gem 'uglifier'
+end 
