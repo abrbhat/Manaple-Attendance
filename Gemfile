@@ -49,6 +49,9 @@ group :production do
   gem 'rails_12factor'
 end
 
+gem 'jquery-turbolinks'
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
 gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
 gem 'bootstrap-sass'
 gem 'devise'

@@ -1,6 +1,8 @@
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require turbolinks
+//= require jquery.turbolinks
+//= require bootstrap
 
 /* JPEGCam v1.0.9 */
 /* Webcam library for capturing JPEG images and submitting to a server */
