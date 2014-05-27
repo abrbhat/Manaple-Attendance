@@ -34,8 +34,10 @@ class DashboardController < ApplicationController
         attendance_data = Hash.new
         if params[:date].blank?
           photos = employee.photos.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day)
+          @date = Time.now.strftime("%d-%m-%Y")
         else
           photos = employee.photos.where(created_at: (DateTime.parse(params[:date]).midnight)..DateTime.parse(params[:date]).midnight + 1.day)
+          @date = params[:date]
         end
         photos.each do |photo|
           if photo.description == 'in'          

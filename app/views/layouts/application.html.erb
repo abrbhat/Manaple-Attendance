@@ -25,8 +25,9 @@
 			  <div class="collapsible-navigation-bar" id="bs-example-navbar-collapse-1">
 				<% if user_signed_in? %>	
 					<ul class="right-aligned-navigation-links">
-						<li class="<%= is_active?("dashboard#index")  %>"><%= link_to "Home", dashboard_index_path %></li>
+						
 					<% if current_user.is_store_incharge? %>
+						<li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Home", dashboard_attendance_specific_day_path %></li>
 						<li class="<%= is_active?("dashboard#employees")  %>"><%= link_to "Employees", dashboard_employees_path %></li>
 						<li class="dropdown">
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Settings<b class="caret"></b></a>
@@ -36,7 +37,7 @@
 					        </ul>	
 					    </li>
 					<% elsif current_user.is_store_staff? || current_user.is_store_manager? %>		    
-					    
+					    <li class="<%= is_active?("dashboard#index")  %>"><%= link_to "Home", dashboard_index_path %></li>
 					    
 				    <% end %>  
 				      	

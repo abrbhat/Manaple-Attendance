@@ -3,10 +3,12 @@
 </div>
 <div class="attendance-navigator-container">
 	<%= render "attendance_data_navigator" %>
-	<div class="date-chooser-container">
-		<input type="text" class="form-element" value="<%= Time.now.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" >
+	<%= form_tag({controller:"dashboard",action:"attendance_specific_day"}, method: "get") do %>
+  <div class="date-chooser-container">
+		<input type="text" class="form-element" value="<%= @date %>" id="attendance-data-date-chooser" name="date" >
 	</div>
-	<button class="proceed-button" id="download-customer-data-button">Go</button>
+	<%= submit_tag "Go", :class => "proceed-button" %>
+  <% end %>
 </div>
 <table class="list-table">
   <thead>
