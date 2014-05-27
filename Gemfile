@@ -49,6 +49,7 @@ group :production do
   gem 'rails_12factor'
 end
 
-gem 'sass-rails', github: 'rails/sass-rails'
+gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
+gem 'bootstrap-sass'
 gem 'devise'
-gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'activeadmin', git: 'http://github.com/gregbell/active_admin'
