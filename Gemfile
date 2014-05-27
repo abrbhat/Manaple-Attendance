@@ -50,5 +50,6 @@ group :production do
 end
 
 gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
+gem 'bootstrap-sass'
 gem 'devise'
 gem 'activeadmin', git: 'http://github.com/gregbell/active_admin'
