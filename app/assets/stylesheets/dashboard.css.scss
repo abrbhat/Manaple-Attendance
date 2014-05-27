@@ -55,6 +55,18 @@ body {
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
+.inline-form-element{
+  @extend .form-element;
+  float:left !important;
+  width: auto !important;
+}
+.more-side-margins{  
+  margin-left:5px;
+  margin-right:5px;
+  border:none !important;
+  box-shadow:none !important;
+  background-color: transparent !important;
+}
 .form-signin .form-control:focus {
   z-index: 2;
 }
@@ -77,6 +89,11 @@ body {
 }
 .form-element{
   @extend .form-control;
+}
+.inline-form-element{
+  @extend .form-element;
+  float:left !important;
+  width: auto !important;
 }
 .form-element-group{
   @extend .form-group;
@@ -286,6 +303,12 @@ label{
 }
 .date-chooser-container{
   width:15%;
+  float:left;
+  margin-left:20px;
+  margin-right:10px;
+}
+.time-period-chooser-container{
+  width:55%;
   float:left;
   margin-left:20px;
   margin-right:10px;
