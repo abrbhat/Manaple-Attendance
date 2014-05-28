@@ -31,6 +31,10 @@ class DashboardController < ApplicationController
         @attendance_data_today << attendance_data
       end
     end
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end
   def attendance_time_period
     @stores = current_user.stores
@@ -59,6 +63,10 @@ class DashboardController < ApplicationController
         attendance_data["employee"] = employee
         @attendance_data_today << attendance_data
       end
+    end
+    respond_to do |format|
+      format.html
+      format.xls
     end
   end
   def choose_employee_name

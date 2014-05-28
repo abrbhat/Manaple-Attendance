@@ -10,6 +10,7 @@
 	<%= submit_tag "Go", :class => "proceed-button" %>
   <% end %>
 </div>
+
 <table class="list-table">
   <thead>
     <tr>
@@ -34,3 +35,4 @@
 <div id="pagination_navigation">
   <%#= will_paginate @attendance_data_today %>
 </div>
+<%= link_to "Download XLS", '/dashboard/attendance_specific_day.xls' , class:'small-button' %>
