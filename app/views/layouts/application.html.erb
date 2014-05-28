@@ -1,19 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WebcamApp</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "http://code.jquery.com/jquery-1.4.2.min.js"%>
-
-  <%= csrf_meta_tag %>
+  <title>Manaple</title>
+  <%= stylesheet_link_tag  "dashboard", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
 </head>
-<body>
+<body >
+<div id="wrap">
+	<div class="dashboard">
+		<div id="user_nav">	
+			<nav class="navigation-bar" role="navigation">
+			  <!-- Brand and toggle get grouped for better mobile display -->
+			  <div class="navigation-bar-header">
+			    <button type="button" class="navigation-bar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			      <span class="sr-only">Toggle navigation</span>
+			      <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+			    </button>
+			    <a id="logo" href="/">Manaple</a>
+			  </div>
+			  <!-- Collect the nav links, forms, and other content for toggling -->
+			  <div class="collapsible-navigation-bar" id="bs-example-navbar-collapse-1">
+				<% if user_signed_in? %>	
+					<ul class="right-aligned-navigation-links">
+						
+					<% if current_user.is_store_incharge? %>
+						<li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Home", dashboard_attendance_specific_day_path %></li>
+						<li class="<%= is_active?("dashboard#employees")  %>"><%= link_to "Employees", dashboard_employees_path %></li>
+						<li class="dropdown">
+					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Settings<b class="caret"></b></a>
+					        <ul class="dropdown-options">
+					          <li class="<%= is_active?("dashboard#notification_settings")  %>" ><%= link_to "Notifications", dashboard_notification_settings_path %></li>
+					          <li class="<%= is_active?("devise/registrations#edit")  %>"><%= link_to "Profile", edit_user_registration_path %></li>
+					        </ul>	
+					    </li>
+					<% elsif current_user.is_store_staff? || current_user.is_store_manager? %>		    
+					    <li class="<%= is_active?("dashboard#index")  %>"><%= link_to "Home", dashboard_index_path %></li>
+					    
+				    <% end %>  
+				      	
+					    <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+				    </ul>	
+				<% end %>
+				
+			  </div><!-- /.navbar-collapse -->
+			</nav>		
+		</div>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<%= yield %>
-
+		<% if flash[:notice] %>
+		  <div class="notice-flash">
+		      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		      <%= flash[:notice] %>
+		  </div>
+		<% end %>
+		<% if flash[:error] %>
+		  <div class="error-flash">
+		      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		      <%= flash[:error] %>
+		  </div>
+		<% end %>
+		<%= yield %>
+	</div>	
+</div>
+<%= render "layouts/footer" %>
 </body>
 </html>
+

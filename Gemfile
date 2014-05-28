@@ -50,10 +50,15 @@ group :production do
   gem 'mysql2'
 end
 
-gem 'sass-rails', github: 'rails/sass-rails'
+gem 'jquery-turbolinks'
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
+gem 'bootstrap-sass'
 gem 'devise'
-gem 'activeadmin', github: 'gregbell/active_admin'
 
 group :assets do
   gem 'uglifier'
 end 
+
+gem 'activeadmin', github: 'gregbell/active_admin'

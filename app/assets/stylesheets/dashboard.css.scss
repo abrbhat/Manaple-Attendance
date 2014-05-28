@@ -1,3 +1,332 @@
 // Place all the styles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+// Place all the styles related to the dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "bootstrap";
+@import "datepicker";
+
+html {
+  height:100%;
+}
+body {
+  background-color: #eee !important;
+  height:100%;
+}
+#footer{
+  text-align:center;
+  height: 60px;
+  padding:15px;
+}
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+.left-side{
+  float:left;
+}
+.right-side{
+  float:right;
+}
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-element {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.inline-form-element{
+  @extend .form-element;
+  float:left !important;
+  width: auto !important;
+}
+.more-side-margins{  
+  margin-left:5px;
+  margin-right:5px;
+  border:none !important;
+  box-shadow:none !important;
+  background-color: transparent !important;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.sign-in-block{
+  @extend .container;
+}
+.form-container{
+  @extend .container;
+  width:400px;
+}
+.form-element{
+  @extend .form-control;
+}
+.inline-form-element{
+  @extend .form-element;
+  float:left !important;
+  width: auto !important;
+}
+.form-element-group{
+  @extend .form-group;
+}
+.form-submit-button{
+  @extend .btn;
+  @extend .btn-md !optional;
+  @extend .btn-primary;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.form-reset-button{
+  @extend .btn;
+  @extend .btn-md !optional;
+  @extend .btn-default;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.form-back-button{
+  @extend .btn;
+  @extend .btn-lg;
+  @extend .btn-warning;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.error-flash{
+  @extend .alert;
+  @extend .alert-danger;
+}
+.notice-flash{
+  @extend .alert;
+  @extend .alert-success;
+}
+.default-button{
+  @extend .btn;
+  @extend .btn-default;
+}
+//Dashboard
+.dashboard{
+  @extend .container;
+}
+.centering-table{
+  display: table; 
+  height: 100%;
+  width:100%; 
+  overflow: hidden;
+  padding-bottom:10px;
+}
+.centering-table-cell{
+  display: table-cell; 
+  vertical-align: middle;
+  padding:5px;
+  text-align:center;
+}
+.dashboard-intro-block{
+  @extend .container;
+  width:60%;
+  height:400px;
+}
+.big-button{
+  @extend .btn;
+  @extend .btn-lg;
+  @extend .btn-primary;
+}
+.medium-button{
+  @extend .btn;
+  @extend .btn-md !optional;
+  @extend .btn-primary;
+}
+.half-height-row{
+  @extend .row;
+  height:50%;
+}
+.option-among-2{
+  @extend .col-sm-6;
+}
+.right-align{
+  float:right;
+  padding-right:5px;
+  display:table-row;
+}
+#user_nav{
+  display:table;
+  width:100%;
+  margin-top:10px;
+}
+.medium-button{
+  @extend .btn;
+  @extend .btn-md !optional;
+  @extend .btn-primary;
+}
+.list-table{
+  @extend .table;
+}
+.small-column{
+  width:25%;
+}
+#phone-number-list, #email-list{
+  display:none;
+}
+#response-summary-table{
+  @extend .table;
+  text-align:center;
+}
+.slice text {
+font-size: 16pt;
+font-family: Arial;
+}
+.form-container-full{
+  @extend .container;
+}
+#postStatus{
+  width:100%;
+  margin:0 auto;
+  text-align:center;
+  clear:both;
+  margin-top:30px;
+  height:auto;
+  padding:15px;
+}
+#update-data-key-status{
+  width:100%;
+  margin:0 auto;
+  text-align:center;
+  clear:both;
+  margin-top:30px;
+  height:auto;
+  padding:15px;
+}
+#download-options-box{
+  width:100%;
+  clear:both;
+  height:35px;
+  padding:5px;
+  display:none;
+  text-align:right;
+}
+.panel-header{
+  width:100%;
+  clear:both;
+}
+.proceed-button
+{
+  @extend .btn;
+  @extend .btn-md !optional;
+  @extend .btn-success;
+}
+#logo{
+  @extend .navbar-brand;
+  font-weight:bold;
+  font-size:25px;
+  color:black !important;
+  font-style:italic;
+}
+label{
+  font-weight:normal !important;
+}
+.pagination{
+  width:100%;
+  text-align:center;  
+}
+.center-text{
+  text-align:center;
+}
+.navigation-bar{
+  @extend .navbar;
+  @extend .navbar-default;
+}
+.navigation-bar-header{
+  @extend .navbar-header;
+}
+.navigation-bar-toggle{
+  @extend .navbar-toggle;
+}
+.collapsible-navigation-bar{
+  @extend .collapse;
+  @extend .navbar-collapse;
+}
+.right-aligned-navigation-links{
+  @extend .nav;
+  @extend .navbar-nav ;
+  @extend .navbar-right;
+}
+.toggle-dropdown-button{
+  @extend .dropdown-toggle;
+}
+.present_location a{
+  @extend .active;
+  background-color:lightgrey !important;
+}
+.dropdown-options{
+  @extend .dropdown-menu;
+}
+.navigation-pills{
+  @extend .nav;
+  @extend .nav-pills;
+}
+.store-list-header{
+  float:left;
+}
+.attendance-data-navigator{
+  float:left;
+}
+.attendance-navigator-container{
+  width:100%;
+  clear:both;
+}
+.date-chooser-container{
+  width:15%;
+  float:left;
+  margin-left:20px;
+  margin-right:10px;
+}
+.time-period-chooser-container{
+  width:55%;
+  float:left;
+  margin-left:20px;
+  margin-right:10px;
+}
+#data-key-box{
+  text-align:center;
+}
+#data-key-box-message{
+  text-align:center;
+  padding-bottom:2px;
+}
+#data-resend-message{
+  display:none;
+  padding:5px;
+  text-align:center;
+  @extend .alert;
+  @extend .alert-danger;
+}
+#data-resend-message-text{
+  padding:6px;
+}

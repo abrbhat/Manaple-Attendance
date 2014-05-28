@@ -1,7 +1,9 @@
 class PhotosController < ApplicationController
+  before_filter :authenticate_user!
   def create
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path)
+    @photo.user_id = current_user.id
     @photo.save
 
     redirect_to @photo

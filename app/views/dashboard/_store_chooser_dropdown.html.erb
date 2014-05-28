@@ -1,0 +1,12 @@
+<div class="btn-group pull-right">
+  <button type="button" class="default-button">Choose Store</button>
+  <button type="button" class="default-button toggle-dropdown-button" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <% @stores.each do |store| %>
+      <li class="<%= "active" if (store.id == params[:store_id] || store.id == @current_store.id)  %>" ><%= link_to store.name, path +"?store_id=" + store.id %></li>
+    <% end %>
+  </ul>
+</div>

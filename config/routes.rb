@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
   get 'dashboard/index'
-
+  get 'dashboard/notification_settings'
+  get 'dashboard/employees'
+  get 'dashboard/attendance_today'
+  get 'dashboard/attendance_specific_day'
+  get 'dashboard/attendance_time_period'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users
@@ -9,7 +13,7 @@ Rails.application.routes.draw do
     post 'upload', :on => :collection
   end
   
-  root to: redirect("/photos")
+  root to: redirect("/dashboard/attendance_specific_day")
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
