@@ -1,4 +1,10 @@
-<div id="webcam"></div>
+<h3 class="center-text"><%= @employee.name %> : <%= @description%> </h3>
+<h3 class="center-text">Place your face in front of the webcam</h3>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <div id="webcam"></div>
+    </div>
+</div>
 <script type="text/javascript">
     function onload_complete(msg) {
         // fetch the CSRF meta tag data
@@ -12,6 +18,8 @@
     function upload_complete(msg) {
         if (msg == 'ok') {
             $('#new_photo').show();
+            $('#take-picture-button').hide();
+            $('#take-another-picture-button').show();
             $('#photo_description').focus();
         } else {
             alert('An error occured');
@@ -27,15 +35,18 @@
     webcam.set_hook('onComplete', 'upload_complete');
     $('#webcam').html(webcam.get_html(640, 480));
 </script>
-<input type="button" value="Take picture" onclick="webcam.snap();"/>
-
-<%= form_for Photo.new, :html => {:style => "display: none;"} do |f| %>
-    <p>
-      <%= f.label :description %><br/>
-      <%= f.text_field :description %>
-    </p>
-    <p>
-      <%= f.submit "Save the photo" %>
-      or <%= link_to "Take another", new_photo_path %>
-    </p>
-<% end %>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <input type="button" id="take-picture-button" value="Take picture" onclick="webcam.snap();" class="big-button"/>
+        <%= form_for Photo.new, :html => {:style => "display: none;",:class => "photo-form"} do |f| %>
+            <%= f.hidden_field :description, :value => @description %>   
+            <%= f.hidden_field :user_id, :value => @employee.id %> 
+            <%= f.submit "Save the photo", class:"big-button" %>
+        <% end %>
+        <%= form_tag({controller:"photos",action:"new"}, method: "post", id:"take-another-picture-button", class:"photo-form") do %> 
+            <input type="hidden" value="<%= @employee.id %>" name="employee" >  
+            <input type="hidden" value="<%= @description %>" name="description" >       
+            <%= submit_tag "Take Another", :class => "big-button" %>
+        <% end %>
+    </div>
+</div>

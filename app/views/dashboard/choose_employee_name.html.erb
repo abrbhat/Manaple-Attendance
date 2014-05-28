@@ -1,9 +1,12 @@
 <h1 class="center-text"><%= @store.name %></h1>
 <h2 class="center-text">Select Your Name</h2>
 <% @employees.each do |employee| %>
-	<div class="row">
-	    <div class="col-lg-1 centered-block">
-	    	<%= link_to employee.name, new_photo_path(employee: employee.id), class:"big-button"  %>
+	<div class="centering-table">
+	    <div class="centering-table-cell">
+    		<%= form_tag({controller:"dashboard",action:"choose_attendance_description"}, method: "post") do %> 
+				<input type="hidden" value="<%= employee.id %>" name="employee" >			
+				<%= submit_tag employee.name, :class => "big-button" %>
+			<% end %>
 	    </div>
 	</div>
 <% end %>

@@ -37,7 +37,7 @@
 					        </ul>	
 					    </li>
 					<% elsif current_user.is_store_common_user? %>		    
-					    <li class="<%= is_active?("dashboard#choose_employee_name")  %>"><%= link_to "Home", dashboard_index_path %></li>
+					    <li class="<%= is_active?("dashboard#choose_employee_name")  %>"><%= link_to "Home", dashboard_choose_employee_name_path %></li>
 					    
 				    <% end %>  
 				      	

@@ -2,11 +2,14 @@ class PhotosController < ApplicationController
   before_filter :authenticate_user!
   def create
     @photo = Photo.new(photo_params)
-    @photo.image = File.new(upload_path)
-    @photo.user_id = current_user.id
+    @photo.image = File.new(upload_path)    
     @photo.save
-
-    redirect_to @photo
+    render "dashboard/attendance_marked"
+  end
+  def new    
+      @employee = User.find(params[:employee])
+      @store = @employee.store
+      @description = params[:description]
   end
 
   def show
@@ -27,7 +30,7 @@ class PhotosController < ApplicationController
   private
 
   def photo_params
-    params.require(:photo).permit(:description, :commit)
+    params.require(:photo).permit(:description, :commit, :user_id)
   end
 
   def upload_path # is used in upload and create

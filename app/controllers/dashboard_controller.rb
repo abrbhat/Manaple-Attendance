@@ -1,8 +1,7 @@
 class DashboardController < ApplicationController
   before_filter :authenticate_user!
-  def index
-  end
-  def notification_settings
+  before_filter :verify_authorization
+  def notification_settings 
   end
   def employees
   end
@@ -64,5 +63,27 @@ class DashboardController < ApplicationController
   def choose_employee_name
     @store = current_user.store
     @employees = @store.employees
+  end
+  def choose_attendance_description
+    employee_id = params[:employee]
+    @employee = User.find(employee_id)
+    @store = @employee.store
+  end
+  private
+  def verify_authorization
+  action = params[:action]
+  incharge_can_access = ["notification_settings","employees","attendance_specific_day","attendance_time_period"]
+  common_user_can_access = ["choose_employee_name","choose_attendance_description"]
+    if current_user.is_store_incharge?
+      unless incharge_can_access.include? action
+        flash[:error] = 'You are not allowed there'
+        redirect_to dashboard_attendance_specific_day_path
+      end
+    elsif current_user.is_store_common_user?
+      unless common_user_can_access.include? action
+        flash[:error] = 'You are not allowed there'
+        redirect_to dashboard_choose_employee_name_path
+      end
+    end
   end
 end

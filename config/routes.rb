@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   get 'dashboard/attendance_specific_day'
   get 'dashboard/attendance_time_period'
   get 'dashboard/choose_employee_name'
+  get 'dashboard/attendance_marked'
+  post 'dashboard/choose_attendance_description'
+  post 'photos/new'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users
