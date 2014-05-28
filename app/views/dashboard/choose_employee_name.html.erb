@@ -1,0 +1,9 @@
+<h1 class="center-text"><%= @store.name %></h1>
+<h2 class="center-text">Select Your Name</h2>
+<% @employees.each do |employee| %>
+	<div class="row">
+	    <div class="col-lg-1 centered-block">
+	    	<%= link_to employee.name, new_photo_path(employee: employee.id), class:"big-button"  %>
+	    </div>
+	</div>
+<% end %>

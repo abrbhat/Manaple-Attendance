@@ -36,8 +36,8 @@
 					          <li class="<%= is_active?("devise/registrations#edit")  %>"><%= link_to "Profile", edit_user_registration_path %></li>
 					        </ul>	
 					    </li>
-					<% elsif current_user.is_store_staff? || current_user.is_store_manager? %>		    
-					    <li class="<%= is_active?("dashboard#index")  %>"><%= link_to "Home", dashboard_index_path %></li>
+					<% elsif current_user.is_store_common_user? %>		    
+					    <li class="<%= is_active?("dashboard#choose_employee_name")  %>"><%= link_to "Home", dashboard_index_path %></li>
 					    
 				    <% end %>  
 				      	

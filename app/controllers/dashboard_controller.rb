@@ -6,26 +6,6 @@ class DashboardController < ApplicationController
   end
   def employees
   end
-  def attendance_today
-  	@stores = current_user.stores
-  	@attendance_data_today = []
-  	@stores.each do |store|
-  		store.employees.each do |employee|
-        attendance_data = Hash.new
-  			photos = employee.photos.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day)
-        photos.each do |photo|
-          if photo.description == 'in'          
-            attendance_data["in_time"] = photo.updated_at.strftime("%I:%M%p")
-          end
-          if photo.description == 'out'          
-            attendance_data["out_time"] = photo.updated_at.strftime("%I:%M%p")
-          end
-        end
-        attendance_data["employee"] = employee
-        @attendance_data_today << attendance_data
-  		end
-  	end
-  end
   def attendance_specific_day
     @stores = current_user.stores
     @attendance_data_today = []
@@ -80,5 +60,9 @@ class DashboardController < ApplicationController
         @attendance_data_today << attendance_data
       end
     end
+  end
+  def choose_employee_name
+    @store = current_user.store
+    @employees = @store.employees
   end
 end
