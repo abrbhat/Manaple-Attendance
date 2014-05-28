@@ -1,12 +1,18 @@
 class DashboardController < ApplicationController
+
   before_filter :authenticate_user!
+
   def index
   end
+
   def notification_settings
   end
+
   def employees
   end
+
   def attendance_specific_day
+    AsmMailer.notification().deliver
     @stores = current_user.stores
     @attendance_data_today = []
     @stores.each do |store|
@@ -36,6 +42,7 @@ class DashboardController < ApplicationController
       format.xls
     end
   end
+
   def attendance_time_period
     @stores = current_user.stores
     @attendance_data_today = []
@@ -69,6 +76,7 @@ class DashboardController < ApplicationController
       format.xls
     end
   end
+
   def choose_employee_name
     @store = current_user.store
     @employees = @store.employees
