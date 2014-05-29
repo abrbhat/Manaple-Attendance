@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :photos, :only => [:index, :show, :new, :create] do
     post 'upload', :on => :collection
   end
-  
+  resources :authorizations
   root to: redirect("/dashboard/attendance_specific_day")
 
   # The priority is based upon order of creation: first created -> highest priority.

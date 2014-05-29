@@ -4,7 +4,6 @@
     <tr>
       <th>Store </th>
       <th>Employee</th>
-      <th></th>    
     </tr>
   </thead>
   <tbody>
@@ -12,7 +11,6 @@
       <tr>
         <td> <%= employee.store.name %></td>
         <td> <%= employee.name %></td>
-        <td><%= link_to 'Delete', authorization(employee.authorizations.first), method: :delete, data: { confirm: 'Are you sure?' }, class: "small-button" %>
       </tr>
     <% end %>
   </tbody>
