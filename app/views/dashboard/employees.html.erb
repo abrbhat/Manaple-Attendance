@@ -1,1 +1,19 @@
 <h1>Employees</h1>
+<table class="list-table">
+  <thead>
+    <tr>
+      <th>Store </th>
+      <th>Employee</th>
+      <th></th>    
+    </tr>
+  </thead>
+  <tbody>
+    <% @employees.each do |employee| %>
+      <tr>
+        <td> <%= employee.store.name %></td>
+        <td> <%= employee.name %></td>
+        <td><%= link_to 'Delete', authorization(employee.authorizations.first), method: :delete, data: { confirm: 'Are you sure?' }, class: "small-button" %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
