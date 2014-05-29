@@ -1,7 +1,20 @@
 class DashboardController < ApplicationController
   before_filter :authenticate_user!
   before_filter :verify_authorization
-  def notification_settings 
+  def notification_settings
+    incharge = current_user
+    @mobile = incharge.store.phone
+    @email = incharge.store.email
+  end
+  def notification_settings_update
+    incharge = current_user
+    incharge.stores.each do |store|
+      store.phone = params[:notification_mobile]
+      store.email = params[:notification_email]
+      store.save
+    end
+    flash[:notice] = "Your settings have been saved"
+    redirect_to dashboard_notification_settings_path
   end
   def employees
   end
@@ -72,7 +85,7 @@ class DashboardController < ApplicationController
   private
   def verify_authorization
   action = params[:action]
-  incharge_can_access = ["notification_settings","employees","attendance_specific_day","attendance_time_period"]
+  incharge_can_access = ["notification_settings","notification_settings_update","employees","attendance_specific_day","attendance_time_period"]
   common_user_can_access = ["choose_employee_name","choose_attendance_description"]
     if current_user.is_store_incharge?
       unless incharge_can_access.include? action

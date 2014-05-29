@@ -94,6 +94,9 @@ body {
 .form-element{
   @extend .form-control;
 }
+.form-label{
+  @extend .control-label;
+}
 .inline-form-element{
   @extend .form-element;
   float:left !important;
@@ -104,17 +107,17 @@ body {
 }
 .form-submit-button{
   @extend .btn;
-  @extend .btn-md !optional;
   @extend .btn-primary;
   margin-top:10px;
   margin-bottom:10px;
 }
 .form-reset-button{
   @extend .btn;
-  @extend .btn-md !optional;
   @extend .btn-default;
   margin-top:10px;
   margin-bottom:10px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 .form-back-button{
   @extend .btn;
@@ -164,7 +167,6 @@ body {
 }
 .medium-button{
   @extend .btn;
-  @extend .btn-md !optional;
   @extend .btn-primary;
 }
 .half-height-row{
@@ -186,7 +188,6 @@ body {
 }
 .medium-button{
   @extend .btn;
-  @extend .btn-md !optional;
   @extend .btn-primary;
 }
 .list-table{
@@ -242,7 +243,6 @@ font-family: Arial;
 .proceed-button
 {
   @extend .btn;
-  @extend .btn-md !optional;
   @extend .btn-success;
 }
 #logo{
