@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+
   before_filter :authenticate_user!
   before_filter :verify_authorization
   def notification_settings
@@ -16,13 +17,17 @@ class DashboardController < ApplicationController
     flash[:notice] = "Your settings have been saved"
     redirect_to dashboard_notification_settings_path
   end
+
   def employees
     @employees = []
     current_user.stores.each do |store|
       @employees = @employees + store.employees
     end
   end
+
   def attendance_specific_day
+    # Uncomment to test mail sending
+    # AsmMailer.notification().deliver
     @stores = current_user.stores
     @attendance_data_today = []
     @stores.each do |store|
@@ -47,7 +52,12 @@ class DashboardController < ApplicationController
         @attendance_data_today << attendance_data
       end
     end
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end
+
   def attendance_time_period
     @stores = current_user.stores
     @attendance_data_today = []
@@ -76,7 +86,12 @@ class DashboardController < ApplicationController
         @attendance_data_today << attendance_data
       end
     end
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end
+
   def choose_employee_name
     @store = current_user.store
     @employees = @store.employees
