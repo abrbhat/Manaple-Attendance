@@ -12,7 +12,8 @@ class DashboardController < ApplicationController
   end
 
   def attendance_specific_day
-    AsmMailer.notification().deliver
+    # Uncomment to test mail sending
+    # AsmMailer.notification().deliver
     @stores = current_user.stores
     @attendance_data_today = []
     @stores.each do |store|

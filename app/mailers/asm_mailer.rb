@@ -1,5 +1,5 @@
 class AsmMailer < ActionMailer::Base
-  default from: "no-reply@manaple.com"
+  default from: "peeyushacads@gmail.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -8,7 +8,7 @@ class AsmMailer < ActionMailer::Base
   #
   def notification()
 
-    mail to: "peeyushagarwal1994@gmail", subject: "We are sending you a notification"
+    mail to: "bhatnagarabhiroop@gmail.com", subject: "We are sending you a notification"
   end
 
 end
