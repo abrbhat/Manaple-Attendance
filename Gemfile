@@ -53,8 +53,6 @@ end
 gem 'jquery-turbolinks'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
-gem 'sass-rails', github: 'rails/sass-rails'
-#gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
 gem 'bootstrap-sass'
 gem 'devise'
 
@@ -62,5 +60,10 @@ group :assets do
   gem 'uglifier'
 end 
 
-gem 'activeadmin', github: 'gregbell/active_admin'
+# For Abhiroop's Dabba
+#gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
 #gem 'activeadmin', git: 'http://github.com/gregbell/active_admin'
+
+#For AWS
+gem 'sass-rails', github: 'rails/sass-rails'
+gem 'activeadmin', github: 'gregbell/active_admin'

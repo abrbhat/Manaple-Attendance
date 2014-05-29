@@ -9,9 +9,10 @@ Rails.application.routes.draw do
   get 'dashboard/attendance_marked'
   post 'dashboard/choose_attendance_description'
   post 'photos/new'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => "users/registrations"}
   resources :photos, :only => [:index, :show, :new, :create] do
     post 'upload', :on => :collection
   end
