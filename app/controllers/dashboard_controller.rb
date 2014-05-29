@@ -17,6 +17,10 @@ class DashboardController < ApplicationController
     redirect_to dashboard_notification_settings_path
   end
   def employees
+    @employees = []
+    current_user.stores.each do |store|
+      @employees = @employees + store.employees
+    end
   end
   def attendance_specific_day
     @stores = current_user.stores
