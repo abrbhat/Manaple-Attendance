@@ -12,10 +12,12 @@ module DashboardHelper
 		message << "This will OVERWRITE previous data!"
 	end
 	def is_attendance_verified status
-		if status == "Verified"
+		if status == "verified"
 			"verified-indicator"
-		else
-			"not-verified-indicator"
+		elsif status == "verification_pending"
+			"verification-pending-indicator"
+		elsif status == "verification_rejected"
+			"verification-rejected-indicator"
 		end
 	end
 end

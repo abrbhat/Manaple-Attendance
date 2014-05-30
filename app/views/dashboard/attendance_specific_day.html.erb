@@ -29,14 +29,14 @@
           <%= print_hyphen_if_empty(attendance_data['in_time']) %>
           <% if attendance_data['in_time'].present? %>
             <div class="<%= is_attendance_verified(attendance_data['in_status']) %> attendance-status-popover"
-         data-toggle="tooltip" data-placement="right" title="It may take upto 6 hours to verify the photo."><%= attendance_data['in_status'] %></div>
+         data-toggle="tooltip" data-placement="right" title="It may take upto 6 hours to verify the photo."><%= attendance_data['in_status'].tr('_', ' ').capitalize if attendance_data['in_status']%></div>
           <% end %>
         </td>
         <td> 
           <%= print_hyphen_if_empty(attendance_data['out_time']) %>
           <% if attendance_data['out_time'].present? %>
             <div class="<%= is_attendance_verified(attendance_data['out_status']) %> attendance-status-popover"
-         data-toggle="tooltip" data-placement="right" title="It may take upto 6 hours to verify the photo."><%= attendance_data['out_status'] %></div>
+         data-toggle="tooltip" data-placement="right" title="It may take upto 6 hours to verify the photo."><%= attendance_data['out_status'].tr('_', ' ').capitalize if attendance_data['out_status'] %></div>
           <% end %>
         </td>
       </tr>

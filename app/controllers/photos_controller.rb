@@ -2,7 +2,8 @@ class PhotosController < ApplicationController
   before_filter :authenticate_user!
   def create
     @photo = Photo.new(photo_params)
-    @photo.image = File.new(upload_path)    
+    @photo.image = File.new(upload_path)   
+    @photo.status = "verification_pending" 
     @photo.save
     render "dashboard/attendance_marked"
   end

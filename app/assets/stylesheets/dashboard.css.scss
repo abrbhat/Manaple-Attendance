@@ -353,15 +353,25 @@ label{
   background-color:#5CB85C;
   border-color:#4CAE4C;
 }
-.not-verified-indicator{
+.verification-rejected-indicator{
   @extend .btn;
   @extend .btn-sm;
   @extend .btn-danger;
   cursor:default;
-
 }
-.not-verified-indicator:hover{
+.verification-rejected:hover{
   color:#FFF;
   background-color:#D9534F;
   border-color:rgb(212, 63, 58);
+}
+.verification-pending-indicator{
+  @extend .btn;
+  @extend .btn-sm;
+  @extend .btn-warning;
+  cursor:default;
+}
+.verification-pending-indicator:hover{
+  color:#FFF;
+  background-color:#F0AD4E;
+  border-color:#EEA236;
 }

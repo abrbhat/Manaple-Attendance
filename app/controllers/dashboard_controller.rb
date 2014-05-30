@@ -48,19 +48,11 @@ class DashboardController < ApplicationController
         out_photos = photos.select {|photo| photo.description=="out"}
         if in_photos.present?
           attendance_data["in_time"] = in_photos.last.updated_at.strftime("%I:%M%p")
-          if in_photos.last.is_valid
-            attendance_data["in_status"] = "Verified"
-          else
-            attendance_data["in_status"] = "Not Verified"
-          end
+          attendance_data["in_status"] = in_photos.last.status
         end
         if out_photos.present?
           attendance_data["out_time"] = out_photos.last.updated_at.strftime("%I:%M%p")
-          if out_photos.last.is_valid
-            attendance_data["out_status"] = "Verified"
-          else
-            attendance_data["out_status"] = "Not Verified"
-          end
+          attendance_data["out_status"] = out_photos.last.status
         end
         attendance_data["employee"] = employee
         @attendance_data << attendance_data
@@ -100,7 +92,7 @@ class DashboardController < ApplicationController
         photos = employee.photos.where(created_at: (@start_date.midnight..@end_date.midnight + 1.day))
         present_on = {}
         photos.each do |photo|
-          if photo.description == 'in'          
+          if photo.description == 'in' and !(photo.status == "verification_rejected")       
             present_on[photo.created_at.strftime("%d-%m-%Y")] = true            
           end
         end
@@ -132,11 +124,11 @@ class DashboardController < ApplicationController
     @out_attendance_marked_for_today = false
     if in_photo.present?
       @in_attendance_marked_for_today = true
-      @in_attendance_time = in_photo.first.created_at
+      @in_attendance_time = in_photo.last.created_at
     end
     if out_photo.present?
       @out_attendance_marked_for_today = true
-      @out_attendance_time = out_photo.first.created_at
+      @out_attendance_time = out_photo.last.created_at
     end
   end
   private
