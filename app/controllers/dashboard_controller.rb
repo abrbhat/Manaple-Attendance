@@ -48,9 +48,19 @@ class DashboardController < ApplicationController
         out_photos = photos.select {|photo| photo.description=="out"}
         if in_photos.present?
           attendance_data["in_time"] = in_photos.last.updated_at.strftime("%I:%M%p")
+          if in_photos.last.is_valid
+            attendance_data["in_status"] = "Verified"
+          else
+            attendance_data["in_status"] = "Not Verified"
+          end
         end
         if out_photos.present?
           attendance_data["out_time"] = out_photos.last.updated_at.strftime("%I:%M%p")
+          if out_photos.last.is_valid
+            attendance_data["out_status"] = "Verified"
+          else
+            attendance_data["out_status"] = "Not Verified"
+          end
         end
         attendance_data["employee"] = employee
         @attendance_data << attendance_data
