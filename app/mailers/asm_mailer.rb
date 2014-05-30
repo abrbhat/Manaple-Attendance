@@ -6,7 +6,8 @@ class AsmMailer < ActionMailer::Base
   #
   #   en.customer_mailer.thankyou.subject
   #
-  def notification(@user)
+  def notification(user)
+  	@user = user
     mail to: @user.email, subject: "Attendance at your Stores"
   end
 
