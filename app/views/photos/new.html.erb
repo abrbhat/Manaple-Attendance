@@ -35,6 +35,9 @@
     webcam.set_hook('onComplete', 'upload_complete');
     $('#webcam').html(webcam.get_html(640, 480));
 </script>
+
+<input type="button" value="Take picture" onclick="webcam.snap();"/>
+
 <div class="centering-table">
     <div class = "centering-table-cell">
         <input type="button" id="take-picture-button" value="Take picture" onclick="webcam.snap();" class="big-button"/>
