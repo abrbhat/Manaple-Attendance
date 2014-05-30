@@ -4,15 +4,17 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
 
   def after_sign_in_path_for(resource)
-    if current_user.is_store_incharge?
-      dashboard_attendance_specific_day_path
-    elsif current_user.is_store_common_user?
-      dashboard_choose_employee_name_path     
-    elsif !admin_user_signed_in?
-      sign_out :user
-      flash[:error] = "You are not allowed there."
-      new_user_session_path
-    end    
+    if resource.class.name == "User"
+      if current_user.is_store_incharge?
+        dashboard_attendance_specific_day_path
+      elsif current_user.is_store_common_user?
+        dashboard_choose_employee_name_path     
+      elsif !admin_user_signed_in?
+        sign_out :user
+        flash[:error] = "You are not allowed there."
+        new_user_session_path
+      end
+    end
   end    
   protected
 

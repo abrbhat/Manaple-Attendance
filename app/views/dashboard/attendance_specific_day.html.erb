@@ -5,7 +5,7 @@
 	<%= render "attendance_data_navigator" %>
 	<%= form_tag({controller:"dashboard",action:"attendance_specific_day"}, method: "get") do %>
   <div class="date-chooser-container">
-		<input type="text" class="form-element" value="<%= @date %>" id="attendance-data-date-chooser" name="date" >
+		<input type="text" class="form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" name="date" >
 	</div>
 	<%= submit_tag "Go", :class => "proceed-button" %>
   <% end %>
@@ -21,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @attendance_data_today.each do |attendance_data| %>
+    <% @attendance_data.each do |attendance_data| %>
       <tr>
         <td> <%= attendance_data['employee'].store.name %></td>
         <td> <%= attendance_data['employee'].name %></td>
@@ -33,6 +33,6 @@
 </table>
 <hr>
 <div id="pagination_navigation">
-  <%#= will_paginate @attendance_data_today %>
+  <%#= will_paginate @attendance_data %>
 </div>
 <%= link_to "Download XLS", '/dashboard/attendance_specific_day.xls' , class:'medium-button' %>
