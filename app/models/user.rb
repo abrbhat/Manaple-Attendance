@@ -5,6 +5,16 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :authorizations
   has_many :photos
+
+  def self.mail_stores_attendance
+    users = User.all
+    users.each do |u|
+      if u.is_store_asm?
+        AsmMailer.notification(u).deliver
+      end
+    end
+  end
+
   def is_store_staff?
     if authorizations.present?
       return authorizations.first.permission == 'staff'

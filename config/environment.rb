@@ -7,9 +7,9 @@ Rails.application.initialize!
 require "smtp_tls"
 
 ActionMailer::Base.smtp_settings = {
-:address => "smtp.gmail.com",
+:address => "smtp.manaple.com",
 :port => 587,
 :authentication => :plain,
-:user_name => "change_to_yours@gmail.com",
-:password => "change_to_yours"
+:user_name => "no-reply@manaple.com",
+:password => "rlMZCfw9"
 } 

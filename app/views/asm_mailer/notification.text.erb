@@ -1,1 +1,15 @@
-You have been notified.
+<% if @user != nil %>
+<% if @user.name.present? %>
+Dear <%= @user.name%>,
+<% else %>
+Dear Customer,
+<% end %>
+<% end %>
+
+Here is a list of attendance data.
+Store 1:
+Employee 1     In Time      Out Time
+Employee 2     In Time      Out Time
+
+Regards,
+Team Manaple
