@@ -334,10 +334,44 @@ label{
 #data-resend-message-text{
   padding:6px;
 }
-#take-another-picture-button{
+#photo-form{  
   display:none;
 }
-.photo-form{
+.photo-form-button{
   width:50%;
   float:left;
+}
+.verified-indicator{
+  @extend .btn;
+  @extend .btn-sm;
+  @extend .btn-success;
+  cursor:default;
+
+}
+.verified-indicator:hover{
+  color:#FFF;
+  background-color:#5CB85C;
+  border-color:#4CAE4C;
+}
+.verification-rejected-indicator{
+  @extend .btn;
+  @extend .btn-sm;
+  @extend .btn-danger;
+  cursor:default;
+}
+.verification-rejected:hover{
+  color:#FFF;
+  background-color:#D9534F;
+  border-color:rgb(212, 63, 58);
+}
+.verification-pending-indicator{
+  @extend .btn;
+  @extend .btn-sm;
+  @extend .btn-warning;
+  cursor:default;
+}
+.verification-pending-indicator:hover{
+  color:#FFF;
+  background-color:#F0AD4E;
+  border-color:#EEA236;
 }

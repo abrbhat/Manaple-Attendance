@@ -5,6 +5,23 @@
         <div id="webcam"></div>
     </div>
 </div>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
+        <div id = "photo-form">
+            <%= form_for Photo.new, :html => {:class => "photo-form-button"} do |f| %>
+                <%= f.hidden_field :description, :value => @description %>   
+                <%= f.hidden_field :user_id, :value => @employee.id %> 
+                <%= f.submit "Save the photo", class:"big-button" %>
+            <% end %>
+            <%= form_tag({controller:"photos",action:"new"}, method: "post", id:"take-another-picture-button", class:"photo-form-button") do %> 
+                <input type="hidden" value="<%= @employee.id %>" name="employee" >  
+                <input type="hidden" value="<%= @description %>" name="description" >       
+                <%= submit_tag "Take Another", :class => "big-button" %>
+            <% end %>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     function onload_complete(msg) {
         // fetch the CSRF meta tag data
@@ -18,9 +35,8 @@
     function upload_complete(msg) {
         if (msg == 'ok') {
             $('#new_photo').show();
-            $('#take-picture-button').hide();
-            $('#take-another-picture-button').show();
-            $('#photo_description').focus();
+            $('#take-picture-button').hide()
+            $('#photo-form').show();
         } else {
             alert('An error occured');
             webcam.reset();
@@ -35,21 +51,3 @@
     webcam.set_hook('onComplete', 'upload_complete');
     $('#webcam').html(webcam.get_html(640, 480));
 </script>
-
-<input type="button" value="Take picture" onclick="webcam.snap();"/>
-
-<div class="centering-table">
-    <div class = "centering-table-cell">
-        <input type="button" id="take-picture-button" value="Take picture" onclick="webcam.snap();" class="big-button"/>
-        <%= form_for Photo.new, :html => {:style => "display: none;",:class => "photo-form"} do |f| %>
-            <%= f.hidden_field :description, :value => @description %>   
-            <%= f.hidden_field :user_id, :value => @employee.id %> 
-            <%= f.submit "Save the photo", class:"big-button" %>
-        <% end %>
-        <%= form_tag({controller:"photos",action:"new"}, method: "post", id:"take-another-picture-button", class:"photo-form") do %> 
-            <input type="hidden" value="<%= @employee.id %>" name="employee" >  
-            <input type="hidden" value="<%= @description %>" name="description" >       
-            <%= submit_tag "Take Another", :class => "big-button" %>
-        <% end %>
-    </div>
-</div>
