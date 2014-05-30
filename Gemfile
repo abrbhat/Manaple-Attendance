@@ -67,3 +67,6 @@ end
 #For AWS
 gem 'sass-rails', github: 'rails/sass-rails'
 gem 'activeadmin', github: 'gregbell/active_admin'
+
+# Cron jobs in Ruby
+gem 'whenever', :require => false
