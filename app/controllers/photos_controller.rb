@@ -12,18 +12,15 @@ class PhotosController < ApplicationController
     end
     render "dashboard/attendance_marked"
   end
-  def new    
+  def new   
+    if params[:employee].blank?
+      sign_out :user
+      flash[:error] = "You are not allowed there."
+      redirect_to new_user_session_path
+    end 
       @employee = User.find(params[:employee])
       @store = @employee.store
       @description = params[:description]
-  end
-
-  def show
-    @photo = Photo.find(params[:id])
-  end
-
-  def index
-    @photos = Photo.all
   end
 
   def upload
@@ -36,10 +33,17 @@ class PhotosController < ApplicationController
   private
 
   def photo_params
-    params.require(:photo).permit(:description, :commit, :user_id)
+    params.require(:photo).permit(:description, :commit, :user_id,:data)
   end
 
   def upload_path # is used in upload and create
     File.join(Rails.root, 'tmp', 'photo.jpg')
+  end
+  def verify_authorization
+    action = params[:action]
+    unless current_user.can_access.include? ("photos/"+action) 
+      flash[:error] = 'You are not allowed there'
+      redirect_to current_user.home_path
+    end
   end
 end
