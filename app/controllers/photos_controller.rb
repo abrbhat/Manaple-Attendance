@@ -7,7 +7,7 @@ class PhotosController < ApplicationController
     @photo.save
     logger.debug "YoYO #{@photo.is_first_of_day.inspect}"
     if @photo.is_first_of_day
-
+      AsmMailer.store_opened(user.store).deliver
       #notify asm of store opening
     end
     render "dashboard/attendance_marked"

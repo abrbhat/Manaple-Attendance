@@ -9,4 +9,13 @@ class Store < ActiveRecord::Base
   	end
   	return employees
   end
+
+  def incharge
+    authorizations.each do |authorization|
+      if authorization.permission == 'asm' or authorization.permission == 'owner'
+        return authorization.user
+      end
+    end
+    return nil
+  end
 end

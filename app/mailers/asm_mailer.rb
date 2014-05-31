@@ -11,4 +11,12 @@ class AsmMailer < ActionMailer::Base
     mail to: @user.email, subject: "Attendance at your Stores"
   end
 
+  def store_opened(store)
+    @store = store
+    if store.asm != nil
+      @asm = store.asm
+      mail to: @asm, subject: "Store Opened"
+    end
+  end
+
 end
