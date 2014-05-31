@@ -39,7 +39,6 @@ class DashboardController < ApplicationController
       flash[:error] = "Date cannot be later than today"
       return
     end
-    logger.debug "Date:#{@date.inspect}"
     @stores.each do |store|
       store.employees.each do |employee|
         attendance_data = Hash.new
@@ -91,7 +90,7 @@ class DashboardController < ApplicationController
         photos = employee.photos.where(created_at: (@start_date.midnight..@end_date.midnight + 1.day))
         present_on = {}
         photos.each do |photo|
-          if photo.description == 'in' and !(photo.status == "verification_rejected")       
+          if (photo.description == 'in' or photo.description == 'out') and !(photo.status == "verification_rejected")       
             present_on[photo.created_at.strftime("%d-%m-%Y")] = true            
           end
         end
@@ -155,7 +154,7 @@ class DashboardController < ApplicationController
       if !(photo.status == "verification_rejected")       
         @attendance_data[photo.created_at.strftime("%d-%m-%Y")] = {}
         @attendance_data[photo.created_at.strftime("%d-%m-%Y")][photo.description] = photo.created_at.strftime("%I:%M%p")          
-        if photo.description == 'in'
+        if (photo.description == 'in' or photo.description == 'out')
           @attendance_data[photo.created_at.strftime("%d-%m-%Y")]['status'] = 'present'
         end
       end

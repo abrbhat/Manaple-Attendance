@@ -2,7 +2,7 @@
   <div class="left-side"><h3>Attendance Record for <%= @employee.name %>:</h3></br></div>
 </div>
 <div class="attendance-navigator-container">
-  <%= render "employee_chooser_dropdown" %>
+  <%= render "employee_chooser_dropdown" , employee_id: @employee.id %>
 	<%= form_tag({controller:"dashboard",action:"employee_attendance_record"}, method: "get") do %>
   <div class="time-period-chooser-container">
 		<input type="text" class="inline-form-element" value="<%= @start_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="time_period_start" >
@@ -28,13 +28,21 @@
         <td> <%= date.strftime("%d-%m-%Y") %></td>
         <% attendance_data_for_date = @attendance_data[date.strftime("%d-%m-%Y")] %>
         <% if attendance_data_for_date.present? %>
-          <td> <%= print_hyphen_if_empty(@attendance_data[date.strftime("%d-%m-%Y")] ['in']) %></td>
-          <td> <%= print_hyphen_if_empty(@attendance_data[date.strftime("%d-%m-%Y")]['out']) %></td>
-          <td> <%= print_hyphen_if_empty(@attendance_data[date.strftime("%d-%m-%Y")]['status']) %></td>
+          <td> <%= print_hyphen_if_empty(attendance_data_for_date['in']) %></td>
+          <td> <%= print_hyphen_if_empty(attendance_data_for_date['out']) %></td>
+          <td> 
+            <div class="<%= is_present(attendance_data_for_date['status']) %>">
+              <%= attendance_data_for_date['status'].capitalize %>
+            </div>
+          </td>
         <% else %>
           <td>-</td>
           <td>-</td>
-          <td>-</td>
+          <td> 
+            <div class="status-negative-indicator">
+              Absent
+            </div>
+          </td>
         <% end %>
       </tr>
     <% end %>
@@ -44,4 +52,4 @@
 <div id="pagination_navigation">
   <%#= will_paginate @attendance_data %>
 </div>
-<%= link_to "Download XLS", '/dashboard/attendance_time_period.xls' , class:'medium-button' %>
+<%#= link_to "Download XLS", '/dashboard/attendance_time_period.xls' , class:'medium-button' %>

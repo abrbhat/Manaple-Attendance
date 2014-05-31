@@ -15,11 +15,18 @@ module DashboardHelper
 	end
 	def is_attendance_verified status
 		if status == "verified"
-			"verified-indicator"
+			"status-positive-indicator"
 		elsif status == "verification_pending"
-			"verification-pending-indicator"
+			"status-pending-indicator"
 		elsif status == "verification_rejected"
-			"verification-rejected-indicator"
+			"status-negative-indicator"
+		end
+	end
+	def is_present status
+		if status == "present"
+			"status-positive-indicator"		
+		elsif status == "absent"
+			"status-negative-indicator"
 		end
 	end
 end
