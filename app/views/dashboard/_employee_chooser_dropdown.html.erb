@@ -1,0 +1,14 @@
+<div class="btn-group left-side">
+  <button type="button" class="default-button">Choose Employee</button>
+  <button type="button" class="default-button toggle-dropdown-button" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <% @employees.each do |employee| %>
+      <li class="<%= "active" if (employee.id == params[:employee_id])  %>" >
+        <%= link_to employee.name,dashboard_employee_attendance_record_path(:employee_id => employee.id, :time_period_start => params[:time_period_start],:time_period_end => params[:time_period_end]) %>
+      </li>
+    <% end %>
+  </ul>
+</div>

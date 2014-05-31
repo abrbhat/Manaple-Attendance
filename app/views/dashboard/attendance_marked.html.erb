@@ -1,7 +1,7 @@
 <div class="centering-table">
 	<div class="centering-table-cell">
 		<h1><%= @photo.user.name %>, your '<%= @photo.description %>' attendance has been marked at</h1>
-		<h1><%= @photo.updated_at.strftime("%I:%M%p, %d/%m/%y") %></h1>
+		<h1><%= @photo.created_at.strftime("%I:%M%p, %d/%m/%y") %></h1>
 	</div>
 </div>
 <div class="row">

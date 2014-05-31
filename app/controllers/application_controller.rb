@@ -5,10 +5,8 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
-      if current_user.is_store_incharge?
-        dashboard_attendance_specific_day_path
-      elsif current_user.is_store_common_user?
-        dashboard_choose_employee_name_path     
+      if current_user.is_store_incharge? or current_user.is_store_common_user?
+        current_user.home_path
       elsif !admin_user_signed_in?
         sign_out :user
         flash[:error] = "You are not allowed there."

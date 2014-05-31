@@ -47,11 +47,11 @@ class DashboardController < ApplicationController
         in_photos = photos.select {|photo| photo.description=="in"}
         out_photos = photos.select {|photo| photo.description=="out"}
         if in_photos.present?
-          attendance_data["in_time"] = in_photos.last.updated_at.strftime("%I:%M%p")
+          attendance_data["in_time"] = in_photos.last.created_at.strftime("%I:%M%p")
           attendance_data["in_status"] = in_photos.last.status
         end
         if out_photos.present?
-          attendance_data["out_time"] = out_photos.last.updated_at.strftime("%I:%M%p")
+          attendance_data["out_time"] = out_photos.last.created_at.strftime("%I:%M%p")
           attendance_data["out_status"] = out_photos.last.status
         end
         attendance_data["employee"] = employee
@@ -80,7 +80,6 @@ class DashboardController < ApplicationController
           @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
           @date = params[:date]
         end
-
         if @end_date < @start_date
           flash[:error] = "End Date has to be later than Start Date"
           return
@@ -131,21 +130,44 @@ class DashboardController < ApplicationController
       @out_attendance_time = out_photo.last.created_at
     end
   end
+  def employee_attendance_record
+    if params[:employee_id].blank?
+      @employee = current_user.employees.first
+    else
+      @employee = User.find(params[:employee_id])
+    end
+    if !current_user.stores.include? @employee.store
+      flash[:error] = 'You are not allowed there'
+      redirect_to current_user.home_path
+    end     
+    if params[:time_period_start].blank?
+      @start_date = Time.now
+      @end_date = Time.now
+      @date = Time.now.strftime("%d-%m-%Y")
+    else
+      @start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
+      @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
+      @date = params[:date]
+    end
+    photos = @employee.photos.where(created_at: (@start_date.midnight..@end_date.midnight + 1.day))
+    @attendance_data = {}
+    photos.each do |photo|
+      if !(photo.status == "verification_rejected")       
+        @attendance_data[photo.created_at.strftime("%d-%m-%Y")] = {}
+        @attendance_data[photo.created_at.strftime("%d-%m-%Y")][photo.description] = photo.created_at.strftime("%I:%M%p")          
+        if photo.description == 'in'
+          @attendance_data[photo.created_at.strftime("%d-%m-%Y")]['status'] = 'present'
+        end
+      end
+    end
+    @employees = current_user.employees
+  end
   private
   def verify_authorization
-  action = params[:action]
-  incharge_can_access = ["notification_settings","notification_settings_update","employees","attendance_specific_day","attendance_time_period"]
-  common_user_can_access = ["choose_employee_name","choose_attendance_description"]
-    if current_user.is_store_incharge?
-      unless incharge_can_access.include? action
-        flash[:error] = 'You are not allowed there'
-        redirect_to dashboard_attendance_specific_day_path
-      end
-    elsif current_user.is_store_common_user?
-      unless common_user_can_access.include? action
-        flash[:error] = 'You are not allowed there'
-        redirect_to dashboard_choose_employee_name_path
-      end
+    action = params[:action]
+    unless current_user.can_access.include? ("dashboard/"+action) 
+      flash[:error] = 'You are not allowed there'
+      redirect_to current_user.home_path
     end
   end
 end

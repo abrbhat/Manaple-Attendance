@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'dashboard/choose_employee_name'
   get 'dashboard/attendance_marked'
   get 'dashboard/notification_settings_view'
+  get 'dashboard/employee_attendance_record'
   post 'dashboard/notification_settings_update'
   post 'dashboard/choose_attendance_description'
   post 'photos/new'

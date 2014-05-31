@@ -28,7 +28,13 @@
 						
 					<% if current_user.is_store_incharge? %>
 						<li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Home", dashboard_attendance_specific_day_path %></li>
-						<li class="<%= is_active?("dashboard#employees")  %>"><%= link_to "Employees", dashboard_employees_path %></li>
+						<li class="dropdown">
+					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
+					        <ul class="dropdown-options">
+					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List", dashboard_employees_path %></li>
+					          <li class="<%= is_active?("dashboard_employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
+					        </ul>	
+					    </li>
 						<li class="dropdown">
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Settings<b class="caret"></b></a>
 					        <ul class="dropdown-options">
