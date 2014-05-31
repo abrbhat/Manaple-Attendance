@@ -1,15 +1,28 @@
-<% if @user != nil %>
-<% if @user.name.present? %>
-Dear <%= @user.name%>,
+<% if @incharge.name.present? %>
+Dear <%= @incharge.name%>,
 <% else %>
-Dear Customer,
-<% end %>
+Dear Sir,
 <% end %>
 
-Here is a list of attendance data.
-Store 1:
-Employee 1     In Time      Out Time
-Employee 2     In Time      Out Time
+Here is a list of attendance data at your stores.
+
+<% @stores.each do |store| %>
+<%= store.name %>
+<% store.employees.each do |employee| %>
+<% photos = employee.photos.where(created_at: @date.midnight..@date.midnight + 1.day) %>
+<% in_photos = photos.select {|photo| photo.description=="in"} %>
+<% if in_photos.present? %>
+<% in_time = in_photos.last.created_at.strftime("%I:%M%p") %>
+<% end %>
+<% out_photos = photos.select {|photo| photo.description=="out"} %>
+<% if out_photos.present? %>
+<% out_time = out_photos.last.created_at.strftime("%I:%M%p") %>
+<% end %>
+
+<%= employee.name %>   <%= print_hyphen_if_empty( in_time ) %>  <%= print_hyphen_if_empty (out_time) %>
+
+<% end %>
+<% end %>
 
 Regards,
 Team Manaple
