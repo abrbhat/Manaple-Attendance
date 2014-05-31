@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
     @photo.status = "verification_pending" 
     @photo.save
     if @photo.is_first_of_day
-      #notify asm of store opening
+      AsmMailer.store_opened(user.store).deliver
     end
     render "dashboard/attendance_marked"
   end
