@@ -2,12 +2,24 @@
 <h3 class="center-text">Place your face in front of the webcam</h3>
 <div class="centering-table">
     <div class = "centering-table-cell">
-        <div id="webcam"></div>
+        <div id="webcam" style="width:640px; height:480px;margin:0 auto"></div>
     </div>
 </div>
+<script language="JavaScript">
+        Webcam.set({
+            dest_width: 640,
+            dest_height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach( '#webcam' );
+        Webcam.setSWFLocation("/public/webcam.swf");
+</script>
+
 <div class="centering-table">
     <div class = "centering-table-cell">
         <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
+        <div id = "spinner"></div>
         <div id = "photo-form">
             <%= form_for Photo.new, :html => {:class => "photo-form-button"} do |f| %>
                 <%= f.hidden_field :description, :value => @description %>   
@@ -22,33 +34,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function onload_complete(msg) {
-        // fetch the CSRF meta tag data
-        var csrf_param = $('meta[name=csrf-param]').attr('content');
-        var csrf_token = $('meta[name=csrf-token]').attr('content');
-
-        // reset the api URL appending the auth token parameter
-        webcam.set_api_url('<%= upload_photos_path %>' + '?' + csrf_param + "=" + encodeURI(encodeURI(csrf_token)));
-    }
-
-    function upload_complete(msg) {
-        //alert(msg);
-        if (msg == 'ok') {
-            $('#new_photo').show();
-            $('#take-picture-button').hide()
-            $('#photo-form').show();
-        } else {
-            alert('An error occured');
-            webcam.reset();
-        }
-    }
-
-    webcam.set_swf_url('/webcam.swf');
-    webcam.set_api_url('<%= upload_photos_path %>');
-    webcam.set_quality(90);
-    webcam.set_shutter_sound(true, '/shutter.mp3');
-    webcam.set_hook('onLoad', 'onload_complete');
-    webcam.set_hook('onComplete', 'upload_complete');
-    $('#webcam').html(webcam.get_html(640, 480));
-</script>

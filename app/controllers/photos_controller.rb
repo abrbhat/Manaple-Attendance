@@ -1,5 +1,7 @@
+require "base64"
 class PhotosController < ApplicationController
   before_filter :authenticate_user!
+
   def create
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path)   
@@ -26,7 +28,7 @@ class PhotosController < ApplicationController
 
   def upload
     File.open(upload_path, 'wb') do |f|
-      f.write request.raw_post
+      f.write Base64.decode64(params[:photo_data])
     end
     render :text => "ok"
   end

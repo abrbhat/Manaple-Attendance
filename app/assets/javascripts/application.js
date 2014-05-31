@@ -5,4 +5,4 @@
 //= require bootstrap
 //= require bootstrap-datepicker
 //= require dashboard
-
+//= require spinner

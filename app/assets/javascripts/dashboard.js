@@ -10,7 +10,29 @@ $(document).ready(function(){
 				});
 	$('.attendance-status-popover').tooltip();
 	$( "#take-picture-button" ).click(function() {
-		webcam.snap();
-	});
-	
+		var data_uri = Webcam.snap();
+    	var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+    	$.ajax({
+	      type: "POST",
+	      url: "/photos/upload",
+	      async:"true",      
+	      data: {"photo_data":raw_image_data},
+	      error: function(){
+	        $("#spinner").hide()
+	        alert('There was an error during file upload. Please contact at 8953342253.'); 
+	        $('#take-picture-button').show();
+	      },
+	      success: function(data){	
+	      	$("#spinner").hide();        
+        	$('#photo-form').show();
+        	$('#webcam').html('<img src="'+data_uri+'"/>');
+	      },
+	      beforeSend: function(){
+	      	$('#take-picture-button').hide();
+	      	$("#spinner").text("");
+	        var target = document.getElementById("spinner");
+            var spinner = new Spinner().spin(target); 
+	      }
+	    });
+	});	
 });
