@@ -12,11 +12,13 @@ $(document).ready(function(){
 	$( "#take-picture-button" ).click(function() {
 		var data_uri = Webcam.snap();
     	var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+    	var employee_id = $("#photo_user_id").val();
     	$.ajax({
 	      type: "POST",
 	      url: "/photos/upload",
 	      async:"true",      
-	      data: {"photo_data":raw_image_data},
+	      data: {"photo_data":raw_image_data,
+	  			 "photo_employee_id":employee_id},
 	      error: function(){
 	        $("#spinner").hide()
 	        alert('There was an error during file upload. Please contact at 8953342253.'); 

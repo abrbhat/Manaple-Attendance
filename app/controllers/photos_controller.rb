@@ -4,11 +4,11 @@ class PhotosController < ApplicationController
 
   def create
     @photo = Photo.new(photo_params)
-    @photo.image = File.new(upload_path)   
+    @photo.image = File.new(upload_path(@photo.user.store))   
     @photo.status = "verification_pending" 
     @photo.save
     if @photo.is_first_of_day
-      AsmMailer.store_opened(user.store).deliver
+      #AsmMailer.store_opened(@photo.user.store).deliver
     end
     render "dashboard/attendance_marked"
   end
@@ -24,7 +24,8 @@ class PhotosController < ApplicationController
   end
 
   def upload
-    File.open(upload_path, 'wb') do |f|
+    store = User.find(params[:photo_employee_id]).store
+    File.open(upload_path(store), 'wb') do |f|
       f.write Base64.decode64(params[:photo_data])
     end
     render :text => "ok"
@@ -36,8 +37,8 @@ class PhotosController < ApplicationController
     params.require(:photo).permit(:description, :commit, :user_id,:data)
   end
 
-  def upload_path # is used in upload and create
-    File.join(Rails.root, 'tmp', 'photo.jpg')
+  def upload_path store# is used in upload and create
+    File.join(Rails.root, 'tmp', store.name+'-photo.jpg')
   end
   def verify_authorization
     action = params[:action]
