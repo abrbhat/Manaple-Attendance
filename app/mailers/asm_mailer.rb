@@ -1,4 +1,5 @@
 class AsmMailer < ActionMailer::Base
+
   default from: "no-reply@manaple.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -11,6 +12,14 @@ class AsmMailer < ActionMailer::Base
     @stores = incharge.stores
     @store = incharge.store
     mail to: @store.email, subject: "Attendance at your Stores"
+  end
+
+  def print_hyphen_if_empty(value)
+    if value.blank?
+      "-"
+    else
+      value
+    end
   end
 
   def store_opened(store)

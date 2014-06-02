@@ -6,9 +6,13 @@ class PhotosController < ApplicationController
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path(@photo.user.store))   
     @photo.status = "verification_pending" 
-    @photo.save
-    if @photo.is_first_of_day
-      #AsmMailer.store_opened(@photo.user.store).deliver
+    if @photo.save
+#      AdminMailer.notification().deliver
+      if @photo.is_first_of_day
+        AsmMailer.store_opened(@photo.user.store).deliver
+      end
+    else
+      flash[:error] = "There seems to be a network connection error."
     end
     render "dashboard/attendance_marked"
   end

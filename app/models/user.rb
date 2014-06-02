@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   def self.mail_stores_attendance
     users = User.all
     users.each do |u|
-      if u.is_store_asm? || u.is_store_owner
+      if u.is_store_asm? || u.is_store_owner?
         AsmMailer.notification(u).deliver
       end
     end
