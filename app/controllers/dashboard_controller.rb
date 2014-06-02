@@ -31,11 +31,11 @@ class DashboardController < ApplicationController
     @stores = current_user.stores
     @attendance_data = []
     if params[:date].blank?      
-      @date = Time.now
+      @date = Time.zone.now
     else      
       @date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
     end
-    if @date.midnight > Time.now.midnight
+    if @date.midnight > Time.zone.now.midnight
       flash[:error] = "Date cannot be later than today"
       return
     end
@@ -71,9 +71,9 @@ class DashboardController < ApplicationController
         attendance_data = Hash.new
         attendance_data["present_count"] = 0
         if params[:time_period_start].blank?
-          @start_date = Time.now
-          @end_date = Time.now
-          @date = Time.now.strftime("%d-%m-%Y")
+          @start_date = Time.zone.now
+          @end_date = Time.zone.now
+          @date = Time.zone.now.strftime("%d-%m-%Y")
         else
           @start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
           @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
@@ -82,7 +82,7 @@ class DashboardController < ApplicationController
         if @end_date < @start_date
           flash[:error] = "End Date has to be later than Start Date"
           return
-        elsif @end_date.midnight > Time.now.midnight
+        elsif @end_date.midnight > Time.zone.now.midnight
 
           flash[:error] = "End Date cannot be later than today"
           return
@@ -115,7 +115,7 @@ class DashboardController < ApplicationController
     employee_id = params[:employee]
     @employee = User.find(employee_id)
     @store = @employee.store
-    today_photos = @employee.photos.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day)
+    today_photos = @employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day)
     in_photo = today_photos.select { |photo| photo.description == 'in' }
     out_photo = today_photos.select { |photo| photo.description == 'out' }    
     @in_attendance_marked_for_today = false
@@ -140,9 +140,9 @@ class DashboardController < ApplicationController
       redirect_to current_user.home_path
     end     
     if params[:time_period_start].blank?
-      @start_date = Time.now
-      @end_date = Time.now
-      @date = Time.now.strftime("%d-%m-%Y")
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+      @date = Time.zone.now.strftime("%d-%m-%Y")
     else
       @start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
       @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
