@@ -5,12 +5,17 @@ class Photo < ActiveRecord::Base
 
   def is_first_of_day
   	store = user.store
+    logger.debug(store.name)
   	today_photos = []  	
   	store.employees.each do |employee|
       if employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day) != nil
-    		today_photos << employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day)
+    		employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day).each do |photo|
+          today_photos << photo.description
+        end
   	  end
     end
+    logger.debug("Final Count")
+    logger.debug(today_photos)
   	if today_photos.count == 1
   		return true
   	else
