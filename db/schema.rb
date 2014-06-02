@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530135258) do
+ActiveRecord::Schema.define(version: 20140602172726) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -56,6 +56,17 @@ ActiveRecord::Schema.define(version: 20140530135258) do
 
   add_index "authorizations", ["store_id"], name: "index_authorizations_on_store_id"
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id"
+
+  create_table "leaves", force: true do |t|
+    t.string   "status"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaves", ["user_id"], name: "index_leaves_on_user_id"
 
   create_table "photos", force: true do |t|
     t.string   "description"
