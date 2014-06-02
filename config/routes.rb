@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'pages/main'
+  get 'pages/send_notification_mail'
+
   get 'dashboard/index'
   get 'dashboard/notification_settings'
   get 'dashboard/employees'

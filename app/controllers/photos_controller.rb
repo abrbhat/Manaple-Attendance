@@ -7,7 +7,7 @@ class PhotosController < ApplicationController
     @photo.image = File.new(upload_path(@photo.user.store))   
     @photo.status = "verification_pending" 
     if @photo.save
-#      AdminMailer.notification().deliver
+      AdminMailer.notification().deliver
       if @photo.is_first_of_day
         AsmMailer.store_opened(@photo.user.store).deliver
       end
