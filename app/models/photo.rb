@@ -6,7 +6,7 @@ class Photo < ActiveRecord::Base
   	store = user.store
   	today_photos = []  	
   	store.employees.each do |employee|
-  		today_photos << employee.photos.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day)
+  		today_photos << employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day)
   	end
   	if today_photos.count == 1
   		return true

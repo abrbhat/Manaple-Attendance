@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
-
+  Time.zone = 'Kolkata'
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
       if current_user.is_store_incharge? or current_user.is_store_common_user?
