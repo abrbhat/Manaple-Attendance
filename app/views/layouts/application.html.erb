@@ -4,7 +4,9 @@
   <title>Manaple</title>
   <%= stylesheet_link_tag  "dashboard", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag params[:controller] %>
+  <% if params[:controller] == "photos "%>
+ 	 <%= javascript_include_tag params[:controller] %>
+  <% end %>
   <%= csrf_meta_tags %>
 </head>
 <body >
