@@ -161,6 +161,8 @@ class DashboardController < ApplicationController
     end
     @employees = current_user.employees
   end
+
+
   private
   def verify_authorization
     action = params[:action]

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :authorizations
   has_many :photos
+  has_many :leaves
   include Rails.application.routes.url_helpers
 
   def self.mail_stores_attendance
@@ -63,9 +64,9 @@ class User < ActiveRecord::Base
   end
   def can_access
     if is_store_incharge?
-      ["dashboard/notification_settings","dashboard/notification_settings_update","dashboard/employees","dashboard/attendance_specific_day","dashboard/attendance_time_period","dashboard/employee_attendance_record"]
+      ["dashboard/view_leave_requests","dashboard/notification_settings","dashboard/notification_settings_update","dashboard/employees","dashboard/attendance_specific_day","dashboard/attendance_time_period","dashboard/employee_attendance_record"]
     elsif is_store_common_user?
-      ["dashboard/choose_employee_name","dashboard/choose_attendance_description"]
+      ["dashboard/request_leave","dashboard/choose_employee_name","dashboard/choose_attendance_description"]
     else
       []
     end

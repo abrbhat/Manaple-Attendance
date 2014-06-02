@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'dashboard/attendance_marked'
   get 'dashboard/notification_settings_view'
   get 'dashboard/employee_attendance_record'
+
   post 'dashboard/notification_settings_update'
   post 'dashboard/choose_attendance_description'
   post 'photos/new'
@@ -20,6 +21,9 @@ Rails.application.routes.draw do
     post 'upload', :on => :collection
   end
   resources :authorizations
+  resources :leaves do
+    get 'apply', on: :collection
+  end
   root to: redirect("/dashboard/attendance_specific_day")
 
   # The priority is based upon order of creation: first created -> highest priority.
