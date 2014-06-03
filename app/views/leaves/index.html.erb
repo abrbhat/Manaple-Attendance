@@ -5,7 +5,8 @@
     <tr>
       <th>Employee</th>
       <th>Start Date</th>
-      <th>End Date</th> 
+      <th>End Date</th>
+      <th>Reason</th> 
       <th>Action</th>
     </tr>
   </thead>
@@ -15,7 +16,16 @@
         <td> <%= leave.user.name %></td>
         <td> <%= leave.start_date.strftime("%d-%m-%Y") %></td>
         <td> <%= leave.end_date.strftime("%d-%m-%Y") %></td>
-       <td>
+        <td>
+          <div data-toggle="tooltip" data-placement="left" title="<%= leave.reason %>" class="pointable">
+            <%  if leave.reason.present? %>
+              <%= leave.reason[0..20]%><%= "..." if leave.reason.size > 21 %>
+            <% else %>
+            -
+            <% end %>
+          </div> 
+        </td>
+        <td>
           <% if leave.status == 'approved'%>
             <div class="status-positive-indicator">
                Approved
@@ -29,10 +39,8 @@
             </div>
           <% else %>
               <%= link_to "Reject", leave_path(leave,leave:{:status => "rejected"}), :method=> :put,class: "medium-button" %>
-          <% end %>
-          
-       </td>
-
+          <% end %>          
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,29 +1,51 @@
-<h2>Leave Panel</h2>
-<%= form_tag({controller:"leaves",action:"create"}, method: "post") do %>
-<div class="btn-group left-side panel-header">
-  <div class= "inline-form-element more-side-margins">Leave Request Form:</div>
-  <select name="leave_user_id" class="inline-form-element" >
-    
-    <% @employees.each do |employee| %>
-      <option value="<%= employee.id %>"><%= employee.name %></option>
-    <% end %> 
-  </select>
-  <div class="time-period-chooser-container">
-    <input type="text" class="inline-form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="leave_start_date" >
-    <div class= "inline-form-element more-side-margins">to</div>
-    <input type="text" class="inline-form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="leave_end_date">
+<h2>Leave Request Form</h2>
+<div class= "clear-sides">
+  <div class="form-container-wide left-side has-space-below">
+    <%= form_tag({controller:"leaves",action:"create"}, method: "post", class:"form-horizontal") do %>
+      <div class ="form-element-group">
+        <label class="control-label col-sm-3">Name:</label>
+        <div class = "col-sm-6">
+          <select name="leave_user_id" class="form-element">    
+            <% @employees.each do |employee| %>
+              <option value="<%= employee.id %>"><%= employee.name %></option>
+            <% end %> 
+          </select>
+        </div>
+      </div>
+      <div class="form-element-group">
+          <label for="attendance-data-time-period-start-chooser" class="form-label col-sm-3">Start Date:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="leave_start_date" >
+          </div>
+      </div>
+      <div class="form-element-group">
+          <label for="attendance-data-time-period-end-chooser" class="form-label col-sm-3">End Date:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="leave_end_date" >
+          </div>
+      </div>
+      <div class="form-element-group">
+          <label for="notification-mobile" class="form-label col-sm-3">Reason:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-element" id="notification-mobile" placeholder="Enter reason for leave" name="leave_reason">
+          </div>
+      </div>
+      <div class="col-sm-4 col-sm-offset-4">
+        <%= submit_tag "Apply for Leave", :class => "proceed-button" %>
+      </div>
+    <% end %>
   </div>
-  <%= submit_tag "Apply for Leave", :class => "proceed-button" %>
 </div>
-<% end %>
-</br></br></br>
-<h3>Leave Requests:</h3>
+<div class="clear-sides">
+  <h3 >Leave Requests:</h3>
+</div>
 <table class="list-table">
   <thead>
     <tr>
-      <th>Employee</th>
+      <th>Name</th>
       <th>Start Date</th>
       <th>End Date</th> 
+      <th>Reason</th>
       <th>Status</th>
     </tr>
   </thead>
@@ -33,6 +55,15 @@
         <td> <%= leave.user.name %></td>
         <td> <%= leave.start_date.strftime("%d-%m-%Y") %></td>
         <td> <%= leave.end_date.strftime("%d-%m-%Y") %></td>
+        <td>
+          <div data-toggle="tooltip" data-placement="left" title="<%= leave.reason %>" class="pointable">
+            <%  if leave.reason.present? %>
+              <%= leave.reason[0..20]%><%= "..." if leave.reason.size > 21 %>
+            <% else %>
+            -
+            <% end %>
+          </div> 
+        </td>
         <td>
           <div class="<%= is_leave_approved(leave.status) %>">
          <%= leave.status.tr('_', ' ').capitalize %>

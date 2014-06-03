@@ -34,6 +34,7 @@ class LeavesController < ApplicationController
     @leave.user = User.find(params[:leave_user_id])
     @leave.start_date = Date.parse(params[:leave_start_date])
     @leave.end_date = Date.parse(params[:leave_end_date])
+    @leave.reason = params[:leave_reason]
     @leave.status = 'decision_pending'
     if @leave.end_date < @leave.start_date
       flash[:error] = 'End Date should be later than Start Date'
@@ -77,6 +78,6 @@ class LeavesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def leave_params
-      params[:leave].permit(:status)
+      params[:leave]
     end
 end

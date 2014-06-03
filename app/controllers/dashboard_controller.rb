@@ -26,8 +26,6 @@ class DashboardController < ApplicationController
   end
 
   def attendance_specific_day
-    # Uncomment to test mail sending
-    # AsmMailer.notification().deliver
     @stores = current_user.stores
     @attendance_data = []
     if params[:date].blank?      
