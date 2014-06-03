@@ -1,7 +1,5 @@
 class DashboardController < ApplicationController
-
   before_filter :authenticate_user!
-  before_filter :verify_authorization
   def notification_settings
     incharge = current_user
     @mobile = incharge.store.phone
@@ -162,11 +160,5 @@ class DashboardController < ApplicationController
 
 
   private
-  def verify_authorization
-    action = params[:action]
-    unless current_user.can_access.include? ("dashboard/"+action) 
-      flash[:error] = 'You are not allowed there'
-      redirect_to current_user.home_path
-    end
-  end
+  
 end

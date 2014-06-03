@@ -62,14 +62,37 @@ class User < ActiveRecord::Base
     end
     return stores.first
   end
-  def can_access
+  def accessible_in
+    accessible_in = {}
+    accessible_in["dashboard"] = []
+    accessible_in["leaves"] = []
+    accessible_in["pages"] = []
+    accessible_in["photos"] = []
     if is_store_incharge?
-      ["dashboard/view_leave_requests","dashboard/notification_settings","dashboard/notification_settings_update","dashboard/employees","dashboard/attendance_specific_day","dashboard/attendance_time_period","dashboard/employee_attendance_record"]
+      accessible_in["dashboard"] <<  "notification_settings"
+      accessible_in["dashboard"] <<  "notification_settings_update"
+      accessible_in["dashboard"] <<  "employees"
+      accessible_in["dashboard"] <<  "attendance_specific_day"
+      accessible_in["dashboard"] <<  "attendance_time_period"
+      accessible_in["dashboard"] <<  "employee_attendance_record"
+
+      accessible_in["leaves"] << "index"
+      accessible_in["leaves"] << "update"
     elsif is_store_common_user?
-      ["dashboard/request_leave","dashboard/choose_employee_name","dashboard/choose_attendance_description"]
+      accessible_in["dashboard"] << "request_leave"
+      accessible_in["dashboard"] << "choose_employee_name"
+      accessible_in["dashboard"] << "choose_attendance_description"
+
+      accessible_in["leaves"] << "create"
+      accessible_in["leaves"] << "apply"
+
+      accessible_in["photos"] << "new"
+      accessible_in["photos"] << "upload"
+      accessible_in["photos"] << "create"
     else
-      []
+      accessible_in["dashboard"] = []
     end
+    return accessible_in
   end
   def home_path
     if is_store_incharge?

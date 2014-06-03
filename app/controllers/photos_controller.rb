@@ -44,11 +44,4 @@ class PhotosController < ApplicationController
   def upload_path store# is used in upload and create
     File.join(Rails.root, 'tmp', store.name+'-photo.jpg')
   end
-  def verify_authorization
-    action = params[:action]
-    unless current_user.can_access.include? ("photos/"+action) 
-      flash[:error] = 'You are not allowed there'
-      redirect_to current_user.home_path
-    end
-  end
 end

@@ -78,6 +78,6 @@ class LeavesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def leave_params
-      params[:leave]
+      params[:leave].permit(:status)
     end
 end
