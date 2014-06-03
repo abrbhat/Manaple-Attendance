@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
     if @photo.save
       AdminMailer.notification().deliver
       if @photo.is_first_of_day
-        AsmMailer.store_opened(@photo.user.store).deliver
+        AsmMailer.store_opened(@photo.user.store,@photo.created_at).deliver
       end
     else
       flash[:error] = "There seems to be a network connection error."
