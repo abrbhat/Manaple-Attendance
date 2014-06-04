@@ -6,12 +6,15 @@ Rails.application.routes.draw do
   get 'dashboard/index'
   get 'dashboard/notification_settings'
   get 'dashboard/employees'
+  get 'dashboard/create_employee'
+  post 'dashboard/create_new_employee'
   get 'dashboard/attendance_specific_day'
   get 'dashboard/attendance_time_period'
   get 'dashboard/choose_employee_name'
   get 'dashboard/attendance_marked'
   get 'dashboard/notification_settings_view'
   get 'dashboard/employee_attendance_record'
+
 
   post 'dashboard/notification_settings_update'
   post 'dashboard/choose_attendance_description'

@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   end
   def can_access
     if is_store_incharge?
-      ["dashboard/view_leave_requests","dashboard/notification_settings","dashboard/notification_settings_update","dashboard/employees","dashboard/attendance_specific_day","dashboard/attendance_time_period","dashboard/employee_attendance_record"]
+      ["dashboard/view_leave_requests","dashboard/notification_settings","dashboard/notification_settings_update","dashboard/employees","dashboard/attendance_specific_day","dashboard/attendance_time_period","dashboard/employee_attendance_record","dashboard/create_employee", "dashboard/create_new_employee" ]
     elsif is_store_common_user?
       ["dashboard/request_leave","dashboard/choose_employee_name","dashboard/choose_attendance_description"]
     else
