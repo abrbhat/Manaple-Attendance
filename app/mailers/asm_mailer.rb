@@ -31,4 +31,13 @@ class AsmMailer < ActionMailer::Base
     end
   end
 
+  def leave_request_created(leave)
+    @leave = leave
+    @employee = @leave.user
+    store = @employee.store
+    if store.incharge != nil
+      @incharge = store.incharge
+      mail to: store.email, subject: @employee.name+"has applied for Leave"
+    end
+  end
 end

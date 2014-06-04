@@ -32,7 +32,7 @@
           <td> <%= print_hyphen_if_empty(attendance_data_for_date['out']) %></td>
           <td> 
             <div class="<%= is_present(attendance_data_for_date['status']) %>">
-              <%= attendance_data_for_date['status'].capitalize %>
+              <%= attendance_data_for_date['status'].tr('_', ' ').capitalize %>
             </div>
           </td>
         <% else %>

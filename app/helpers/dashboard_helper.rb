@@ -17,7 +17,7 @@ module DashboardHelper
 		if status == "verified"
 			"status-positive-indicator"
 		elsif status == "verification_pending"
-			"status-pending-indicator"
+			"status-neutral-indicator"
 		elsif status == "verification_rejected"
 			"status-negative-indicator"
 		end
@@ -27,6 +27,8 @@ module DashboardHelper
 			"status-positive-indicator"		
 		elsif status == "absent"
 			"status-negative-indicator"
+		elsif status == "on_leave"
+			"status-neutral-indicator"
 		end
 	end
 end

@@ -5,7 +5,7 @@
       <div class ="form-element-group">
         <label class="control-label col-sm-3">Name:</label>
         <div class = "col-sm-6">
-          <select name="leave_user_id" class="form-element">    
+          <select name="leave[user_id]" class="form-element">    
             <% @employees.each do |employee| %>
               <option value="<%= employee.id %>"><%= employee.name %></option>
             <% end %> 
@@ -15,19 +15,19 @@
       <div class="form-element-group">
           <label for="attendance-data-time-period-start-chooser" class="form-label col-sm-3">Start Date:</label>
           <div class="col-sm-6">
-            <input type="text" class="form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="leave_start_date" >
+            <input type="text" class="form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="leave[start_date]" >
           </div>
       </div>
       <div class="form-element-group">
           <label for="attendance-data-time-period-end-chooser" class="form-label col-sm-3">End Date:</label>
           <div class="col-sm-6">
-            <input type="text" class="form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="leave_end_date" >
+            <input type="text" class="form-element" value="<%= Time.zone.now.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="leave[end_date]" >
           </div>
       </div>
       <div class="form-element-group">
           <label for="notification-mobile" class="form-label col-sm-3">Reason:</label>
           <div class="col-sm-6">
-            <input type="text" class="form-element" id="notification-mobile" placeholder="Enter reason for leave" name="leave_reason">
+            <input type="text" class="form-element" id="notification-mobile" placeholder="Enter reason for leave" name="leave[reason]">
           </div>
       </div>
       <div class="col-sm-4 col-sm-offset-4">

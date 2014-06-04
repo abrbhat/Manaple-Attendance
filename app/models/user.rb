@@ -112,4 +112,12 @@ class User < ActiveRecord::Base
       return employees.flatten
     end     
   end
+  def is_on_leave_on?(date)
+    leaves_including_date = leaves.where("start_date <= :date AND end_date >= :date AND status = 'approved'",{date: date}) 
+    if leaves_including_date.present?
+      return true
+    else
+      return false
+    end
+  end
 end

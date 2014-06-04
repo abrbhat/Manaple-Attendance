@@ -376,13 +376,13 @@ label{
   background-color:#D9534F;
   border-color:rgb(212, 63, 58);
 }
-.status-pending-indicator{
+.status-neutral-indicator{
   @extend .btn;
   @extend .btn-sm;
   @extend .btn-warning;
   cursor:default;
 }
-.status-pending-indicator:hover{
+.status-neutral-indicator:hover{
   color:#FFF;
   background-color:#F0AD4E;
   border-color:#EEA236;

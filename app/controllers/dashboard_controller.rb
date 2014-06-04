@@ -44,12 +44,21 @@ class DashboardController < ApplicationController
         if in_photos.present?
           attendance_data["in_time"] = in_photos.last.created_at.strftime("%I:%M%p")
           attendance_data["in_status"] = in_photos.last.status
+          attendance_data["status"] = "present"
         end
         if out_photos.present?
           attendance_data["out_time"] = out_photos.last.created_at.strftime("%I:%M%p")
           attendance_data["out_status"] = out_photos.last.status
+          attendance_data["status"] = "present"
         end
         attendance_data["employee"] = employee
+        if attendance_data["in_time"].blank? and attendance_data["out_time"].blank?
+          if employee.is_on_leave_on?(@date.to_date)
+            attendance_data["status"] = "on_leave"
+          else
+            attendance_data["status"] = "absent"
+          end
+        end
         @attendance_data << attendance_data
       end
     end
@@ -92,7 +101,13 @@ class DashboardController < ApplicationController
         end
         attendance_data["present_count"] = present_on.count
         @working_days = (@end_date-@start_date).to_i + 1
-        attendance_data["absent_count"] = @working_days - attendance_data["present_count"]
+        attendance_data["leave_count"] = 0
+        (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
+          if employee.is_on_leave_on?(date)
+            attendance_data["leave_count"] +=1
+          end
+        end
+        attendance_data["absent_count"] = @working_days - attendance_data["present_count"] - attendance_data["leave_count"]
         attendance_data["employee"] = employee
         @attendance_data << attendance_data
       end
@@ -153,6 +168,13 @@ class DashboardController < ApplicationController
         if (photo.description == 'in' or photo.description == 'out')
           @attendance_data[photo.created_at.strftime("%d-%m-%Y")]['status'] = 'present'
         end
+      end
+    end
+    (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
+      logger.debug "#{@employee.is_on_leave_on?(date)}"
+      if @attendance_data[date.strftime("%d-%m-%Y")].blank? and @employee.is_on_leave_on?(date)
+        @attendance_data[date.strftime("%d-%m-%Y")] = {}
+        @attendance_data[date.strftime("%d-%m-%Y")]['status'] = 'on_leave'
       end
     end
     @employees = current_user.employees

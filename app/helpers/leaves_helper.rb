@@ -3,9 +3,11 @@ module LeavesHelper
 		if status == "approved"
 			"status-positive-indicator"
 		elsif status == "decision_pending"
-			"status-pending-indicator"
+			"status-neutral-indicator"
 		elsif status == "rejected"
 			"status-negative-indicator"
 		end
 	end
+
+	
 end

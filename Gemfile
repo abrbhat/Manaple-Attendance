@@ -70,3 +70,5 @@ gem 'activeadmin', github: 'gregbell/active_admin'
 
 # Cron jobs in Ruby
 gem 'whenever', :require => false
+
+gem "letter_opener", :group => :development

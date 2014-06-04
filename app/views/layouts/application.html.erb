@@ -33,7 +33,8 @@
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
 					        <ul class="dropdown-options">
 					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List", dashboard_employees_path %></li>
-					          <li class="<%= is_active?("dashboard_employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
+					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
+					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>
 					        </ul>	
 					    </li>
 						<li class="dropdown">
@@ -45,6 +46,7 @@
 					    </li>
 					<% elsif current_user.is_store_common_user? %>		    
 					    <li class="<%= is_active?("dashboard#choose_employee_name")  %>"><%= link_to "Home", dashboard_choose_employee_name_path %></li>
+					    <li class="<%= is_active?("leaves#apply")  %>"><%= link_to "Leaves", apply_leaves_path %></li>
 					    
 				    <% end %>  
 				      	

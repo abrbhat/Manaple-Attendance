@@ -31,10 +31,10 @@ class LeavesController < ApplicationController
   # POST /leaves
   def create
     @leave = Leave.new(leave_params)
-    @leave.user = User.find(params[:leave_user_id])
-    @leave.start_date = Date.parse(params[:leave_start_date])
-    @leave.end_date = Date.parse(params[:leave_end_date])
-    @leave.reason = params[:leave_reason]
+    #@leave.user = User.find(params[:leave_user_id])
+    #@leave.start_date = Date.parse(params[:leave_start_date])
+    #@leave.end_date = Date.parse(params[:leave_end_date])
+    #@leave.reason = params[:leave_reason]
     @leave.status = 'decision_pending'
     if @leave.end_date < @leave.start_date
       flash[:error] = 'End Date should be later than Start Date'
@@ -42,6 +42,7 @@ class LeavesController < ApplicationController
       return
     end
     if @leave.save
+      AsmMailer.leave_request_created(@leave).deliver
       redirect_to apply_leaves_path, notice: 'Leave Request added.'
     else
       render :new
@@ -78,6 +79,6 @@ class LeavesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def leave_params
-      params[:leave].permit(:status)
+      params[:leave].permit(:status,:start_date,:end_date,:reason,:user_id)
     end
 end

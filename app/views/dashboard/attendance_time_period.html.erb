@@ -20,7 +20,8 @@
       <th>Store </th>
       <th>Employee</th>
       <th>Present Count (days)</th>
-      <th>Absent Count (days)</th>      
+      <th>Absent Count (days)</th> 
+      <th>Leave Count (days)</th>      
     </tr>
   </thead>
   <tbody>
@@ -30,6 +31,7 @@
         <td> <%= attendance_data['employee'].name %></td>
         <td> <%= print_hyphen_if_empty(attendance_data['present_count']) %></td>
         <td> <%= print_hyphen_if_empty(attendance_data['absent_count']) %></td>
+        <td> <%= print_hyphen_if_empty(attendance_data['leave_count']) %></td>
       </tr>
     <% end %>
   </tbody>
