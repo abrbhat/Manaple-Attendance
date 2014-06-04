@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
     if @photo.save
       AdminMailer.notification().deliver
       if @photo.is_first_of_day
-        AsmMailer.store_opened(@photo.user.store).deliver
+        AsmMailer.store_opened(@photo.user.store,@photo.created_at).deliver
       end
     else
       flash[:error] = "There seems to be a network connection error."
@@ -43,12 +43,5 @@ class PhotosController < ApplicationController
 
   def upload_path store# is used in upload and create
     File.join(Rails.root, 'tmp', store.name+'-photo.jpg')
-  end
-  def verify_authorization
-    action = params[:action]
-    unless current_user.can_access.include? ("photos/"+action) 
-      flash[:error] = 'You are not allowed there'
-      redirect_to current_user.home_path
-    end
   end
 end

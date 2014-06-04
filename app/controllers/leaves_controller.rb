@@ -3,7 +3,16 @@ class LeavesController < ApplicationController
 
   # GET /leaves
   def index
-    @leaves = Leave.all
+    @incharge = current_user
+    @stores = @incharge.stores
+    @leaves = []
+    @stores.each do |store|
+      store.employees.each do |employee|
+          @leaves << employee.leaves
+      end
+    end
+    @leaves.flatten!
+    @leaves.sort! {|x,y| y.created_at <=> x.created_at}
   end
 
   # GET /leaves/1
@@ -25,9 +34,15 @@ class LeavesController < ApplicationController
     @leave.user = User.find(params[:leave_user_id])
     @leave.start_date = Date.parse(params[:leave_start_date])
     @leave.end_date = Date.parse(params[:leave_end_date])
+    @leave.reason = params[:leave_reason]
     @leave.status = 'decision_pending'
+    if @leave.end_date < @leave.start_date
+      flash[:error] = 'End Date should be later than Start Date'
+      redirect_to apply_leaves_path
+      return
+    end
     if @leave.save
-      redirect_to @leave, notice: 'Leave was successfully created.'
+      redirect_to apply_leaves_path, notice: 'Leave Request added.'
     else
       render :new
     end
@@ -36,13 +51,14 @@ class LeavesController < ApplicationController
   def apply
     @store = current_user.store
     @employees = @store.employees
-    @leaves = @store.leaves
+    @leaves = @store.leaves.flatten
+    @leaves.sort! {|x,y| y.created_at <=> x.created_at}
   end
-
   # PATCH/PUT /leaves/1
   def update
+    logger.debug "Leave Params: #{leave_params.inspect}"
     if @leave.update(leave_params)
-      redirect_to @leave, notice: 'Leave was successfully updated.'
+      redirect_to leaves_path, notice: 'Leave was successfully updated.'
     else
       render :edit
     end
@@ -62,6 +78,6 @@ class LeavesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def leave_params
-      params[:leave]
+      params[:leave].permit(:status)
     end
 end

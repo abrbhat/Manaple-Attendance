@@ -1,7 +1,5 @@
 class DashboardController < ApplicationController
-
   before_filter :authenticate_user!
-  before_filter :verify_authorization
   def notification_settings
     incharge = current_user
     @mobile = incharge.store.phone
@@ -45,8 +43,6 @@ class DashboardController < ApplicationController
   end
 
   def attendance_specific_day
-    # Uncomment to test mail sending
-    # AsmMailer.notification().deliver
     @stores = current_user.stores
     @attendance_data = []
     if params[:date].blank?      
@@ -189,9 +185,5 @@ class DashboardController < ApplicationController
       flash[:error] = 'You are not allowed there'
       redirect_to current_user.home_path
     end
-  end
-
-  def user_params
-    params.permit(:name)
   end
 end

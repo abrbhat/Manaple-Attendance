@@ -34,9 +34,18 @@ body {
 .right-side{
   float:right;
 }
+.clear-sides{
+  clear:both;
+}
+.has-space-below{
+  padding-bottom:10px;
+}
 .centered-block{
   margin: 0 auto;
   float:none;
+}
+.pointable{
+  cursor:pointer;
 }
 .form-signin {
   max-width: 330px;
@@ -90,6 +99,10 @@ body {
 .form-container{
   @extend .container;
   width:400px;
+}
+.form-container-wide{
+  @extend .container;
+  width:600px;
 }
 .form-element{
   @extend .form-control;

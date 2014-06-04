@@ -22,7 +22,8 @@ class AsmMailer < ActionMailer::Base
     end
   end
 
-  def store_opened(store)
+  def store_opened(store,opening_time)
+    @opening_time = opening_time
     @store = store
     if store.incharge != nil
       @incharge = store.incharge
