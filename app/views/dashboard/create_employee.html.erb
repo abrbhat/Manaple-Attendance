@@ -1,0 +1,10 @@
+<h2>Enter Employee Name</h2>
+
+<%= form_tag({controller:"dashboard",action:"create_new_employee"}, method: "post") do %>
+  <p>Name:<p>
+  <input type="text" name="employee_name" >
+  <br /><p>Store Name</p>
+  <input type="text" name="store_name" >
+  <br /><br />
+  <%= submit_tag "Create", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+<% end %>

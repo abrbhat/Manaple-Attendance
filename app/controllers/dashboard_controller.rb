@@ -23,6 +23,25 @@ class DashboardController < ApplicationController
     end
   end
 
+  def create_employee
+  end
+
+  def create_new_employee
+    name = params[:employee_name]
+    store_name = params[:store_name]
+    store = Store.where(name: store_name).first
+    email = name.delete(' ').downcase
+    email << "@manaple.com"
+    while User.where(email: email).present? do
+      email = name.delete(' ').downcase
+      email << (0...4).map { ('a'..'z').to_a[rand(26)] }.join
+      email << "@manaple.com"
+    end
+    user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20])
+    Authorization.create(user_id: user.id, store_id: store.id, permission: "staff" )
+    redirect_to(:controller => 'dashboard', :action => 'employees')
+  end
+
   def attendance_specific_day
     @stores = current_user.stores
     @attendance_data = []
@@ -182,5 +201,11 @@ class DashboardController < ApplicationController
 
 
   private
-  
+  def verify_authorization
+    action = params[:action]
+    unless current_user.can_access.include? ("dashboard/"+action) 
+      flash[:error] = 'You are not allowed there'
+      redirect_to current_user.home_path
+    end
+  end
 end

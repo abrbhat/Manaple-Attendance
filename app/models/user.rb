@@ -75,7 +75,8 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period"
       accessible_in["dashboard"] <<  "employee_attendance_record"
-
+      accessible_in["dashboard"] <<  "dashboard/create_employee"
+      accessible_in["dashboard"] <<  "dashboard/create_new_employee"
       accessible_in["leaves"] << "index"
       accessible_in["leaves"] << "update"
     elsif is_store_common_user?
