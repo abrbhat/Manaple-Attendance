@@ -11,6 +11,7 @@
         <Cell><Data ss:Type="String">Employee</Data></Cell>
         <Cell><Data ss:Type="String">Present Count (days)</Data></Cell>
         <Cell><Data ss:Type="String">Absent Count (days)</Data></Cell>
+        <Cell><Data ss:Type="String">Leave Count (days)</Data></Cell>
       </Row>
     <% @attendance_data.each do |attendance_data| %>
       <Row>
@@ -18,6 +19,7 @@
         <Cell><Data ss:Type="String"><%= attendance_data['employee'].name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['present_count']) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['absent_count']) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['leave_count']) %></Data></Cell>
       </Row>
     <% end %>
     </Table>

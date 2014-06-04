@@ -1,10 +1,23 @@
 <h2>Enter Employee Name</h2>
-
-<%= form_tag({controller:"dashboard",action:"create_new_employee"}, method: "post") do %>
-  <p>Name:<p>
-  <input type="text" name="employee_name" >
-  <br /><p>Store Name</p>
-  <input type="text" name="store_name" >
-  <br /><br />
-  <%= submit_tag "Create", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+<div class = "form-container left-side">
+<%= form_tag({controller:"dashboard",action:"create_new_employee"}, method: "post",class:"form-horizontal") do %>
+    <div class="form-element-group">
+	    <label for="employee-name" class="form-label col-sm-5">Name</label>
+	    <div class="col-sm-7">
+	    	<input type="text" class="form-element" id="employee-name" placeholder="Enter employee name" name="employee_name">
+		</div>  
+	</div>
+	<div class ="form-element-group">
+        <label class="control-label col-sm-5">Store Name:</label>
+        <div class = "col-sm-7">
+          <select name="store_name" class="form-element">    
+            <% @stores.each do |store| %>
+              <option value="<%= store.name %>"><%= store.name %></option>
+            <% end %> 
+          </select>
+        </div>
+      </div>
+  <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
 <% end %>
+</div>

@@ -11,6 +11,7 @@
         <Cell><Data ss:Type="String">Employee</Data></Cell>
         <Cell><Data ss:Type="String">In Time</Data></Cell>
         <Cell><Data ss:Type="String">Out Time</Data></Cell>
+        <Cell><Data ss:Type="String">Status</Data></Cell>
       </Row>
     <% @attendance_data.each do |attendance_data| %>
       <Row>
@@ -18,6 +19,7 @@
         <Cell><Data ss:Type="String"><%= attendance_data['employee'].name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['in_time']) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['out_time']) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['status']) %></Data></Cell>
       </Row>
     <% end %>
     </Table>

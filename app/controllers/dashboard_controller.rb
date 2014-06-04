@@ -24,6 +24,7 @@ class DashboardController < ApplicationController
   end
 
   def create_employee
+    @stores = current_user.stores
   end
 
   def create_new_employee
