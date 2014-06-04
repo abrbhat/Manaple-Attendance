@@ -83,6 +83,8 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] << "request_leave"
       accessible_in["dashboard"] << "choose_employee_name"
       accessible_in["dashboard"] << "choose_attendance_description"
+      accessible_in["dashboard"] <<  "attendance_specific_day"
+      accessible_in["dashboard"] <<  "attendance_time_period"
 
       accessible_in["leaves"] << "create"
       accessible_in["leaves"] << "apply"
