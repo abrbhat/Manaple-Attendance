@@ -1,0 +1,63 @@
+<div class="clear-sides">
+  <h3 >Leave Requests:</h3>
+</div>
+<table class="list-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Start Date</th>
+      <th>End Date</th> 
+      <th>Reason</th>
+      <th>
+        <% if current_user.is_store_common_user?  %>
+          Status
+        <% elsif current_user.is_store_incharge? %>
+          Action
+        <% end %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% leaves.each do |leave| %>
+      <tr>
+        <td> <%= leave.user.name %></td>
+        <td> <%= leave.start_date.strftime("%d-%m-%Y") %></td>
+        <td> <%= leave.end_date.strftime("%d-%m-%Y") %></td>
+        <td>
+          <div data-toggle="tooltip" data-placement="left" title="<%= leave.reason %>" class="pointable">
+            <%  if leave.reason.present? %>
+              <%= leave.reason[0..20]%><%= "..." if leave.reason.size > 21 %>
+            <% else %>
+            -
+            <% end %>
+          </div> 
+        </td>
+        <td>
+          <% if current_user.is_store_common_user?  %>
+            <div class="<%= is_leave_approved(leave.status) %>">
+              <%= leave.status.tr('_', ' ').capitalize %>
+            </div>
+          <% elsif current_user.is_store_incharge? %>
+            <% if leave.status == 'approved'%>
+              <div class="status-positive-indicator">
+                 Approved
+              </div>
+            <% else %>
+              <%= link_to "Approve", leave_path(leave,leave:{:status => "approved"}), :method=> :put, class: "medium-button" %>
+            <% end %>
+            <% if leave.status == 'rejected'%>
+              <div class="status-negative-indicator">
+                 Rejected
+              </div>
+            <% else %>
+                <%= link_to "Reject", leave_path(leave,leave:{:status => "rejected"}), :method=> :put,class: "medium-button" %>
+            <% end %>
+          <% end %>          
+       </td>         
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div id="pagination_navigation">
+  <%= paginate leaves %>
+</div>
