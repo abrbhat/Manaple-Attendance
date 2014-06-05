@@ -50,7 +50,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @leaves.each do |leave| %>
+    <% @leaves_paginated.each do |leave| %>
       <tr>
         <td> <%= leave.user.name %></td>
         <td> <%= leave.start_date.strftime("%d-%m-%Y") %></td>
@@ -72,3 +72,6 @@
     <% end %>
   </tbody>
 </table>
+<div id="pagination_navigation">
+  <%= paginate @leaves_paginated %>
+</div>

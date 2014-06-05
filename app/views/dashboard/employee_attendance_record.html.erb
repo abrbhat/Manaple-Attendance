@@ -23,7 +23,7 @@
     </tr>
   </thead>
   <tbody>
-    <% (@start_date.to_date..(@end_date.midnight).to_date).each do |date| %>
+    <% @dates.each do |date| %>
       <tr>
         <td> <%= date.strftime("%d-%m-%Y") %></td>
         <% attendance_data_for_date = @attendance_data[date.strftime("%d-%m-%Y")] %>
@@ -50,6 +50,6 @@
 </table>
 <hr>
 <div id="pagination_navigation">
-  <%#= will_paginate @attendance_data %>
+  <%= paginate @dates %>
 </div>
 <%#= link_to "Download XLS", '/dashboard/attendance_time_period.xls' , class:'medium-button' %>

@@ -218,6 +218,7 @@ DEPENDENCIES
   devise
   jquery-rails
   jquery-turbolinks
+  kaminari
   letter_opener
   meta_request
   mysql2

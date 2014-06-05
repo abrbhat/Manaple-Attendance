@@ -8,7 +8,7 @@
 		<input type="text" class="inline-form-element" value="<%= @start_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="time_period_start" >
 		<div class= "inline-form-element more-side-margins">to</div>
 		<input type="text" class="inline-form-element" value="<%= @end_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="time_period_end" >
-    <div class= "inline-form-element more-side-margins">(Working Days : <%= @working_days%>)</div>
+    <div class= "inline-form-element more-side-margins">(Working Days : <%= @working_days %>)</div>
 
 	</div>
 	<%= submit_tag "Go", :class => "proceed-button" %>
@@ -25,7 +25,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @attendance_data.each do |attendance_data| %>
+    <% @attendance_data_paginated.each do |attendance_data| %>
       <tr>
         <td> <%= attendance_data['employee'].store.name %></td>
         <td> <%= attendance_data['employee'].name %></td>
@@ -38,6 +38,6 @@
 </table>
 <hr>
 <div id="pagination_navigation">
-  <%#= will_paginate @attendance_data %>
+  <%= paginate @attendance_data_paginated %>
 </div>
 <%= link_to "Download XLS", '/dashboard/attendance_time_period.xls' , class:'medium-button' %>

@@ -13,7 +13,7 @@
         <Cell><Data ss:Type="String">Out Time</Data></Cell>
         <Cell><Data ss:Type="String">Status</Data></Cell>
       </Row>
-    <% @attendance_data.each do |attendance_data| %>
+    <% @attendance_data_all.each do |attendance_data| %>
       <Row>
         <Cell><Data ss:Type="String"><%= attendance_data['employee'].store.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= attendance_data['employee'].name %></Data></Cell>
