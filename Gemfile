@@ -72,3 +72,5 @@ gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'whenever', :require => false
 
 gem "letter_opener", :group => :development
+
+gem "browser"
