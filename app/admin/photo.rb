@@ -1,12 +1,13 @@
 ActiveAdmin.register Photo do
 
-  permit_params :description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at, :status
+  permit_params :description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at, :status, :ip
 
   index do
     column :description
     column :user
     column :image_updated_at
     column :status
+    column :ip
     column :image do |photo|
       image_tag photo.image.url(:medium)
     end
