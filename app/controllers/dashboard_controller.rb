@@ -53,7 +53,7 @@ class DashboardController < ApplicationController
     end
     if @date.midnight > Time.zone.now.midnight
       flash[:error] = "Date cannot be later than today"
-      return
+      @date = Time.zone.now
     end
     @stores.each do |store|
       store.employees.each do |employee|
@@ -200,8 +200,12 @@ class DashboardController < ApplicationController
     end
     
     @employees = current_user.employees
-    @dates = (@start_date.to_date..(@end_date.midnight).to_date).to_a
-    @dates = Kaminari.paginate_array(@dates).page(params[:page]).per(30)
+    @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
+    @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end
 
 

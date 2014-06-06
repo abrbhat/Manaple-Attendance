@@ -23,7 +23,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @dates.each do |date| %>
+    <% @dates_paginated.each do |date| %>
       <tr>
         <td> <%= date.strftime("%d-%m-%Y") %></td>
         <% attendance_data_for_date = @attendance_data[date.strftime("%d-%m-%Y")] %>
@@ -50,6 +50,6 @@
 </table>
 <hr>
 <div id="pagination_navigation">
-  <%= paginate @dates %>
+  <%= paginate @dates_paginated %>
 </div>
-<%#= link_to "Download XLS", '/dashboard/attendance_time_period.xls' , class:'medium-button' %>
+<%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"),employee_id: @employee.id) , class:'medium-button' %>
