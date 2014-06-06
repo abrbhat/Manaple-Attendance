@@ -6,6 +6,7 @@ class PhotosController < ApplicationController
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path(@photo.user.store))   
     @photo.status = "verification_pending" 
+    @photo.ip = request.remote_ip
     if @photo.save
       AdminMailer.notification().deliver
       if @photo.is_first_of_day
