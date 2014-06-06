@@ -22,7 +22,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @attendance_data.each do |attendance_data| %>
+    <% @attendance_data_paginated.each do |attendance_data| %>
       <tr>
         <td> <%= attendance_data['employee'].store.name %></td>
         <td> <%= attendance_data['employee'].name %></td>
@@ -53,6 +53,6 @@
 </table>
 <hr>
 <div id="pagination_navigation">
-  <%#= will_paginate @attendance_data %>
+  <%= paginate @attendance_data_paginated %>
 </div>
 <%= link_to "Download XLS", '/dashboard/attendance_specific_day.xls' , class:'medium-button' %>

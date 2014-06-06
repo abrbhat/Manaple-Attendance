@@ -70,5 +70,9 @@ gem 'activeadmin', github: 'gregbell/active_admin'
 
 # Cron jobs in Ruby
 gem 'whenever', :require => false
-
+# For displaying emails in browser in dev mode
 gem "letter_opener", :group => :development
+# For browser checks
+gem "browser"
+# For pagination
+gem 'kaminari'

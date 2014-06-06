@@ -45,7 +45,7 @@ class DashboardController < ApplicationController
 
   def attendance_specific_day
     @stores = current_user.stores
-    @attendance_data = []
+    @attendance_data_all = []
     if params[:date].blank?      
       @date = Time.zone.now
     else      
@@ -79,9 +79,10 @@ class DashboardController < ApplicationController
             attendance_data["status"] = "absent"
           end
         end
-        @attendance_data << attendance_data
+        @attendance_data_all << attendance_data
       end
-    end
+    end    
+    @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
     respond_to do |format|
       format.html
       format.xls
@@ -90,7 +91,7 @@ class DashboardController < ApplicationController
 
   def attendance_time_period
     @stores = current_user.stores
-    @attendance_data = []
+    @attendance_data_all = []
     @stores.each do |store|
       store.employees.each do |employee|
         attendance_data = Hash.new
@@ -129,9 +130,10 @@ class DashboardController < ApplicationController
         end
         attendance_data["absent_count"] = @working_days - attendance_data["present_count"] - attendance_data["leave_count"]
         attendance_data["employee"] = employee
-        @attendance_data << attendance_data
+        @attendance_data_all << attendance_data
       end
     end
+    @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
     respond_to do |format|
       format.html
       format.xls
@@ -173,11 +175,11 @@ class DashboardController < ApplicationController
     if params[:time_period_start].blank?
       @start_date = Time.zone.now
       @end_date = Time.zone.now
-      @date = Time.zone.now.strftime("%d-%m-%Y")
+      date = Time.zone.now.strftime("%d-%m-%Y")
     else
       @start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
       @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
-      @date = params[:date]
+      date = params[:date]
     end
     photos = @employee.photos.where(created_at: (@start_date.midnight..@end_date.midnight + 1.day))
     @attendance_data = {}
@@ -191,13 +193,15 @@ class DashboardController < ApplicationController
       end
     end
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-      logger.debug "#{@employee.is_on_leave_on?(date)}"
       if @attendance_data[date.strftime("%d-%m-%Y")].blank? and @employee.is_on_leave_on?(date)
         @attendance_data[date.strftime("%d-%m-%Y")] = {}
         @attendance_data[date.strftime("%d-%m-%Y")]['status'] = 'on_leave'
       end
     end
+    
     @employees = current_user.employees
+    @dates = (@start_date.to_date..(@end_date.midnight).to_date).to_a
+    @dates = Kaminari.paginate_array(@dates).page(params[:page]).per(30)
   end
 
 

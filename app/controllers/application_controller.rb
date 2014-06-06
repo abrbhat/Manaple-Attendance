@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include VerifyAuthorization
   protect_from_forgery
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
+  before_action :check_browser
   Time.zone = 'Kolkata'
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
@@ -29,4 +30,13 @@ class ApplicationController < ActionController::Base
       }
     end
   end
+
+  def check_browser
+    if !(browser.chrome? or browser.firefox?)
+      sign_out :user
+      flash[:error] = "This site cannot be accessed by your browser. Please use Chrome or Firefox!"
+      new_user_session_path
+    end
+  end
+
 end

@@ -3,7 +3,7 @@
 <table class="list-table">
   <thead>
     <tr>
-      <th>Employee</th>
+      <th>Name</th>
       <th>Start Date</th>
       <th>End Date</th>
       <th>Reason</th> 
@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @leaves.each do |leave| %>
+    <% @leaves_paginated.each do |leave| %>
       <tr>
         <td> <%= leave.user.name %></td>
         <td> <%= leave.start_date.strftime("%d-%m-%Y") %></td>
@@ -45,3 +45,6 @@
     <% end %>
   </tbody>
 </table>
+<div id="pagination_navigation">
+  <%= paginate @leaves_paginated %>
+</div>
