@@ -15,10 +15,12 @@ Rails.application.routes.draw do
   get 'dashboard/notification_settings_view'
   get 'dashboard/employee_attendance_record'
 
+  get 'verification/mass_verify'
 
   post 'dashboard/notification_settings_update'
   post 'dashboard/choose_attendance_description'
   post 'photos/new'
+  post 'verification/do_mass_verification'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

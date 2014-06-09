@@ -1,0 +1,37 @@
+<%= form_tag({controller:"verification",action:"do_mass_verification"}, method: "post") do %> 
+<table class="list-table">
+  <thead>
+    <tr>
+      <th>Store </th>
+      <th>Name</th>
+      <th>Desc</th>
+      <th>Photo</th> 
+      <th>Original photo</th>
+      <th>IP</th> 
+      <th>Original IP</th>
+      <th>
+      	Verify?</br>
+      	Select All<input type="checkbox" id="select-all"/>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @photos.each do |photo| %>
+      <tr>
+        <td> <%= photo.user.store.name %></td>
+        <td> <%= photo.user.name %></td>
+        <td> <%= photo.description %></td>
+        <td> <%= image_tag photo.image.url(:medium) %></td>
+        <td> <%= image_tag photo.original.image.url(:medium) %></td>
+        <td> <%= photo.ip %></td>
+        <td> <%= photo.original.ip %></td>
+        <td> 
+        	<input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
+   			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= submit_tag "Save", :class => "form-submit-button" %>
+<% end %>

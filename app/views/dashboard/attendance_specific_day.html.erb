@@ -55,4 +55,4 @@
 <div id="pagination_navigation">
   <%= paginate @attendance_data_paginated %>
 </div>
-<%= link_to "Download XLS", '/dashboard/attendance_specific_day.xls' , class:'medium-button' %>
+<%= link_to "Download XLS", dashboard_attendance_specific_day_path(format: :xls,date: @date.strftime("%d-%m-%Y")), class:'medium-button' %>

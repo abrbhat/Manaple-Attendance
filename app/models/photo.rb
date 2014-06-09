@@ -19,4 +19,9 @@ class Photo < ActiveRecord::Base
   		return false
   	end
   end
+
+  def original
+    original_photo = user.photos.where("description = 'original'")
+    return original_photo.first
+  end
 end

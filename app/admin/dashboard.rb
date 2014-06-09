@@ -10,6 +10,7 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
+
 #    column  do
 #      User.mail_stores_attendance
 #    end
