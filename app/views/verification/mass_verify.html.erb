@@ -22,9 +22,9 @@
         <td> <%= photo.user.name %></td>
         <td> <%= photo.description %></td>
         <td> <%= image_tag photo.image.url(:medium) %></td>
-        <td> <%= image_tag photo.original.image.url(:medium) %></td>
+        <td> <%= image_tag photo.original.image.url(:medium) if photo.original.present? %></td>
         <td> <%= photo.ip %></td>
-        <td> <%= photo.original.ip %></td>
+        <td> <%= photo.original.ip if photo.original.present? %></td>
         <td> 
         	<input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
    			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
