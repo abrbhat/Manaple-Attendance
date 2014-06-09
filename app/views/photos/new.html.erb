@@ -24,7 +24,7 @@
             <%= form_for Photo.new, :html => {:class => "photo-form-button"} do |f| %>
                 <%= f.hidden_field :description, :value => @description %>   
                 <%= f.hidden_field :user_id, :value => @employee.id %> 
-                <%= f.submit "Save the photo", class:"big-button" %>
+                <%= f.submit "Save the photo", class:"big-button",id:"save-photo-button" %>
             <% end %>
             <%= form_tag({controller:"photos",action:"new"}, method: "post", id:"take-another-picture-button", class:"photo-form-button") do %> 
                 <input type="hidden" value="<%= @employee.id %>" name="employee" >  
