@@ -1,5 +1,7 @@
 ActiveAdmin.register Authorization do
 
+  config.per_page = 10
+
   permit_params :user_id, :store_id, :permission
 
   index do
