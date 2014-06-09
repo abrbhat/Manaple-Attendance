@@ -37,6 +37,10 @@ $(document).ready(function(){
 	      }
 	    });
 	});	
+	$( "#save-photo-button" ).click(function() {
+		$('#photo-form').hide();
+		$("#spinner").show(); 
+	});	
 	$('#select-all').change(function() {
 	    var checkboxes = $(this).closest('form').find(':checkbox');
 	    if($(this).is(':checked')) {
