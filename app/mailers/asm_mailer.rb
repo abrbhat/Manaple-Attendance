@@ -39,7 +39,9 @@ class AsmMailer < ActionMailer::Base
     store = @employee.store
     if store.incharge != nil
       @incharge = store.incharge
-      mail to: store.email, subject: @employee.name+" has applied for Leave"
+      if @store.email.present?
+        mail to: store.email, subject: @employee.name+" has applied for Leave"
+      end
     end
   end
 end
