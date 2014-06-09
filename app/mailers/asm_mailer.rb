@@ -27,7 +27,9 @@ class AsmMailer < ActionMailer::Base
     @store = store
     if store.incharge != nil
       @incharge = store.incharge
-      mail to: @store.email, subject: "Store Opened"
+      if @store.email.present?
+        mail to: @store.email, subject: "Store Opened"
+      end
     end
   end
 

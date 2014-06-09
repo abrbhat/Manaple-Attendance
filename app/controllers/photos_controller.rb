@@ -8,7 +8,7 @@ class PhotosController < ApplicationController
     @photo.status = "verification_pending" 
     @photo.ip = request.remote_ip
     if @photo.save
-      AdminMailer.notification().deliver
+      # AdminMailer.notification().deliver
       if @photo.is_first_of_day
         AsmMailer.store_opened(@photo.user.store,@photo.created_at).deliver
       end
