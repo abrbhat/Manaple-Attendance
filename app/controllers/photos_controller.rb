@@ -15,6 +15,14 @@ class PhotosController < ApplicationController
     else
       flash[:error] = "There seems to be a network connection error."
     end
+    if @photo.original == nil
+      original_photo = Photo.new(photo_params)
+      original_photo.image = File.new(upload_path(original_photo.user.store))
+      original_photo.status = "verified"
+      original_photo.description = "original"
+      original_photo.ip = request.remote_ip
+      original_photo.save
+    end
     render "dashboard/attendance_marked"
   end
   def new   
