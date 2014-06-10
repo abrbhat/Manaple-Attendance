@@ -1,10 +1,4 @@
-<% if @incharge != nil %>
-<% if @incharge.name.present? %>
-Dear <%= @incharge.name%>,
-<% else %>
 Dear Sir,
-<% end %>
-<% end %>
 
 Store <%= @store.name %> has been opened today at <%= @opening_time.strftime("%I:%M%p")%>.
 
