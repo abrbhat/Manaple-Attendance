@@ -21,12 +21,13 @@ class Store < ActiveRecord::Base
     return leaves
   end
 
-  def incharge
+  def incharges
+    incharges = []
     authorizations.each do |authorization|
       if authorization.permission == 'asm' or authorization.permission == 'owner'
-        return authorization.user
+        incharges << authorization.user
       end
     end
-    return nil
+    return incharges
   end
 end

@@ -32,15 +32,14 @@
 						<li class="dropdown">
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
 					        <ul class="dropdown-options">
-					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List", dashboard_employees_path %></li>
-					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
 					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>
+					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
+					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List", dashboard_employees_path %></li>
 					        </ul>	
 					    </li>
 						<li class="dropdown">
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Settings<b class="caret"></b></a>
-					        <ul class="dropdown-options">
-					          <li class="<%= is_active?("dashboard#notification_settings")  %>" ><%= link_to "Notifications", dashboard_notification_settings_path %></li>
+					        <ul class="dropdown-options">					          
 					          <li class="<%= is_active?("devise/registrations#edit")  %>"><%= link_to "Profile", edit_user_registration_path %></li>
 					        </ul>	
 					    </li>
