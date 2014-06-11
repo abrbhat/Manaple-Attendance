@@ -1,5 +1,5 @@
 GIT
-  remote: http://github.com/gregbell/active_admin
+  remote: git://github.com/gregbell/active_admin.git
   revision: 4f445b51c22b12af2cdde57fe2ce9835c32ef88e
   specs:
     activeadmin (1.0.0.pre)
@@ -16,7 +16,7 @@ GIT
       sass-rails
 
 GIT
-  remote: http://github.com/rails/sass-rails
+  remote: git://github.com/rails/sass-rails.git
   revision: 3a9e47db7d769221157c82229fc1bade55b580f0
   specs:
     sass-rails (4.0.1)
