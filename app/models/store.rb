@@ -31,14 +31,4 @@ class Store < ActiveRecord::Base
     return incharges
   end
 
-  def incharges
-    incharges = []
-    authorizations.each do |authorization|
-      if authorization.permission == 'asm' or authorization.permission == 'owner'
-        incharges << authorization.user
-      end
-    end
-    return incharges
-  end
-
 end
