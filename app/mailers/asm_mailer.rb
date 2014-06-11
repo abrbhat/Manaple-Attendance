@@ -7,11 +7,14 @@ class AsmMailer < ActionMailer::Base
   #
   #   en.customer_mailer.thankyou.subject
   #
+
+  # Summary Notification
+  # Takes incharge object, send email
   def notification(incharge)
   	@incharge = incharge
     @stores = incharge.stores
     @store = incharge.store
-    mail to: @store.email, subject: "Attendance at your Stores"
+    mail to: @incharge.email, subject: "Attendance at your Stores"
   end
 
   def print_hyphen_if_empty(value)
@@ -25,11 +28,10 @@ class AsmMailer < ActionMailer::Base
   def store_opened(store,opening_time)
     @opening_time = opening_time
     @store = store
-    if store.incharge != nil
-      @incharge = store.incharge
-      if @store.email.present?
-        mail to: @store.email, subject: "Store Opened"
-      end
+    if store.incharges != nil
+      incharges = store.incharges
+      emails = incharges.collect(&:email).join(",")
+      mail to: emails, subject: "Store Opened"
     end
   end
 
@@ -37,11 +39,10 @@ class AsmMailer < ActionMailer::Base
     @leave = leave
     @employee = @leave.user
     store = @employee.store
-    if store.incharge != nil
-      @incharge = store.incharge
-      if @store.email.present?
-        mail to: store.email, subject: @employee.name+" has applied for Leave"
-      end
+    if store.incharges != nil
+      incharges = store.incharges
+      emails = incharges.collect(&:email).join(",")
+      mail to: emails, subject: @employee.name+" has applied for Leave"
     end
   end
 end

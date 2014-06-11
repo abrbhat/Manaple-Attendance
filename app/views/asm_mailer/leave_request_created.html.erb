@@ -3,17 +3,12 @@
 	<title>Leave Request</title>
 </head>
 <body>
-<% if @incharge.name.present? %>
-Dear <%= @incharge.name%>,
-<% else %>
 Dear Sir,
-<% end %>
 <br><br>
 <%= @employee.name %> has applied for leave from <%= @leave.start_date.strftime("%d-%m-%Y") %> to <%= @leave.end_date.strftime("%d-%m-%Y") %> for the reason: <%= @leave.reason %>
 </br>
 Login to your account at <a href="http://www.manaple.com">Manaple</a> to Approve/Reject this request.
-</br>
-
+<br><br>
 Regards,<br>
 Team Manaple
 </body>
