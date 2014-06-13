@@ -26,24 +26,28 @@
     <% @dates_paginated.each do |date| %>
       <tr>
         <td> <%= date.strftime("%d-%m-%Y") %></td>
-        <% attendance_data_for_date = @attendance_data[date.strftime("%d-%m-%Y")] %>
-        <% if attendance_data_for_date.present? %>
-          <td> <%= print_hyphen_if_empty(attendance_data_for_date['in']) %></td>
-          <td> <%= print_hyphen_if_empty(attendance_data_for_date['out']) %></td>
+        <% attendance_data_for_date = @attendance_data_for[date.strftime("%d-%m-%Y")] %>
+          <td>           
+              <%= print_hyphen_if_empty(attendance_data_for_date['in_time']) %>
+              <% if attendance_data_for_date['in_time'].present? %>    
+              <div class="<%= is_attendance_verified(attendance_data_for_date['in_status']) %>" >
+                <%= attendance_data_for_date['in_status'].tr('_', ' ').capitalize if attendance_data_for_date['in_status'] %>
+              </div>
+              <% end %>
+          </td>
+          <td>                          
+              <%= print_hyphen_if_empty(attendance_data_for_date['out_time']) %>
+              <% if attendance_data_for_date['out_time'].present? %> 
+              <div class="<%= is_attendance_verified(attendance_data_for_date['out_status']) %>" >
+                <%= attendance_data_for_date['out_status'].tr('_', ' ').capitalize if attendance_data_for_date['out_status'] %>
+              </div>
+            <% end %>
+          </td>
           <td> 
             <div class="<%= is_present(attendance_data_for_date['status']) %>">
               <%= attendance_data_for_date['status'].tr('_', ' ').capitalize %>
             </div>
           </td>
-        <% else %>
-          <td>-</td>
-          <td>-</td>
-          <td> 
-            <div class="status-negative-indicator">
-              Absent
-            </div>
-          </td>
-        <% end %>
       </tr>
     <% end %>
   </tbody>

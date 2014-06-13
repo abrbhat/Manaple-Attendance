@@ -123,4 +123,44 @@ class User < ActiveRecord::Base
       return false
     end
   end
+
+  def photos_for(date)
+    photos.where(created_at: date.midnight..date.midnight + 1.day)
+  end
+
+  def attendance_data_for(date)
+    attendance_data = Hash.new    
+    attendance_data["employee"] = self
+    attendance_data["status"] = "absent"
+    attendance_data["in_time"] = nil
+    attendance_data["in_status"] = nil
+    attendance_data["out_time"] = nil
+    attendance_data["out_status"] = nil
+    
+    photos_for_date = self.photos_for(date)
+    in_photos = photos_for_date.select {|photo| photo.description=="in"}
+    out_photos = photos_for_date.select {|photo| photo.description=="out"}
+    if in_photos.present?
+      attendance_data["in_time"] = in_photos.last.created_at.strftime("%I:%M%p")
+      attendance_data["in_status"] = in_photos.last.status
+      if in_photos.last.status != 'verification_rejected'
+        attendance_data["status"] = "present"
+      end
+    end
+    if out_photos.present?
+      attendance_data["out_time"] = out_photos.last.created_at.strftime("%I:%M%p")
+      attendance_data["out_status"] = out_photos.last.status
+      if out_photos.last.status != 'verification_rejected'
+        attendance_data["status"] = "present"
+      end
+    end
+    if attendance_data["in_time"].blank? and attendance_data["out_time"].blank?
+      if self.is_on_leave_on?(date.to_date)
+        attendance_data["status"] = "on_leave"
+      else
+        attendance_data["status"] = "absent"
+      end
+    end
+    return attendance_data
+  end
 end

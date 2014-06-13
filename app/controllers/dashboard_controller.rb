@@ -56,30 +56,8 @@ class DashboardController < ApplicationController
       @date = Time.zone.now
     end
     @stores.each do |store|
-      store.employees.each do |employee|
-        attendance_data = Hash.new
-        photos = employee.photos.where(created_at: @date.midnight..@date.midnight + 1.day)
-        in_photos = photos.select {|photo| photo.description=="in"}
-        out_photos = photos.select {|photo| photo.description=="out"}
-        if in_photos.present?
-          attendance_data["in_time"] = in_photos.last.created_at.strftime("%I:%M%p")
-          attendance_data["in_status"] = in_photos.last.status
-          attendance_data["status"] = "present"
-        end
-        if out_photos.present?
-          attendance_data["out_time"] = out_photos.last.created_at.strftime("%I:%M%p")
-          attendance_data["out_status"] = out_photos.last.status
-          attendance_data["status"] = "present"
-        end
-        attendance_data["employee"] = employee
-        if attendance_data["in_time"].blank? and attendance_data["out_time"].blank?
-          if employee.is_on_leave_on?(@date.to_date)
-            attendance_data["status"] = "on_leave"
-          else
-            attendance_data["status"] = "absent"
-          end
-        end
-        @attendance_data_all << attendance_data
+      store.employees.each do |employee|        
+        @attendance_data_all << employee.attendance_data_for(@date)
       end
     end    
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
@@ -109,7 +87,6 @@ class DashboardController < ApplicationController
           flash[:error] = "End Date has to be later than Start Date"
           return
         elsif @end_date.midnight > Time.zone.now.midnight
-
           flash[:error] = "End Date cannot be later than today"
           return
         end
@@ -181,24 +158,10 @@ class DashboardController < ApplicationController
       @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
       date = params[:date]
     end
-    photos = @employee.photos.where(created_at: (@start_date.midnight..@end_date.midnight + 1.day))
-    @attendance_data = {}
-    photos.each do |photo|
-      if !(photo.status == "verification_rejected")       
-        @attendance_data[photo.created_at.strftime("%d-%m-%Y")] = {}
-        @attendance_data[photo.created_at.strftime("%d-%m-%Y")][photo.description] = photo.created_at.strftime("%I:%M%p")          
-        if (photo.description == 'in' or photo.description == 'out')
-          @attendance_data[photo.created_at.strftime("%d-%m-%Y")]['status'] = 'present'
-        end
-      end
-    end
+    @attendance_data_for = Hash.new
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-      if @attendance_data[date.strftime("%d-%m-%Y")].blank? and @employee.is_on_leave_on?(date)
-        @attendance_data[date.strftime("%d-%m-%Y")] = {}
-        @attendance_data[date.strftime("%d-%m-%Y")]['status'] = 'on_leave'
-      end
-    end
-    
+      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
+    end    
     @employees = current_user.employees
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)

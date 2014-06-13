@@ -17,16 +17,18 @@
       <Row>
       	<Cell><Data ss:Type="String"><%= @employee.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= date.strftime("%d-%m-%Y") %></Data></Cell>
-        <% attendance_data_for_date = @attendance_data[date.strftime("%d-%m-%Y")] %>
-        <% if attendance_data_for_date.present? %>
-	        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data_for_date['in']) %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data_for_date['out']) %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%= attendance_data_for_date['status'].tr('_', ' ').capitalize %></Data></Cell>
-	    <% else %>
-	    	<Cell><Data ss:Type="String">-</Data></Cell>
-	        <Cell><Data ss:Type="String">-</Data></Cell>
-	        <Cell><Data ss:Type="String">Absent</Data></Cell>
-	    <% end %>
+        <% attendance_data_for_date = @attendance_data_for[date.strftime("%d-%m-%Y")] %>
+        <% if attendance_data_for_date['in_status'] != 'verification_rejected' %>
+	        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data_for_date['in_time']) %></Data></Cell>
+        <% else %>
+        <Cell><Data ss:Type="String">-</Data></Cell>
+        <% end %>
+	      <% if attendance_data_for_date['out_status'] != 'verification_rejected' %>
+          <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data_for_date['out_time']) %></Data></Cell>
+        <% else %>
+        <Cell><Data ss:Type="String">-</Data></Cell>
+        <% end %>
+        <Cell><Data ss:Type="String"><%= attendance_data_for_date['status'] %></Data></Cell>
       </Row>
     <% end %>
     </Table>
