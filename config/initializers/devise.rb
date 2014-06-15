@@ -4,15 +4,13 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = 'c70c17bd322b39e91e57303638f9fe95a99d2ff53c09bef30000504486dcee4ff45c3b44ea29dbab7001a5686df4c68da5546607833a0d1da824ef9ac7ed805b'
-  config.secret_key = '9a1304f7ba112ff8c55df6277f666528cf5698d3425a1a16cfbded6e18be01ec9f86fb9aff16551a608417f21529b7f81480fa364e9c6b59c22cb8b9c18f2048'
 
-
+  config.secret_key = 'b3b4ddb75470bc51a778ee8d71a044fc3043294457ba2d6bae4c3fb4f5ba8faaf96a2ffbd0798f760af753d529158f37e3de388ca783860ac1cae0a52f4bdb90'
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'peeyushagarwal1994@gmail.com'
+  config.mailer_sender = 'no-reply@manaple.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -81,8 +79,6 @@ Devise.setup do |config|
   # passing skip: :sessions to `devise_for` in your config/routes.rb
   config.skip_session_storage = [:http_auth]
 
-  config.reset_password_keys = [ :login ]
-  config.confirmation_keys = [ :login ]
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token
@@ -101,7 +97,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = '073ff1829d197379628bcf814c3c13b96e4a228c56d1bd150b2b1fe708faffb9e2cb548255879811828c8d8744af7af092d7f99dd1fda1800e873c2f5aed7de6'
+  # config.pepper = '494259378414a40922a319eb5fc7571656a43d8843ae9ac98c10183a4a61dfcbf7551d2e52f02da97c7171292d7049f0d553744ba3f99e425eb643caf9249eaa'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -206,15 +202,15 @@ Devise.setup do |config|
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
-   config.scoped_views = false
+  # config.scoped_views = false
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
-   config.default_scope = :user
+  # config.default_scope = :user
 
   # Set this configuration to false if you want /users/sign_out to sign out
   # only the current scope. By default, Devise signs out all scopes.
-   config.sign_out_all_scopes = false
+  # config.sign_out_all_scopes = true
 
   # ==> Navigation configuration
   # Lists the formats that should be treated as navigational. Formats like
