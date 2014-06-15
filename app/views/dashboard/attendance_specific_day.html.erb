@@ -17,7 +17,9 @@
       <th>Store </th>
       <th>Employee</th>
       <th>In Time</th>
-      <th>Out Time</th> 
+      <th>In Photo</th>
+      <th>Out Time</th>
+      <th>Out Photo</th> 
       <th>Status</th>
     </tr>
   </thead>
@@ -26,22 +28,38 @@
       <tr>
         <td> <%= attendance_data['employee'].store.name %></td>
         <td> <%= attendance_data['employee'].name %></td>
-        <td> 
-          <%= print_hyphen_if_empty(attendance_data['in_time']) %>
-          <% if attendance_data['in_time'].present? %>
-            <div class="<%= is_attendance_verified(attendance_data['in_status']) %>" >
-              <%= attendance_data['in_status'].tr('_', ' ').capitalize if attendance_data['in_status']%>
-            </div>
-          <% end %>
-        </td>
-        <td> 
-          <%= print_hyphen_if_empty(attendance_data['out_time']) %>
-          <% if attendance_data['out_time'].present? %>
-            <div class="<%= is_attendance_verified(attendance_data['out_status']) %>">
-              <%= attendance_data['out_status'].tr('_', ' ').capitalize if attendance_data['out_status']%>
-            </div>
-          <% end %>
-        </td>
+        <td><%= print_hyphen_if_empty(attendance_data['in_time']) %></td>
+          <td>
+            <% if attendance_data['in_photo'].present? %> 
+              <div class = "centering-table">
+                <div class = "centering-table-cell">
+                  <%= image_tag attendance_data['in_photo'].image.url(:thumb) %> 
+                  </br>
+                  <div class="<%= is_attendance_verified(attendance_data['in_status']) %>" >
+                    <%= attendance_data['in_status'].tr('_', ' ').capitalize if attendance_data['in_status'] %>
+                  </div>
+                </div>
+              </div>
+            <% else %>
+              -
+            <% end %>
+          </td>
+          <td><%= print_hyphen_if_empty(attendance_data['out_time']) %></td>
+          <td>
+            <% if attendance_data['out_photo'].present? %> 
+              <div class = "centering-table">
+                <div class = "centering-table-cell">
+                  <%= image_tag attendance_data['out_photo'].image.url(:thumb) %> 
+                  </br>
+                  <div class="<%= is_attendance_verified(attendance_data['out_status']) %>" >
+                    <%= attendance_data['out_status'].tr('_', ' ').capitalize if attendance_data['out_status'] %>
+                  </div>
+                </div>
+              </div>
+            <% else %>
+              -
+            <% end %>
+          </td>
         <td> 
             <div class="<%= is_present(attendance_data['status']) %>">
               <%= attendance_data['status'].tr('_', ' ').capitalize %>

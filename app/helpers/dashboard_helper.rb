@@ -31,4 +31,7 @@ module DashboardHelper
 			"status-neutral-indicator"
 		end
 	end
+
+	def get_end_date
+	end
 end
