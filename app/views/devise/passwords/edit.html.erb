@@ -1,16 +1,23 @@
+<%= devise_error_messages! %>
 <h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+<div class = "form-container left-side">
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, class:"form-horizontal") do |f| %>
   <%= f.hidden_field :reset_password_token %>
-
-  <div><%= f.label :password, "New password" %><br />
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %></div>
-
-  <div><%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
-
-  <div><%= f.submit "Change my password" %></div>
+	<div class="form-element-group">
+	    <label for="password" class="form-label col-sm-5">New Password</label>
+	    <div class="col-sm-7">
+	    	<%= f.password_field :password, autofocus: true, autocomplete: "off",class:"form-element" %>
+		</div>  
+	</div>
+	<br/><br/><br/>
+	<div class="form-element-group">
+	    <label for="password_confirmation" class="form-label col-sm-5">Password Confirmation</label>
+	    <div class="col-sm-7">
+	    	<%= f.password_field :password_confirmation, autocomplete: "off",class:"form-element" %>
+		</div>  
+	</div>
+ 
+	<%= submit_tag "Change My Password", :class => "form-submit-button col-sm-offset-2 col-sm-6" %>
 <% end %>
-
+</div>
 <%= render "devise/shared/links" %>
