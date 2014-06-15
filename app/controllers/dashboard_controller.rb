@@ -46,11 +46,7 @@ class DashboardController < ApplicationController
   def attendance_specific_day
     @stores = current_user.stores
     @attendance_data_all = []
-    if params[:date].blank?      
-      @date = Time.zone.now
-    else      
-      @date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
-    end
+    @date = get_date
     if @date.midnight > Time.zone.now.midnight
       flash[:error] = "Date cannot be later than today"
       @date = Time.zone.now
@@ -70,43 +66,39 @@ class DashboardController < ApplicationController
   def attendance_time_period
     @stores = current_user.stores
     @attendance_data_all = []
+    @start_date = get_start_date
+    @end_date = get_end_date
+    if @end_date < @start_date
+      flash[:error] = "End Date has to be later than Start Date"
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+    end
+    if @end_date.midnight > Time.zone.now.midnight
+      flash[:error] = "End Date cannot be later than today"
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+    end
     @stores.each do |store|
-      store.employees.each do |employee|
+      store.employees.each do |employee|        
         attendance_data = Hash.new
-        attendance_data["present_count"] = 0
-        if params[:time_period_start].blank?
-          @start_date = Time.zone.now
-          @end_date = Time.zone.now
-          @date = Time.zone.now.strftime("%d-%m-%Y")
-        else
-          @start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
-          @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
-          @date = params[:date]
-        end
-        if @end_date < @start_date
-          flash[:error] = "End Date has to be later than Start Date"
-          return
-        elsif @end_date.midnight > Time.zone.now.midnight
-          flash[:error] = "End Date cannot be later than today"
-          return
-        end
-        photos = employee.photos.where(created_at: (@start_date.midnight..@end_date.midnight + 1.day))
-        present_on = {}
-        photos.each do |photo|
-          if (photo.description == 'in' or photo.description == 'out') and !(photo.status == "verification_rejected")       
-            present_on[photo.created_at.strftime("%d-%m-%Y")] = true            
-          end
-        end
-        attendance_data["present_count"] = present_on.count
-        @working_days = (@end_date-@start_date).to_i + 1
-        attendance_data["leave_count"] = 0
-        (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-          if employee.is_on_leave_on?(date)
-            attendance_data["leave_count"] +=1
-          end
-        end
-        attendance_data["absent_count"] = @working_days - attendance_data["present_count"] - attendance_data["leave_count"]
         attendance_data["employee"] = employee
+        attendance_data["present_count"] = 0
+        attendance_data["absent_count"] = 0
+        attendance_data["leave_count"] = 0
+        attendance_data_for = Hash.new
+        (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
+          attendance_data_for[date.strftime("%d-%m-%Y")] = Hash.new
+          attendance_data_for[date.strftime("%d-%m-%Y")] = employee.attendance_data_for(date)
+          attendance_status = attendance_data_for[date.strftime("%d-%m-%Y")]["status"]
+          case attendance_status
+          when "present"
+            attendance_data["present_count"] += 1
+          when "absent"
+            attendance_data["absent_count"] += 1
+          when "on_leave"
+            attendance_data["leave_count"] += 1
+          end
+        end       
         @attendance_data_all << attendance_data
       end
     end
@@ -117,10 +109,50 @@ class DashboardController < ApplicationController
     end
   end
 
+  def employee_attendance_record
+
+    if params[:employee_id].blank?
+      @employee = current_user.employees.first
+    else
+      @employee = User.find(params[:employee_id])
+    end
+
+    if !current_user.stores.include? @employee.store
+      flash[:error] = 'You are not allowed there'
+      redirect_to current_user.home_path
+    end     
+    @start_date = get_start_date
+    @end_date = get_end_date
+
+    if @end_date < @start_date
+      flash[:error] = "End Date has to be later than Start Date"
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+    end
+    if @end_date.midnight > Time.zone.now.midnight
+      flash[:error] = "End Date cannot be later than today"
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+    end
+
+    @attendance_data_for = Hash.new
+    (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
+      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
+    end    
+    @employees = current_user.employees
+    @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
+    @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
+    respond_to do |format|
+      format.html
+      format.xls
+    end
+  end
+
   def choose_employee_name
     @store = current_user.store
     @employees = @store.employees
   end
+
   def choose_attendance_description
     employee_id = params[:employee]
     @employee = User.find(employee_id)
@@ -139,39 +171,30 @@ class DashboardController < ApplicationController
       @out_attendance_time = out_photo.last.created_at
     end
   end
-  def employee_attendance_record
-    if params[:employee_id].blank?
-      @employee = current_user.employees.first
-    else
-      @employee = User.find(params[:employee_id])
-    end
-    if !current_user.stores.include? @employee.store
-      flash[:error] = 'You are not allowed there'
-      redirect_to current_user.home_path
-    end     
-    if params[:time_period_start].blank?
-      @start_date = Time.zone.now
-      @end_date = Time.zone.now
-      date = Time.zone.now.strftime("%d-%m-%Y")
-    else
-      @start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
-      @end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
-      date = params[:date]
-    end
-    @attendance_data_for = Hash.new
-    (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
-    end    
-    @employees = current_user.employees
-    @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
-    @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
-    respond_to do |format|
-      format.html
-      format.xls
-    end
-  end
-
 
   private
-
+  def get_start_date
+    if params[:time_period_start].blank?
+      start_date = Time.zone.now
+    else
+      start_date = DateTime.strptime(params[:time_period_start]+' +05:30', '%d-%m-%Y %z')
+    end
+    return start_date
+  end
+  def get_end_date
+    if params[:time_period_end].blank?
+      end_date = Time.zone.now
+    else
+      end_date = DateTime.strptime(params[:time_period_end]+' +05:30', '%d-%m-%Y %z')
+    end
+    return end_date
+  end
+  def get_date
+    if params[:date].blank?      
+      date = Time.zone.now
+    else      
+      date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
+    end
+    return date
+  end
 end
