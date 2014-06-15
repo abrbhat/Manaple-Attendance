@@ -18,7 +18,9 @@
     <tr>
       <th>Date </th>
       <th>In Time</th>
+      <th>In Photo</th>
       <th>Out Time</th>
+      <th>Out Photo</th>
       <th>Status</th>
     </tr>
   </thead>
@@ -27,20 +29,36 @@
       <tr>
         <td> <%= date.strftime("%d-%m-%Y") %></td>
         <% attendance_data_for_date = @attendance_data_for[date.strftime("%d-%m-%Y")] %>
-          <td>           
-              <%= print_hyphen_if_empty(attendance_data_for_date['in_time']) %>
-              <% if attendance_data_for_date['in_time'].present? %>    
-              <div class="<%= is_attendance_verified(attendance_data_for_date['in_status']) %>" >
-                <%= attendance_data_for_date['in_status'].tr('_', ' ').capitalize if attendance_data_for_date['in_status'] %>
+          <td><%= print_hyphen_if_empty(attendance_data_for_date['in_time']) %></td>
+          <td>
+            <% if attendance_data_for_date['in_photo'].present? %> 
+              <div class = "centering-table">
+                <div class = "centering-table-cell">
+                  <%= image_tag attendance_data_for_date['in_photo'].image.url(:thumb) %> 
+                  </br>
+                  <div class="<%= is_attendance_verified(attendance_data_for_date['in_status']) %>" >
+                    <%= attendance_data_for_date['in_status'].tr('_', ' ').capitalize if attendance_data_for_date['in_status'] %>
+                  </div>
+                </div>
               </div>
-              <% end %>
+            <% else %>
+              -
+            <% end %>
           </td>
-          <td>                          
-              <%= print_hyphen_if_empty(attendance_data_for_date['out_time']) %>
-              <% if attendance_data_for_date['out_time'].present? %> 
-              <div class="<%= is_attendance_verified(attendance_data_for_date['out_status']) %>" >
-                <%= attendance_data_for_date['out_status'].tr('_', ' ').capitalize if attendance_data_for_date['out_status'] %>
+          <td><%= print_hyphen_if_empty(attendance_data_for_date['out_time']) %></td>
+          <td>
+            <% if attendance_data_for_date['out_photo'].present? %> 
+              <div class = "centering-table">
+                <div class = "centering-table-cell">
+                  <%= image_tag attendance_data_for_date['out_photo'].image.url(:thumb) %> 
+                  </br>
+                  <div class="<%= is_attendance_verified(attendance_data_for_date['out_status']) %>" >
+                    <%= attendance_data_for_date['out_status'].tr('_', ' ').capitalize if attendance_data_for_date['out_status'] %>
+                  </div>
+                </div>
               </div>
+            <% else %>
+              -
             <% end %>
           </td>
           <td> 

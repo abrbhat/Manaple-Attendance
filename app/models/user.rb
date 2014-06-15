@@ -134,23 +134,27 @@ class User < ActiveRecord::Base
     attendance_data["status"] = "absent"
     attendance_data["in_time"] = nil
     attendance_data["in_status"] = nil
+    attendance_data["in_photo"] = nil
     attendance_data["out_time"] = nil
     attendance_data["out_status"] = nil
+    attendance_data["out_photo"] = nil
     
     photos_for_date = self.photos_for(date)
     in_photos = photos_for_date.select {|photo| photo.description=="in"}
     out_photos = photos_for_date.select {|photo| photo.description=="out"}
     if in_photos.present?
-      attendance_data["in_time"] = in_photos.last.created_at.strftime("%I:%M%p")
-      attendance_data["in_status"] = in_photos.last.status
-      if in_photos.last.status != 'verification_rejected'
+      attendance_data["in_photo"] = in_photos.last
+      attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
+      attendance_data["in_status"] = attendance_data["in_photo"].status
+      if attendance_data["in_photo"].status != 'verification_rejected'
         attendance_data["status"] = "present"
       end
     end
     if out_photos.present?
-      attendance_data["out_time"] = out_photos.last.created_at.strftime("%I:%M%p")
-      attendance_data["out_status"] = out_photos.last.status
-      if out_photos.last.status != 'verification_rejected'
+      attendance_data["out_photo"] = out_photos.last
+      attendance_data["out_time"] = attendance_data["out_photo"].created_at.strftime("%I:%M%p")
+      attendance_data["out_status"] = attendance_data["out_photo"].status
+      if attendance_data["out_photo"].status != 'verification_rejected'
         attendance_data["status"] = "present"
       end
     end
