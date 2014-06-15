@@ -395,7 +395,7 @@ label{
   border-color:#EEA236;
 }
 #spinner{
-    width:100%;
+  width:100%;
   margin:0 auto;
   text-align:center;
   clear:both;
@@ -403,3 +403,19 @@ label{
   height:auto;
   padding:15px;
 }
+/*flash*/
+.alert-error {
+  @extend .alert;
+  @extend .alert-danger;
+ }
+
+.alert-alert {
+  @extend .alert;
+  @extend .alert-warning;
+ }
+
+
+.alert-notice {
+  @extend .alert;
+  @extend .alert-info;
+ }
