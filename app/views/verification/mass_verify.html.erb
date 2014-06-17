@@ -17,6 +17,7 @@
   </thead>
   <tbody>
     <% @photos.each do |photo| %>
+      <% if photo.user.present? %>
       <tr>
         <td> <%= photo.user.store.name %></td>
         <td> <%= photo.user.name %></td>
@@ -28,8 +29,9 @@
         <td> 
         	<input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
    			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
-		</td>
+		    </td>
       </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
