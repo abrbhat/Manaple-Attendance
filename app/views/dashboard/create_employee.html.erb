@@ -5,10 +5,16 @@
 	    <label for="employee-name" class="form-label col-sm-5">Name</label>
 	    <div class="col-sm-7">
 	    	<input type="text" class="form-element" id="employee-name" placeholder="Enter employee name" name="employee_name">
-		</div>  
-	</div>
-	<div class ="form-element-group">
-        <label class="control-label col-sm-5">Store Name:</label>
+		  </div>  
+	  </div>
+    <div class="form-element-group">
+      <label for="employee-code" class="form-label col-sm-5">Employee Code</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-element" id="employee-code" placeholder="Enter employee code" name="employee_code">
+      </div>  
+    </div>
+	  <div class ="form-element-group">
+      <label class="control-label col-sm-5">Store Name</label>
         <div class = "col-sm-7">
           <select name="store_name" class="form-element">    
             <% @stores.each do |store| %>
@@ -16,7 +22,7 @@
             <% end %> 
           </select>
         </div>
-      </div>
+    </div>
   <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
   <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
 <% end %>

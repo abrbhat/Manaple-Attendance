@@ -29,6 +29,7 @@ class DashboardController < ApplicationController
 
   def create_new_employee
     name = params[:employee_name]
+    employee_code = params[:employee_code]
     store_name = params[:store_name]
     store = Store.where(name: store_name).first
     email = name.delete(' ').downcase
@@ -38,7 +39,7 @@ class DashboardController < ApplicationController
       email << (0...4).map { ('a'..'z').to_a[rand(26)] }.join
       email << "@manaple.com"
     end
-    user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20])
+    user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20], employee_code: employee_code)
     Authorization.create(user_id: user.id, store_id: store.id, permission: "staff" )
     redirect_to(:controller => 'dashboard', :action => 'employees')
   end
