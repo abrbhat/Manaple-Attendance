@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  devise_for :users#, :controllers => {:registrations => "users/registrations"}
+  devise_for :users, controllers: {sessions: "sessions"}
   resources :photos, :only => [:new, :create] do
     post 'upload', :on => :collection
   end

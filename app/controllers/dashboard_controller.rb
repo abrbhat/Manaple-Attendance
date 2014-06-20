@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  before_filter :authenticate_user_from_token!
   before_filter :authenticate_user!
   def notification_settings
     incharge = current_user
@@ -61,6 +62,7 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.html
       format.xls
+      format.json { render :json => {"got json"=>"true"} }
     end
   end
 

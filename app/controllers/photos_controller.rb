@@ -1,5 +1,6 @@
 require "base64"
 class PhotosController < ApplicationController
+  before_filter :authenticate_user_from_token!
   before_filter :authenticate_user!
 
   def create
