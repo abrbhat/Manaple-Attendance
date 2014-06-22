@@ -17,6 +17,7 @@ class ApiController < ApplicationController
         photo.image = File.new(upload_path(store))   
         photo.status = "verification_pending" 
         photo.ip = request.remote_ip
+        photo.created_at = Time.zone.now - data['count'].to_i.seconds
         if photo.save
           # AdminMailer.notification().deliver
           if photo.is_first_of_day
@@ -32,6 +33,7 @@ class ApiController < ApplicationController
           original_photo.status = "verified"
           original_photo.description = "original"
           original_photo.ip = request.remote_ip
+          original_photo.created_at = Time.zone.now - data['count'].to_i.seconds
           original_photo.save
         end       
       end
@@ -42,7 +44,6 @@ class ApiController < ApplicationController
   	end
 
   	def get_employee_data
-  		logger.debug ("here i am ")
   		store = current_user.store
   		employee_data = {}
   		logger.debug ("#{store.inspect}")

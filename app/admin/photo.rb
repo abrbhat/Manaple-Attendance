@@ -7,6 +7,7 @@ ActiveAdmin.register Photo do
   index do
     column :description
     column :user
+    column :created_at
     column :image_updated_at
     column :status
     column :ip
