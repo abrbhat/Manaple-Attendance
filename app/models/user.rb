@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
     accessible_in["leaves"] = []
     accessible_in["pages"] = []
     accessible_in["photos"] = []
+    accessible_in["api"] = []
     if is_store_incharge?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"
@@ -93,6 +94,9 @@ class User < ActiveRecord::Base
       accessible_in["photos"] << "new"
       accessible_in["photos"] << "upload"
       accessible_in["photos"] << "create"
+
+      accessible_in["api"] << "upload_attendance_data"
+      accessible_in["api"] << "get_employee_data"
     else
       accessible_in["dashboard"] = []
     end

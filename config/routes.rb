@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   post 'photos/new'
   post 'verification/do_mass_verification'
 
+  post 'api/upload_attendance_data'
+  get 'api/get_employee_data'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users, controllers: {sessions: "sessions"}
