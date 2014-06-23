@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   Time.zone = 'Kolkata'
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
-      if current_user.is_store_incharge? or current_user.is_store_common_user?
+      if current_user.is_store_incharge? or current_user.is_store_common_user? or current_user.is_store_observer?
         current_user.home_path
       elsif !admin_user_signed_in?
         sign_out :user
