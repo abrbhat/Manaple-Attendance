@@ -10,7 +10,8 @@
 		<input type="text" class="inline-form-element" value="<%= @end_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="time_period_end" >
 
 	</div>
-	<%= submit_tag "Go", :class => "proceed-button" %>
+	<%= submit_tag "Go", :class => "proceed-button"%>
+  <%= link_to "Download XLS", dashboard_attendance_time_period_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y")) , class:'medium-button right-side' %>
   <% end %>
 </div>
 <table class="list-table">
@@ -39,4 +40,4 @@
 <div id="pagination_navigation">
   <%= paginate @attendance_data_paginated %>
 </div>
-<%= link_to "Download XLS", dashboard_attendance_time_period_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y")) , class:'medium-button' %>
+
