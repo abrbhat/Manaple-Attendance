@@ -158,7 +158,6 @@ class DashboardController < ApplicationController
   end
 
   def employee_attendance_record
-
     if params[:employee_id].blank?
       @employee = current_user.employees.first
     else

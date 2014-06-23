@@ -77,7 +77,9 @@ class User < ActiveRecord::Base
     when 'modify_store_data'  
       allowed = true if is_store_incharge?
     when 'modify_profile_settings'
-      allowed = true if is_store_incharge? or is_store_observer?      
+      allowed = true if is_store_incharge? or is_store_observer?   
+    when 'access_employee_list'
+      allowed = true if is_store_incharge? or is_store_observer?     
     end
     return allowed
   end
@@ -140,7 +142,7 @@ class User < ActiveRecord::Base
     end
   end
   def employees
-    if is_store_incharge?
+    if can 'access_employee_list'
       employees =[]
       stores.each do |store|
         employees << store.employees
