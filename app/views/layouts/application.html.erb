@@ -34,7 +34,8 @@
 					        <ul class="dropdown-options">
 					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>
 					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
-					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List", dashboard_employees_path %></li>
+					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List All", dashboard_employees_path %></li>
+					          <li class="<%= is_active?("dashboard#create_employee")  %>" ><%= link_to "Create New", dashboard_create_employee_path %></li>
 					        </ul>	
 					    </li>
 						<li class="dropdown">
