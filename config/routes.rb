@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   get 'pages/main'
   get 'pages/send_notification_mail'
+  post 'pages/send_specific_day_notification_mail'
+  get 'pages/send_mail'
 
   get 'dashboard/index'
   get 'dashboard/notification_settings'

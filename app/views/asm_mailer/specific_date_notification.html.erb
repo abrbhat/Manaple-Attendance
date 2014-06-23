@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+  <title>Daily Notification</title>
+</head>
+<body>
+<% if @incharge.name.present? %>
+Dear <%= @incharge.name%>,
+<% else %>
+Dear Sir,
+<% end %>
+<br><br>
+Here is a list of attendance data at your stores.
+<br><br>
+<% @stores.each do |store| %>
+<b><%= store.name %>:</b>
+<br>
+<table width="300px">
+  <tr>
+    <th>Employee Name</td>
+    <th>In Time</td>
+    <th>Out Time</td>
+  </tr>
+  <% store.employees.each do |employee| %>
+    <% photos = employee.photos.where(created_at: @date.to_date.midnight..@date.to_date.midnight + 1.day) %>
+    <% in_photos = photos.select {|photo| photo.description=="in"} %>
+    <% if in_photos.present? %>
+      <% in_time = in_photos.last.created_at.strftime("%I:%M%p") %>
+    <% end %>
+    <% out_photos = photos.select {|photo| photo.description=="out"} %>
+    <% if out_photos.present? %>
+      <% out_time = out_photos.last.created_at.strftime("%I:%M%p") %>
+    <% end %>
+    <tr>
+      <td><%= employee.name %></td>
+      <td><%= in_time.blank? ? "-" : in_time %></td>
+      <td><%= out_time.blank? ? "-" : out_time %></td>
+    </tr>
+  <% end %>
+</table>
+<br><br>
+<% end %>
+
+Regards,<br>
+Team Manaple
+</body>

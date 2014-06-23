@@ -45,4 +45,12 @@ class AsmMailer < ActionMailer::Base
       mail to: emails, subject: @employee.name+" has applied for Leave"
     end
   end
+
+  def specific_date_notification(incharge, date)
+    @incharge = incharge
+    @date = date
+    @stores = incharge.stores
+    @store = incharge.store
+    mail to: @incharge.email, subject: "Attendance at your Stores"
+  end
 end
