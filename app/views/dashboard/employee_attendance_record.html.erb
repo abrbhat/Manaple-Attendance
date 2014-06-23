@@ -11,6 +11,7 @@
     <input type="hidden"  value="<%= @employee.id %>" name="employee_id" >
 	</div>
 	<%= submit_tag "Go", :class => "proceed-button" %>
+  <%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), employee_id: @employee.id) , class:'medium-button right-side' %>
   <% end %>
 </div>
 <table class="list-table">

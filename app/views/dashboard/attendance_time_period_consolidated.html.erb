@@ -1,17 +1,17 @@
 <div class="panel-header">
-  <div class="left-side"><h3>Attendance:</h3></br></div>
+  <div class="left-side"><h3>Attendance Time-Period (Consolidated):</h3></br></div>
 </div>
 <div class="attendance-navigator-container">
-	<%= render "attendance_data_navigator" %>
-	<%= form_tag({controller:"dashboard",action:"attendance_time_period"}, method: "get") do %>
+	<%= form_tag({controller:"dashboard",action:"attendance_time_period_consolidated"}, method: "get") do %>
   <div class="time-period-chooser-container">
+    <div class= "inline-form-element more-side-margins">Time Period: From </div>
 		<input type="text" class="inline-form-element" value="<%= @start_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="time_period_start" >
 		<div class= "inline-form-element more-side-margins">to</div>
 		<input type="text" class="inline-form-element" value="<%= @end_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="time_period_end" >
 
 	</div>
 	<%= submit_tag "Go", :class => "proceed-button"%>
-  <%= link_to "Download XLS", dashboard_attendance_time_period_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y")) , class:'medium-button right-side' %>
+  <%= link_to "Download XLS", dashboard_attendance_time_period_consolidated_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y")) , class:'medium-button right-side' %>
   <% end %>
 </div>
 <table class="list-table">

@@ -54,10 +54,13 @@ class DashboardController < ApplicationController
       @date = Time.zone.now
     end
     @stores.each do |store|
-      store.employees.each do |employee|        
-        @attendance_data_all << employee.attendance_data_for(@date)
+      store.employees.each do |employee|  
+        attendance_data = employee.attendance_data_for(@date)
+        attendance_data['store'] = store 
+        @attendance_data_all << attendance_data
       end
     end    
+    @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
     respond_to do |format|
       format.html
@@ -66,7 +69,7 @@ class DashboardController < ApplicationController
     end
   end
 
-  def attendance_time_period
+  def attendance_time_period_consolidated
     @stores = current_user.stores
     @attendance_data_all = []
     @start_date = get_start_date
@@ -85,6 +88,7 @@ class DashboardController < ApplicationController
       store.employees.each do |employee|        
         attendance_data = Hash.new
         attendance_data["employee"] = employee
+        attendance_data["store"] = store
         attendance_data["present_count"] = 0
         attendance_data["absent_count"] = 0
         attendance_data["leave_count"] = 0
@@ -105,7 +109,48 @@ class DashboardController < ApplicationController
         @attendance_data_all << attendance_data
       end
     end
+    @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
+    respond_to do |format|
+      format.html
+      format.xls
+    end
+  end
+
+  def attendance_time_period_detailed
+    @stores = current_user.stores
+    @attendance_data_all = []
+    @start_date = get_start_date
+    @end_date = get_end_date
+    if @end_date < @start_date
+      flash[:error] = "End Date has to be later than Start Date"
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+    end
+    if @end_date.midnight > Time.zone.now.midnight
+      flash[:error] = "End Date cannot be later than today"
+      @start_date = Time.zone.now
+      @end_date = Time.zone.now
+    end
+    @stores.each do |store|
+      store.employees.each do |employee|   
+        attendance_data_for = Hash.new
+        (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
+          attendance_data_for[date.strftime("%d-%m-%Y")] = Hash.new
+          attendance_data_for[date.strftime("%d-%m-%Y")] = employee.attendance_data_for(date)
+          attendance_data_for[date.strftime("%d-%m-%Y")]["store"] = store                   
+          @attendance_data_all << attendance_data_for[date.strftime("%d-%m-%Y")]
+        end  
+      end   
+    end
+    @attendance_data_all.sort_by!{|attendance_data| [attendance_data['date'],attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
+    @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
+    @group_by = params[:group_by]
+    if @group_by == 'date'
+      @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['date']}
+    else
+      @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name }
+    end
     respond_to do |format|
       format.html
       format.xls

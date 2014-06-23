@@ -75,7 +75,8 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] <<  "notification_settings_update"
       accessible_in["dashboard"] <<  "employees"
       accessible_in["dashboard"] <<  "attendance_specific_day"
-      accessible_in["dashboard"] <<  "attendance_time_period"
+      accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
+      accessible_in["dashboard"] <<  "attendance_time_period_detailed"
       accessible_in["dashboard"] <<  "employee_attendance_record"
       accessible_in["dashboard"] <<  "create_employee"
       accessible_in["dashboard"] <<  "create_new_employee"
@@ -135,6 +136,7 @@ class User < ActiveRecord::Base
 
   def attendance_data_for(date)
     attendance_data = Hash.new    
+    attendance_data["date"] = date.strftime("%d-%m-%Y")
     attendance_data["employee"] = self
     attendance_data["status"] = "absent"
     attendance_data["in_time"] = nil

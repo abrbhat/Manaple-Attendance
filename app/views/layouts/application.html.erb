@@ -28,12 +28,19 @@
 					<ul class="right-aligned-navigation-links">
 						
 					<% if current_user.is_store_incharge? %>
-						<li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Home", dashboard_attendance_specific_day_path %></li>
+						<li class="dropdown">
+					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Attendance Data<b class="caret"></b></a>
+					        <ul class="dropdown-options">
+					          <li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Specific Day", dashboard_attendance_specific_day_path %></li>
+					          <li class="<%= is_active?("dashboard#attendance_time_period_consolidated")  %>"><%= link_to "Time-Period (Consolidated)", dashboard_attendance_time_period_consolidated_path %></li>
+					          <li class="<%= is_active?("dashboard#attendance_time_period_detailed")  %>" ><%= link_to "Time-Period (Detailed)", dashboard_attendance_time_period_detailed_path %></li>
+					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Individual Employee", dashboard_employee_attendance_record_path %></li>
+					        </ul>	
+					    </li>
 						<li class="dropdown">
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
 					        <ul class="dropdown-options">
-					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>
-					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Attendance Record", dashboard_employee_attendance_record_path %></li>
+					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>					          
 					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List All", dashboard_employees_path %></li>
 					          <li class="<%= is_active?("dashboard#create_employee")  %>" ><%= link_to "Create New", dashboard_create_employee_path %></li>
 					        </ul>	
