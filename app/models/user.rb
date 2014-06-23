@@ -18,6 +18,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.mail_stores_specific_day_attendance(date)
+    users = User.all
+    users.each do |user|
+      if user.is_store_asm? || user.is_store_owner?
+        AsmMailer.specific_date_notification(user, date).deliver
+      end
+    end
+  end
+
   def is_store_staff?
     if authorizations.present?
       return authorizations.first.permission == 'staff'
