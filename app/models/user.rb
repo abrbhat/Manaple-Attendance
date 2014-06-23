@@ -49,6 +49,11 @@ class User < ActiveRecord::Base
       return authorizations.first.permission == 'common_user'
     end
   end
+  def is_store_observer?
+    if authorizations.present?
+      return authorizations.first.permission == 'observer'
+    end
+  end
   def stores
   	stores = []
   	authorizations.each do |authorization|
@@ -63,6 +68,20 @@ class User < ActiveRecord::Base
     end
     return stores.first
   end
+
+  def can(permission)
+    allowed = false
+    case permission
+    when 'view_attendance_data'
+      allowed = true if is_store_incharge? or is_store_observer?
+    when 'modify_store_data'  
+      allowed = true if is_store_incharge?
+    when 'modify_profile_settings'
+      allowed = true if is_store_incharge? or is_store_observer?      
+    end
+    return allowed
+  end
+
   def accessible_in
     accessible_in = {}
     accessible_in["dashboard"] = []
@@ -98,13 +117,21 @@ class User < ActiveRecord::Base
 
       accessible_in["api"] << "upload_attendance_data"
       accessible_in["api"] << "get_employee_data"
+    elsif is_store_observer?
+      accessible_in["dashboard"] <<  "notification_settings"
+      accessible_in["dashboard"] <<  "notification_settings_update"
+      accessible_in["dashboard"] <<  "employees"
+      accessible_in["dashboard"] <<  "attendance_specific_day"
+      accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
+      accessible_in["dashboard"] <<  "attendance_time_period_detailed"
+      accessible_in["dashboard"] <<  "employee_attendance_record"
     else
       accessible_in["dashboard"] = []
     end
     return accessible_in
   end
   def home_path
-    if is_store_incharge?
+    if is_store_incharge? or is_store_observer?
       dashboard_attendance_specific_day_path
     elsif is_store_common_user?
       dashboard_choose_employee_name_path   
