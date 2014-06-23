@@ -49,11 +49,15 @@ class DashboardController < ApplicationController
     @stores = current_user.stores
     @attendance_data_all = []
     @date = get_date
+    @mid_day_enabled = false
+    @mid_day_in_out_enabled = false
     if @date.midnight > Time.zone.now.midnight
       flash[:error] = "Date cannot be later than today"
       @date = Time.zone.now
     end
     @stores.each do |store|
+      @mid_day_enabled = true if store.mid_day_enabled
+      @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
       store.employees.each do |employee|  
         attendance_data = employee.attendance_data_for(@date)
         attendance_data['store'] = store 
@@ -67,6 +71,7 @@ class DashboardController < ApplicationController
       format.xls
       format.json { render :json => {"got json"=>"true"} }
     end
+
   end
 
   def attendance_time_period_consolidated
@@ -203,7 +208,7 @@ class DashboardController < ApplicationController
   def choose_attendance_description
     employee_id = params[:employee]
     @employee = User.find(employee_id)
-    @store = @employee.store
+    @store = current_user.store
     today_photos = @employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day)
     in_photo = today_photos.select { |photo| photo.description == 'in' }
     out_photo = today_photos.select { |photo| photo.description == 'out' }    

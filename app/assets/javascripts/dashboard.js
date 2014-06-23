@@ -49,4 +49,7 @@ $(document).ready(function(){
 	        checkboxes.removeAttr('checked');
 	    }
 	});
+	$(function () { 
+    	$("[data-toggle='popover']").popover(); 
+	});
 });

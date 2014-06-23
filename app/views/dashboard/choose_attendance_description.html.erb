@@ -1,4 +1,5 @@
 <h1 class="center-text"><%= @employee.name %>, select one:</h1>
+<% if @store.in_out_enabled %>
 <div class="row">
 	<div class="col-md-6">
 		<div class="centering-table">
@@ -31,3 +32,41 @@
 		</div>
 	</div>
 </div>
+<% end %>
+<% if @store.mid_day_in_out_enabled %>
+<div class="row">
+	<div class="col-md-6">
+		<div class="centering-table">
+			<div class="centering-table-cell">
+				<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
+					<input type="hidden" value="<%= @employee.id %>" name="employee" >	
+					<input type="hidden" value="mid_day_in" name="description" >						
+					<%= submit_tag "Mid-day In", :class => "big-button" %>					
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="centering-table">
+			<div class="centering-table-cell">
+				<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
+					<input type="hidden" value="<%= @employee.id %>" name="employee" >	
+					<input type="hidden" value="mid_day_out" name="description" >		
+					<%= submit_tag "Mid-day Out", :class => "big-button" %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<% end %>
+<% if @store.mid_day_enabled %>
+		<div class="centering-table">
+			<div class="centering-table-cell">
+				<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
+					<input type="hidden" value="<%= @employee.id %>" name="employee" >	
+					<input type="hidden" value="mid_day_present" name="description" >		
+					<%= submit_tag "Mid-day", :class => "big-button" %>
+				<% end %>
+			</div>
+		</div>	
+<% end %>

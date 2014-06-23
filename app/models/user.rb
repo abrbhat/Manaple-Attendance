@@ -183,10 +183,18 @@ class User < ActiveRecord::Base
     attendance_data["out_time"] = nil
     attendance_data["out_status"] = nil
     attendance_data["out_photo"] = nil
+    attendance_data["mid_day_present_data"] = []
+    attendance_data["mid_day_in_data"] = []
+    attendance_data["mid_day_out_data"] = []
+
+    attendance_data["mid_day_tabulated_data"] = "No Data" # Common for both mid day present and mid day in out
     
     photos_for_date = self.photos_for(date)
     in_photos = photos_for_date.select {|photo| photo.description=="in"}
     out_photos = photos_for_date.select {|photo| photo.description=="out"}
+    mid_day_present_photos = photos_for_date.select {|photo| photo.description=="mid_day_present"}
+    mid_day_in_photos = photos_for_date.select {|photo| photo.description=="mid_day_in"}
+    mid_day_out_photos = photos_for_date.select {|photo| photo.description=="mid_day_out"}
     if in_photos.present?
       attendance_data["in_photo"] = in_photos.last
       attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
@@ -202,6 +210,44 @@ class User < ActiveRecord::Base
       if attendance_data["out_photo"].status != 'verification_rejected'
         attendance_data["status"] = "present"
       end
+    end
+    if mid_day_present_photos.present?
+      attendance_data["mid_day_tabulated_data"] = ""      
+      mid_day_present_photos.each do |photo|
+        mid_day_present_attendance_data = {}
+        mid_day_present_attendance_data["time"] = photo.created_at.strftime("%I:%M%p")
+        mid_day_present_attendance_data["status"] = photo.status
+        data_string = mid_day_present_attendance_data["time"] 
+        data_string += " : "
+        data_string += mid_day_present_attendance_data["status"].tr('_', ' ').capitalize
+        data_string += "<br/>"
+        attendance_data["mid_day_tabulated_data"] << data_string
+        attendance_data["mid_day_present_data"] << mid_day_present_attendance_data        
+      end
+    end
+    if mid_day_in_photos.present? or mid_day_out_photos.present?
+      attendance_data["mid_day_tabulated_data"] = ""
+      in_data_string = "In :&nbsp;&nbsp;&nbsp;"
+      out_data_string = "Out: "
+      mid_day_in_photos.each do |photo|
+        mid_day_in_attendance_data = {}
+        mid_day_in_attendance_data["time"] = photo.created_at.strftime("%I:%M%p")
+        mid_day_in_attendance_data["status"] = photo.status
+        unless photo.is_rejected?          
+          in_data_string += mid_day_in_attendance_data["time"] + "&nbsp;&nbsp;&nbsp;"
+        end
+        attendance_data["mid_day_in_data"] << mid_day_in_attendance_data 
+      end
+      mid_day_out_photos.each do |photo|
+        mid_day_out_attendance_data = {}        
+        mid_day_out_attendance_data["time"] = photo.created_at.strftime("%I:%M%p")
+        mid_day_out_attendance_data["status"] = photo.status
+        unless photo.is_rejected?
+          out_data_string += mid_day_out_attendance_data["time"] + "&nbsp;&nbsp;&nbsp;"
+        end
+        attendance_data["mid_day_out_data"] << mid_day_out_attendance_data 
+      end
+      attendance_data["mid_day_tabulated_data"] << in_data_string + "<br>" + out_data_string             
     end
     if attendance_data["in_time"].blank? and attendance_data["out_time"].blank?
       if self.is_on_leave_on?(date.to_date)

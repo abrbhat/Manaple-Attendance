@@ -2,7 +2,7 @@ class Photo < ActiveRecord::Base
   belongs_to :user
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
-
+  
   def is_first_of_day
   	store = user.store
   	today_photos = []  	
@@ -24,5 +24,14 @@ class Photo < ActiveRecord::Base
   def original
     original_photo = user.photos.where("description = 'original'")
     return original_photo.first
+  end
+  def is_rejected?
+    status == "verification_rejected"
+  end
+  def is_verified?
+    status == "verified"
+  end
+  def is_pending_verification?
+    status == "verification_pending"
   end
 end

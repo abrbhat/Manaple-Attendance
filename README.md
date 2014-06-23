@@ -19,7 +19,14 @@ Common User					common_user
 Both Staff and Manager are considered as employees
 Both ASM and Owner are considered as store incharge
 
-Status						String to be entered
+  Photo Status				String to be entered
 Photo Verified				verified
 Verification Pending		verification_pending
 Photo Rejected				verification_rejected
+
+Attendance Status	:		String to be entered
+In : in
+Out : out
+Mid-Day In : mid_day_in
+Mid-Day Out: mid_day_out
+Mid-Day: mid_day_present
