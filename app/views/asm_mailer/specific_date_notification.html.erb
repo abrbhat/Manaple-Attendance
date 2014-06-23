@@ -9,7 +9,7 @@ Dear <%= @incharge.name%>,
 Dear Sir,
 <% end %>
 <br><br>
-Here is a list of attendance data at your stores.
+Here is a list of attendance data at your stores for <%= @date.to_date %>.
 <br><br>
 <% @stores.each do |store| %>
 <b><%= store.name %>:</b>
