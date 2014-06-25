@@ -20,7 +20,6 @@
       <li><%= link_to "Group By Employee", dashboard_attendance_time_period_detailed_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), group_by: "employee") %></li>
     </ul>
   </div>
-  <%#= link_to "Download XLS", dashboard_attendance_time_period_detailed_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y")) , class:'medium-button right-side' %>
   <% end %>
 </div>
 <table class="list-table">
@@ -28,7 +27,13 @@
     <tr>
       <th>Date</th>
       <th>Store </th>
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
       <th>Employee</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>
       <th>In Time</th>
       <th>In Photo</th>
       <th>Out Time</th>
@@ -41,7 +46,13 @@
       <tr>
         <td> <%= attendance_data['date'] %></td>
         <td> <%= attendance_data['store'].name %></td>
+        <% if @employee_code_enabled %>
+          <td> <%= attendance_data['employee'].code %></td>
+        <% end %>
         <td> <%= attendance_data['employee'].name %></td>
+        <% if @employee_designation_enabled %>
+          <td> <%= attendance_data['employee'].designation %></td>
+        <% end %>
         <td><%= print_hyphen_if_empty(attendance_data['in_time']) %></td>
           <td>
             <% if attendance_data['in_photo'].present? %> 

@@ -7,12 +7,22 @@
 	    	<input type="text" class="form-element" id="employee-name" placeholder="Enter employee name" name="employee_name">
 		  </div>  
 	  </div>
+    <% if @employee_code_enabled %>
     <div class="form-element-group">
       <label for="employee-code" class="form-label col-sm-5">Employee Code</label>
       <div class="col-sm-7">
         <input type="text" class="form-element" id="employee-code" placeholder="Enter employee code" name="employee_code">
       </div>  
     </div>
+    <% end %>
+    <% if @employee_designation_enabled %>
+    <div class="form-element-group">
+      <label for="employee-designation" class="form-label col-sm-5">Employee Designation</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-element" id="employee-designation" placeholder="Enter employee designation" name="employee_designation">
+      </div>  
+    </div>
+    <% end %>
 	  <div class ="form-element-group">
       <label class="control-label col-sm-5">Store Name</label>
         <div class = "col-sm-7">

@@ -298,10 +298,18 @@ class User < ActiveRecord::Base
   end
 
   def set_defaults
-    self.description ||= 'active'    
+    self.employee_status ||= 'active'    
   end
 
   def is_active?
-    return self.status == 'active'
+    return self.employee_status == 'active'
+  end
+
+  def code
+    return employee_code
+  end
+
+  def designation
+    return employee_designation
   end
 end

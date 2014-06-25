@@ -3,16 +3,26 @@
   <thead>
     <tr>
       <th>Store </th>
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
       <th>Employee Name</th>
-      <th>Employee Code</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>      
     </tr>
   </thead>
   <tbody>
     <% @employees.each do |employee| %>
       <tr>
         <td> <%= employee.store.name %></td>
+        <% if @employee_code_enabled %>
+          <td> <%= employee.code %></td>
+        <% end %>
         <td> <%= employee.name %></td>
-        <td> <%= employee.employee_code %></td>
+        <% if @employee_designation_enabled %>
+          <td> <%= employee.designation %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

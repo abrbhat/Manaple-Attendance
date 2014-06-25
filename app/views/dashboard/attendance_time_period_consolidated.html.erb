@@ -17,8 +17,14 @@
 <table class="list-table">
   <thead>
     <tr>
-      <th>Store </th>
+      <th>Store </th>      
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
       <th>Employee</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>
       <th>Present Count (days)</th>
       <th>Absent Count (days)</th> 
       <th>Leave Count (days)</th>      
@@ -28,7 +34,13 @@
     <% @attendance_data_paginated.each do |attendance_data| %>
       <tr>
         <td> <%= attendance_data['employee'].store.name %></td>
+        <% if @employee_code_enabled %>
+          <td> <%= attendance_data['employee'].code %> </td>
+        <% end %>
         <td> <%= attendance_data['employee'].name %></td>
+        <% if @employee_designation_enabled %>
+          <td> <%= attendance_data['employee'].designation %></td>
+        <% end %>
         <td> <%= print_hyphen_if_empty(attendance_data['present_count']) %></td>
         <td> <%= print_hyphen_if_empty(attendance_data['absent_count']) %></td>
         <td> <%= print_hyphen_if_empty(attendance_data['leave_count']) %></td>

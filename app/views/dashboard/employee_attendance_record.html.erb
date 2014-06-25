@@ -1,5 +1,14 @@
 <div class="panel-header">
-  <div class="left-side"><h3>Attendance Record for <%= @employee.name %>:</h3></br></div>
+  <div class="left-side">
+    <h3>Attendance Record for:</h3>
+    <h3><%= @employee.name%></h3>
+    <% if @employee_designation_enabled %>
+      <h4><%= print_hyphen_if_empty(@employee.designation)%></h4>
+    <% end %>
+    <% if @employee_code_enabled %>
+      <h4><%= print_hyphen_if_empty(@employee.code) %></h4>
+    <% end %>
+  </div>
 </div>
 <div class="attendance-navigator-container">
   <%= render "employee_chooser_dropdown" , employee_id: @employee.id %>

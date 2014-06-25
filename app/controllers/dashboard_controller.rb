@@ -19,6 +19,8 @@ class DashboardController < ApplicationController
 
   def employees
     @employees = []
+    @employee_code_enabled = current_user.stores.first.employee_code_enabled
+    @employee_designation_enabled = current_user.stores.first.employee_designation_enabled
     current_user.stores.each do |store|
       @employees = @employees + store.employees
     end
@@ -26,11 +28,14 @@ class DashboardController < ApplicationController
 
   def create_employee
     @stores = current_user.stores
+    @employee_code_enabled = @stores.first.employee_code_enabled
+    @employee_designation_enabled = @stores.first.employee_designation_enabled
   end
 
   def create_new_employee
     name = params[:employee_name]
     employee_code = params[:employee_code]
+    employee_designation = params[:employee_designation]
     store_name = params[:store_name]
     store = Store.where(name: store_name).first
     email = name.delete(' ').downcase
@@ -40,13 +45,15 @@ class DashboardController < ApplicationController
       email << (0...4).map { ('a'..'z').to_a[rand(26)] }.join
       email << "@manaple.com"
     end
-    user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20], employee_code: employee_code)
+    user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20], employee_code: employee_code, employee_designation: employee_designation)
     Authorization.create(user_id: user.id, store_id: store.id, permission: "staff" )
     redirect_to(:controller => 'dashboard', :action => 'employees')
   end
 
   def attendance_specific_day
     @stores = current_user.stores
+    @employee_code_enabled = @stores.first.employee_code_enabled
+    @employee_designation_enabled = @stores.first.employee_designation_enabled
     @attendance_data_all = []
     @date = get_date
     @mid_day_enabled = false
@@ -76,6 +83,8 @@ class DashboardController < ApplicationController
 
   def attendance_time_period_consolidated
     @stores = current_user.stores
+    @employee_code_enabled = @stores.first.employee_code_enabled
+    @employee_designation_enabled = @stores.first.employee_designation_enabled
     @attendance_data_all = []
     @start_date = get_start_date
     @end_date = get_end_date
@@ -124,6 +133,8 @@ class DashboardController < ApplicationController
 
   def attendance_time_period_detailed
     @stores = current_user.stores
+    @employee_code_enabled = @stores.first.employee_code_enabled
+    @employee_designation_enabled = @stores.first.employee_designation_enabled
     @attendance_data_all = []
     @start_date = get_start_date
     @end_date = get_end_date
@@ -192,6 +203,8 @@ class DashboardController < ApplicationController
       @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
     end    
     @employees = current_user.employees
+    @employee_code_enabled = @employee.store.employee_code_enabled
+    @employee_designation_enabled = @employee.store.employee_designation_enabled
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|
