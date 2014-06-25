@@ -161,15 +161,21 @@ class DashboardController < ApplicationController
     end
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['date'],attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
+    @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @group_by = params[:group_by]
     if @group_by == 'date'
       @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['date']}
     else
       @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name }
     end
+
     respond_to do |format|
       format.html
-      format.xls
+      format.xls {
+        if params[:attendance_register] == 'true'
+          render 'attendance_register.xls'
+        end
+      }
     end
   end
 

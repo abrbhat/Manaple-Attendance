@@ -32,6 +32,11 @@ module DashboardHelper
 		end
 	end
 
-	def get_end_date
+	def is_marked? attendance_time
+		if attendance_time.present?
+			return 'P'
+		else
+			return 'A'
+		end
 	end
 end

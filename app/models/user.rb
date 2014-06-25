@@ -198,17 +198,17 @@ class User < ActiveRecord::Base
     mid_day_out_photos = photos_for_date.select {|photo| photo.description=="mid_day_out"}
     if in_photos.present?
       attendance_data["in_photo"] = in_photos.last
-      attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
       attendance_data["in_status"] = attendance_data["in_photo"].status
-      if attendance_data["in_photo"].status != 'verification_rejected'
+      unless attendance_data["in_photo"].is_rejected?       
+        attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
       end
     end
     if out_photos.present?
       attendance_data["out_photo"] = out_photos.last
-      attendance_data["out_time"] = attendance_data["out_photo"].created_at.strftime("%I:%M%p")
       attendance_data["out_status"] = attendance_data["out_photo"].status
-      if attendance_data["out_photo"].status != 'verification_rejected'
+      unless attendance_data["out_photo"].is_rejected?
+        attendance_data["out_time"] = attendance_data["out_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
       end
     end
