@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :photos
   has_many :leaves
   before_save :ensure_authentication_token!
+  after_initialize :set_defaults
   include Rails.application.routes.url_helpers
 
   def self.mail_stores_attendance
@@ -294,5 +295,13 @@ class User < ActiveRecord::Base
 
   def reset_authentication_token!
     self.authentication_token = generate_authentication_token
+  end
+
+  def set_defaults
+    self.description ||= 'active'    
+  end
+
+  def is_active?
+    return self.status == 'active'
   end
 end
