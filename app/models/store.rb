@@ -1,5 +1,6 @@
 class Store < ActiveRecord::Base
   has_many :authorizations
+  after_initialize :set_defaults
   def employees
   	employees = []
   	authorizations.each do |authorization|
@@ -31,4 +32,11 @@ class Store < ActiveRecord::Base
     return incharges
   end
 
+  def set_defaults
+    self.in_out_enabled = true if self.in_out_enabled.nil?
+    self.mid_day_enabled = false if self.mid_day_enabled.nil?
+    self.mid_day_in_out_enabled = false if self.mid_day_in_out_enabled.nil?
+    self.employee_code_enabled = false if self.employee_code_enabled.nil?
+    self.employee_designation_enabled = false if self.employee_designation_enabled.nil?
+  end
 end

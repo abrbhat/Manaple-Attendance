@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140623154813) do
+ActiveRecord::Schema.define(version: 20140625180425) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -91,9 +91,11 @@ ActiveRecord::Schema.define(version: 20140623154813) do
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "in_out_enabled",         default: true
+    t.boolean  "in_out_enabled",               default: true
     t.boolean  "mid_day_in_out_enabled"
     t.boolean  "mid_day_enabled"
+    t.boolean  "employee_designation_enabled"
+    t.boolean  "employee_code_enabled"
   end
 
   create_table "users", force: true do |t|
@@ -112,6 +114,8 @@ ActiveRecord::Schema.define(version: 20140623154813) do
     t.string   "name"
     t.string   "employee_code"
     t.text     "authentication_token"
+    t.string   "employee_designation"
+    t.string   "employee_status"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
