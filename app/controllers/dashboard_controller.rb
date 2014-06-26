@@ -209,6 +209,7 @@ class DashboardController < ApplicationController
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
       @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
     end    
+    @stores = current_user.stores
     @employees = current_user.employees
     @employee_code_enabled = @employee.store.employee_code_enabled
     @employee_designation_enabled = @employee.store.employee_designation_enabled

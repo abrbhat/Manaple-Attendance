@@ -55,4 +55,5 @@ $(document).ready(function(){
 	$('.store-chooser-dropdown').multiselect({
 		includeSelectAllOption: true
 	});
+	$('.dropdown-toggle').dropdown();
 });
