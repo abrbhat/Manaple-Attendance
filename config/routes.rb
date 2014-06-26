@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get 'dashboard/attendance_marked'
   get 'dashboard/notification_settings_view'
   get 'dashboard/employee_attendance_record'
+  get 'dashboard/edit_employee'
+  post 'dashboard/update_employee'
 
   get 'verification/mass_verify'
 

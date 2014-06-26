@@ -1,14 +1,24 @@
 class Store < ActiveRecord::Base
   has_many :authorizations
   after_initialize :set_defaults
-  def employees
+  def employees #return only active enployees
   	employees = []
   	authorizations.each do |authorization|
   		if authorization.permission == 'staff' or authorization.permission == 'manager'
-  			employees << authorization.user
+  			employees << authorization.user if authorization.user.is_active?
   		end
   	end
   	return employees
+  end
+
+  def all_employees
+    employees = []
+    authorizations.each do |authorization|
+      if authorization.permission == 'staff' or authorization.permission == 'manager'
+        employees << authorization.user
+      end
+    end
+    return employees
   end
 
   def leaves

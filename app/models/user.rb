@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
     return stores.first
   end
 
-  def can(permission)
+  def can(permission,object_id = nil)
     allowed = false
     case permission
     when 'view_attendance_data'
@@ -90,6 +90,11 @@ class User < ActiveRecord::Base
       allowed = true if is_store_incharge? or is_store_observer?   
     when 'access_employee_list'
       allowed = true if is_store_incharge? or is_store_observer?     
+    when 'access_employee'
+      employee = User.find(object_id)
+      if employee.present?
+        allowed = true if stores.include?(employee.store)
+      end
     end
     return allowed
   end
@@ -111,6 +116,8 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] <<  "employee_attendance_record"
       accessible_in["dashboard"] <<  "create_employee"
       accessible_in["dashboard"] <<  "create_new_employee"
+      accessible_in["dashboard"] <<  "edit_employee"
+      accessible_in["dashboard"] <<  "update_employee"
       accessible_in["leaves"] << "index"
       accessible_in["leaves"] << "update"
     elsif is_store_common_user?
@@ -307,6 +314,10 @@ class User < ActiveRecord::Base
 
   def code
     return employee_code
+  end
+
+  def status
+    return employee_status
   end
 
   def designation

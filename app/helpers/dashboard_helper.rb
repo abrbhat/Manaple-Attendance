@@ -32,6 +32,13 @@ module DashboardHelper
 		end
 	end
 
+	def is_employee_active status
+		if status == "active"
+			"status-positive-indicator"		
+		else
+			"status-negative-indicator"
+		end
+	end
 	def is_marked? attendance_time
 		if attendance_time.present?
 			return 'P'

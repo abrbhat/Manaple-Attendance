@@ -9,7 +9,9 @@
       <th>Employee Name</th>
       <% if @employee_designation_enabled %>
         <th>Employee Designation</th>
-      <% end %>      
+      <% end %>   
+      <th>Status</th>
+      <th></th>   
     </tr>
   </thead>
   <tbody>
@@ -23,6 +25,10 @@
         <% if @employee_designation_enabled %>
           <td> <%= employee.designation %></td>
         <% end %>
+        <td><div class="<%= is_employee_active(employee.status)%>" ><%= employee.status.capitalize %> </div></td>
+          <td>
+            <%= link_to "Edit", dashboard_edit_employee_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
+          </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,0 +1,48 @@
+<h2>Enter Employee Name</h2>
+<div class = "form-container left-side">
+<%= form_tag({controller:"dashboard",action:"update_employee"}, method: "post",class:"form-horizontal") do %>
+    <input type="hidden" name ="employee[id]" value="<%= @employee.id %>" >
+    <div class="form-element-group">
+      <label for="employee-designation" class="form-label col-sm-5">Store:</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-element" id="employee-designation" value="<%= @employee.store.name %>" disabled>
+      </div>  
+    </div>
+    <div class="form-element-group">
+	    <label for="employee-name" class="form-label col-sm-5">Name:</label>
+	    <div class="col-sm-7">
+	    	<input type="text" class="form-element" id="employee-name" value="<%= @employee.name %>" disabled>
+		  </div>  
+	  </div>
+    <% if @employee_code_enabled %>
+    <div class="form-element-group">
+      <label for="employee-code" class="form-label col-sm-5">Employee Code:</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-element" id="employee-code" value="<%= @employee.code %>" name="employee[employee_code]">
+      </div>  
+    </div>
+    <% end %>
+    <% if @employee_designation_enabled %>
+    <div class="form-element-group">
+      <label for="employee-designation" class="form-label col-sm-5">Employee Designation:</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-element" id="employee-designation" value="<%= @employee.designation %>" name="employee[employee_designation]">
+      </div>  
+    </div>
+    <% end %>
+    <div class="form-element-group">
+      <label for="employee-code" class="form-label col-sm-5">Status:</label>
+      <div class="col-sm-7">
+    	  <label class="radio-inline">
+          <input type="radio" id="employee-status" value="active" name="employee[employee_status]" <%= 'checked' if @employee.is_active? %>> Active
+        </label>
+        <label class="radio-inline">
+          <input type="radio" id="employee-status" value="inactive" name="employee[employee_status]" <%= 'checked' unless @employee.is_active? %> > Inactive
+        </label>
+      </div>  
+    </div>
+
+  <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
+<% end %>
+</div>

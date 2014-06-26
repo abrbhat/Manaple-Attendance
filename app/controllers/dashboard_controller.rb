@@ -22,7 +22,7 @@ class DashboardController < ApplicationController
     @employee_code_enabled = current_user.stores.first.employee_code_enabled
     @employee_designation_enabled = current_user.stores.first.employee_designation_enabled
     current_user.stores.each do |store|
-      @employees = @employees + store.employees
+      @employees = @employees + store.all_employees
     end
   end
 
@@ -225,6 +225,10 @@ class DashboardController < ApplicationController
   end
 
   def choose_attendance_description
+    unless current_user.can('access_employee',params[:employee])
+      render :status => :unauthorized
+      return
+    end
     employee_id = params[:employee]
     @employee = User.find(employee_id)
     @store = current_user.store
@@ -240,6 +244,32 @@ class DashboardController < ApplicationController
     if out_photo.present?
       @out_attendance_marked_for_today = true
       @out_attendance_time = out_photo.last.created_at
+    end
+  end
+
+  def edit_employee
+    unless current_user.can('access_employee',params[:employee_id])
+      render :status => :unauthorized
+      return
+    end     
+    @employee = User.find(params[:employee_id])         
+    @employee_code_enabled = @employee.store.employee_code_enabled
+    @employee_designation_enabled = @employee.store.employee_designation_enabled
+    
+  end
+
+  def update_employee
+    if current_user.can('access_employee',employee_params[:id])
+      @employee = User.find(employee_params[:id])    
+      if @employee.update(employee_params)
+        redirect_to dashboard_employees_path
+      else
+        flash[:error] = "Could not save data"
+        render "edit_employee"
+      end
+    else
+      render :status => :unauthorized
+      return
     end
   end
 
@@ -267,5 +297,8 @@ class DashboardController < ApplicationController
       date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
     end
     return date
+  end
+  def employee_params
+    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store)
   end
 end
