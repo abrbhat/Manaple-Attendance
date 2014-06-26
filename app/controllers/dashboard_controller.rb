@@ -22,6 +22,12 @@ class DashboardController < ApplicationController
     @employee_designation_enabled = current_user.stores.first.employee_designation_enabled
     @all_stores = current_user.stores
     @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
+    @employees_to_display = []
+    @stores_to_display.each do |store|
+      @employees_to_display << store.all_employees
+    end
+    @employees_to_display.flatten!
+    @employees_to_display_paginated = Kaminari.paginate_array(@employees_to_display).page(params[:page]).per(30)
   end
 
   def create_employee

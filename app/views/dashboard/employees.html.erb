@@ -21,8 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @stores_to_display.each do |store|%>
-      <% store.all_employees.each do |employee| %>
+      <% @employees_to_display_paginated.each do |employee| %>
         <tr>
           <td> <%= employee.store.name %></td>
           <% if @employee_code_enabled %>
@@ -38,6 +37,8 @@
             </td>
         </tr>
       <% end %>
-    <% end %>
   </tbody>
 </table>
+<div id="pagination_navigation">
+  <%= paginate @employees_to_display_paginated %>
+</div>
