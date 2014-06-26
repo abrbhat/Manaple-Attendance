@@ -53,7 +53,7 @@ $(document).ready(function(){
     	$("[data-toggle='popover']").popover(); 
 	});
 	$('.store-chooser-dropdown').multiselect({
-		includeSelectAllOption: true
+		includeSelectAllOption: true,
+		numberDisplayed: 0
 	});
-	$('.dropdown-toggle').dropdown();
 });
