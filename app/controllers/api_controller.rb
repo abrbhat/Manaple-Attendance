@@ -46,7 +46,6 @@ class ApiController < ApplicationController
   	def get_employee_data
   		store = current_user.store
   		employee_data = {}
-  		logger.debug ("#{store.inspect}")
   		store.employees.each do |employee|
   			employee_data[employee.id] = employee.name
   		end
@@ -54,6 +53,25 @@ class ApiController < ApplicationController
 	      format.json { render :json => employee_data }
 	    end  		
   	end
+
+    def get_attendance_markers
+      store = current_user.store
+      attendance_markers = {}
+      if store.in_out_enabled
+        attendance_markers['in'] = 'In'
+        attendance_markers['out'] = 'Out'
+      end
+      if store.mid_day_in_out_enabled
+        attendance_markers['mid_day_in'] = 'Mid-day In'
+        attendance_markers['mid_day_out'] = 'Mid-day Out'
+      end
+      if store.mid_day_enabled
+        attendance_markers['mid_day'] = 'Mid-day'
+      end
+      respond_to do |format|
+        format.json { render :json  =>  attendance_markers }
+      end     
+    end
 
   	private
 

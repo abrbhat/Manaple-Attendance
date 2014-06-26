@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   post 'api/upload_attendance_data'
   get 'api/get_employee_data'
+  get 'api/get_attendance_markers'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
