@@ -3,15 +3,10 @@
 </div>
 <div class="attendance-navigator-container">
 	<%= form_tag({controller:"dashboard",action:"attendance_time_period_consolidated"}, method: "get") do %>
-  <div class="time-period-chooser-container">
-    <div class= "inline-form-element more-side-margins">Time Period: From </div>
-		<input type="text" class="inline-form-element" value="<%= @start_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="time_period_start" >
-		<div class= "inline-form-element more-side-margins">to</div>
-		<input type="text" class="inline-form-element" value="<%= @end_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="time_period_end" >
-
-	</div>
+  <%= render "store_chooser_dropdown" %>
+  <%= render "time_period_chooser_container" %>
 	<%= submit_tag "Go", :class => "proceed-button"%>
-  <%= link_to "Download XLS", dashboard_attendance_time_period_consolidated_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y")) , class:'medium-button right-side' %>
+  <%= link_to "Download XLS", dashboard_attendance_time_period_consolidated_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), stores: @stores_to_display) , class:'medium-button right-side' %>
   <% end %>
 </div>
 <table class="list-table">

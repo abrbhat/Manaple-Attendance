@@ -4,5 +4,6 @@
 //= require jquery.turbolinks
 //= require bootstrap
 //= require bootstrap-datepicker
+//= require bootstrap-multiselect
 //= require dashboard
 //= require spinner

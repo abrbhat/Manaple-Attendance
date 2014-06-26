@@ -95,6 +95,11 @@ class User < ActiveRecord::Base
       if employee.present?
         allowed = true if stores.include?(employee.store)
       end
+    when 'access_store'
+      store = Store.find(object_id)
+      if store.present?
+        allowed = true if stores.include?(store)
+      end
     end
     return allowed
   end

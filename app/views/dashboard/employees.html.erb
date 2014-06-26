@@ -1,4 +1,10 @@
 <h1>Employees</h1>
+<div class="attendance-navigator-container">
+<%= form_tag({controller:"dashboard",action:"employees"}, method: "get") do %>
+  <%= render "store_chooser_dropdown" %>  
+  <%= submit_tag "Go", :class => "proceed-button"%>
+<% end %>
+</div>
 <table class="list-table">
   <thead>
     <tr>
@@ -15,21 +21,23 @@
     </tr>
   </thead>
   <tbody>
-    <% @employees.each do |employee| %>
-      <tr>
-        <td> <%= employee.store.name %></td>
-        <% if @employee_code_enabled %>
-          <td> <%= employee.code %></td>
-        <% end %>
-        <td> <%= employee.name %></td>
-        <% if @employee_designation_enabled %>
-          <td> <%= employee.designation %></td>
-        <% end %>
-        <td><div class="<%= is_employee_active(employee.status)%>" ><%= employee.status.capitalize %> </div></td>
-          <td>
-            <%= link_to "Edit", dashboard_edit_employee_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
-          </td>
-      </tr>
+    <% @stores_to_display.each do |store|%>
+      <% store.all_employees.each do |employee| %>
+        <tr>
+          <td> <%= employee.store.name %></td>
+          <% if @employee_code_enabled %>
+            <td> <%= employee.code %></td>
+          <% end %>
+          <td> <%= employee.name %></td>
+          <% if @employee_designation_enabled %>
+            <td> <%= employee.designation %></td>
+          <% end %>
+          <td><div class="<%= is_employee_active(employee.status)%>" ><%= employee.status.capitalize %> </div></td>
+            <td>
+              <%= link_to "Edit", dashboard_edit_employee_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
+            </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

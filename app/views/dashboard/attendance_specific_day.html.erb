@@ -2,7 +2,9 @@
   <div class="left-side"><h3>Attendance Specific Day:</h3></br></div>
 </div>
 <div class="attendance-navigator-container">
+
 	<%= form_tag({controller:"dashboard",action:"attendance_specific_day"}, method: "get") do %>
+  <%= render "store_chooser_dropdown" %>
   <div class="date-chooser-container">
     <div class= "inline-form-element more-side-margins">Date: </div>
 		<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" name="date" >

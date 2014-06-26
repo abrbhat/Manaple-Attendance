@@ -18,12 +18,10 @@ class DashboardController < ApplicationController
   end
 
   def employees
-    @employees = []
     @employee_code_enabled = current_user.stores.first.employee_code_enabled
     @employee_designation_enabled = current_user.stores.first.employee_designation_enabled
-    current_user.stores.each do |store|
-      @employees = @employees + store.all_employees
-    end
+    @all_stores = current_user.stores
+    @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
   end
 
   def create_employee
@@ -51,9 +49,10 @@ class DashboardController < ApplicationController
   end
 
   def attendance_specific_day
-    @stores = current_user.stores
-    @employee_code_enabled = @stores.first.employee_code_enabled
-    @employee_designation_enabled = @stores.first.employee_designation_enabled
+    @all_stores = current_user.stores
+    @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
+    @employee_code_enabled = @all_stores.first.employee_code_enabled
+    @employee_designation_enabled = @all_stores.first.employee_designation_enabled
     @attendance_data_all = []
     @date = get_date
     @mid_day_enabled = false
@@ -62,7 +61,7 @@ class DashboardController < ApplicationController
       flash[:error] = "Date cannot be later than today"
       @date = Time.zone.now
     end
-    @stores.each do |store|
+    @stores_to_display.each do |store|
       @mid_day_enabled = true if store.mid_day_enabled
       @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
       store.employees.each do |employee|  
@@ -82,9 +81,10 @@ class DashboardController < ApplicationController
   end
 
   def attendance_time_period_consolidated
-    @stores = current_user.stores
-    @employee_code_enabled = @stores.first.employee_code_enabled
-    @employee_designation_enabled = @stores.first.employee_designation_enabled
+    @all_stores = current_user.stores
+    @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
+    @employee_code_enabled = @all_stores.first.employee_code_enabled
+    @employee_designation_enabled = @all_stores.first.employee_designation_enabled
     @attendance_data_all = []
     @start_date = get_start_date
     @end_date = get_end_date
@@ -98,7 +98,7 @@ class DashboardController < ApplicationController
       @start_date = Time.zone.now
       @end_date = Time.zone.now
     end
-    @stores.each do |store|
+    @stores_to_display.each do |store|
       store.employees.each do |employee|        
         attendance_data = Hash.new
         attendance_data["employee"] = employee
@@ -132,9 +132,10 @@ class DashboardController < ApplicationController
   end
 
   def attendance_time_period_detailed
-    @stores = current_user.stores
-    @employee_code_enabled = @stores.first.employee_code_enabled
-    @employee_designation_enabled = @stores.first.employee_designation_enabled
+    @all_stores = current_user.stores
+    @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
+    @employee_code_enabled = @all_stores.first.employee_code_enabled
+    @employee_designation_enabled = @all_stores.first.employee_designation_enabled
     @attendance_data_all = []
     @start_date = get_start_date
     @end_date = get_end_date
@@ -148,7 +149,7 @@ class DashboardController < ApplicationController
       @start_date = Time.zone.now
       @end_date = Time.zone.now
     end
-    @stores.each do |store|
+    @stores_to_display.each do |store|
       store.employees.each do |employee|   
         attendance_data_for = Hash.new
         (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
@@ -300,5 +301,15 @@ class DashboardController < ApplicationController
   end
   def employee_params
     params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store)
+  end
+  def get_stores_to_display
+    stores_to_display = []
+    params[:stores].each do |store_id|
+      if current_user.can('access_store',store_id)
+        store = Store.find(store_id)
+        stores_to_display << store
+      end
+    end
+    return stores_to_display
   end
 end

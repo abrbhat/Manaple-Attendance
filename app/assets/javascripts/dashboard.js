@@ -52,4 +52,7 @@ $(document).ready(function(){
 	$(function () { 
     	$("[data-toggle='popover']").popover(); 
 	});
+	$('.store-chooser-dropdown').multiselect({
+		includeSelectAllOption: true
+	});
 });

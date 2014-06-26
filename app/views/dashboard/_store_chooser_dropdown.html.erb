@@ -1,12 +1,8 @@
-<div class="btn-group pull-right">
-  <button type="button" class="default-button">Choose Store</button>
-  <button type="button" class="default-button toggle-dropdown-button" data-toggle="dropdown">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <% @stores.each do |store| %>
-      <li class="<%= "active" if (store.id == params[:store_id] || store.id == @current_store.id)  %>" ><%= link_to store.name, path +"?store_id=" + store.id %></li>
+<div class="store-dropdown-container">  
+  <div class= "inline-form-element more-side-margins">Store: </div>
+  <select class="store-chooser-dropdown" multiple="multiple" name="stores[]">
+    <% @all_stores.each do |store| %>
+    <option value="<%= store.id %>" <%= "selected" if @stores_to_display.include?(store) %> ><%= store.name %></option>
     <% end %>
-  </ul>
+  </select>
 </div>
