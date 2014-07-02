@@ -112,12 +112,11 @@
 	        <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
 	        <div id = "spinner"></div>
 	        <div id = "photo-form">
-	            <%= form_for Photo.new, :html => {:class => "photo-form-button"} do |f| %>
-	                <%= f.hidden_field :description, :value => @description %>   
-	                <%= f.hidden_field :user_id, :value => @employee.id %> 
-	                <%= f.submit "Save Photo", class:"big-button",id:"save-photo-button" %>
+	            <%= form_tag({controller:"photos"}, method: "post") do %>
+	            	<input type="hidden" name="photo[description]" value="" id="photo_description">
+	            	<input type="hidden" name="photo[user_id]" value="" id="photo_user_id">
+	                <%= submit_tag "Save Photo", :class => "proceed-button" %>
 	            <% end %>
-	            <div class="medium-button">Take Another</div>
 	        </div>
 	    </div>
 	</div>
