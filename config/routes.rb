@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'attendance/mark'
+
+  get 'attendance/record'
+
   get 'pages/main'
   get 'pages/send_notification_mail'
   post 'pages/send_specific_day_notification_mail'
