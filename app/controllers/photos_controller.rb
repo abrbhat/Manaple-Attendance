@@ -14,22 +14,22 @@ class PhotosController < ApplicationController
       if @photo.is_first_of_day
         AsmMailer.store_opened(@photo.user.store,@photo.created_at).deliver
       end
+      if @photo.original == nil
+        original_photo = Photo.new(photo_params)
+        original_photo.image = File.new(upload_path(original_photo.user.store))
+        original_photo.status = "verified"
+        original_photo.description = "original"
+        original_photo.ip = request.remote_ip
+        original_photo.save
+      end
+      render :json => {"employee_name" => @photo.user.name,
+                       "time" => @photo.created_at.strftime("%I:%M%p, %d/%m/%y"),
+                       "description" => @photo.description
+                      }
     else
-      error = true
+      render :json => {"errors" => "true"}, :status => 422
     end
-    if @photo.original == nil
-      original_photo = Photo.new(photo_params)
-      original_photo.image = File.new(upload_path(original_photo.user.store))
-      original_photo.status = "verified"
-      original_photo.description = "original"
-      original_photo.ip = request.remote_ip
-      original_photo.save
-    end
-    if !error
-      render json: @photo
-    else
-      render :json => {"error"=>"true"}
-    end
+    
   end
   def new   
     if params[:employee].blank?

@@ -17,9 +17,10 @@
 </script>
 <div class="centering-table">
     <div class = "centering-table-cell">
-        <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
-        <div id = "spinner"></div>
-        <div id = "photo-form">
+        <div class = "photo-form-container" id="take-picture-button-container">
+            <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
+        </div>
+        <div class = "photo-form-container" id = "save-photo-and-take-another-button-container">
             <div class = "row">
                 <div class = "col-md-6">
                     <%= submit_tag "Save Photo", :class => "big-button", :id => "save-photo-button" %>
@@ -28,6 +29,9 @@
                     <input type="button" id="take-another-picture-button" value="Take Another" class="big-button"/>
                 </div>
             </div>
+        </div>
+        <div class = "photo-form-container" id="spinner-container">
+            <div id = "spinner"></div>
         </div>
     </div>
 </div>
