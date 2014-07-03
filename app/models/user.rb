@@ -164,7 +164,7 @@ class User < ActiveRecord::Base
     if is_store_incharge? or is_store_observer?
       dashboard_attendance_specific_day_path
     elsif is_store_common_user?
-      dashboard_choose_employee_name_path   
+      attendance_mark_path   
     else
       new_user_session_path
     end
