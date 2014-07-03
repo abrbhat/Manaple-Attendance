@@ -30,7 +30,6 @@ function initializeAttendancePageSwitching(){
 	})
 }
 function setWebcam(){
-  $('#webcam').html('');  
   Webcam.set({
             dest_width: 640,
             dest_height: 480,
