@@ -1,123 +1,13 @@
+<%= form_tag({controller:"photos",action:"create"}, method: "post") do %>
 <div class = "attendance-page" id= "attendance-page-1">
-	<h1 class="center-text"><%= @store.name %></h1>
-	<h2 class="center-text">Select Your Name</h2>
-	<% @employees.each do |employee| %>
-		<div class="centering-table">
-		    <div class="centering-table-cell">
-	    		<%= form_tag({controller:"dashboard",action:"choose_attendance_description"}, method: "post") do %> 
-					<input type="hidden" value="<%= employee.id %>" name="employee" >			
-					<%= submit_tag employee.name, :class => "big-button" %>
-				<% end %>
-		    </div>
-		</div>
-	<% end %>
+	<%= render "choose_employee_name" %>
 </div>
 
 <div class = "attendance-page" id= "attendance-page-2">
-	<h1 class="center-text"><%= @employee.name %>, select one:</h1>
-	<% if @store.in_out_enabled %>
-	<div class="row">
-		<div class="col-md-6">
-			<div class="centering-table">
-				<div class="centering-table-cell">
-					<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
-						<input type="hidden" value="<%= @employee.id %>" name="employee" >	
-						<input type="hidden" value="in" name="description" >		
-						<% if @in_attendance_marked_for_today %>
-							<%= submit_tag "In", :class => "big-button", data: { confirm: attendance_marked_message(@employee,"In",@in_attendance_time) }  %>
-						<% else %>
-							<%= submit_tag "In", :class => "big-button" %>
-						<% end %>
-					<% end %>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="centering-table">
-				<div class="centering-table-cell">
-					<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
-						<input type="hidden" value="<%= @employee.id %>" name="employee" >	
-						<input type="hidden" value="out" name="description" >		
-						<% if @out_attendance_marked_for_today %>
-							<%= submit_tag "Out", :class => "big-button", data: { confirm: attendance_marked_message(@employee,"Out",@out_attendance_time) }  %>
-						<% else %>
-							<%= submit_tag "Out", :class => "big-button" %>
-						<% end %>
-					<% end %>
-				</div>
-			</div>
-		</div>
-	</div>
-	<% end %>
-	<% if @store.mid_day_in_out_enabled %>
-	<div class="row">
-		<div class="col-md-6">
-			<div class="centering-table">
-				<div class="centering-table-cell">
-					<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
-						<input type="hidden" value="<%= @employee.id %>" name="employee" >	
-						<input type="hidden" value="mid_day_in" name="description" >						
-						<%= submit_tag "Mid-day In", :class => "big-button" %>					
-					<% end %>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="centering-table">
-				<div class="centering-table-cell">
-					<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
-						<input type="hidden" value="<%= @employee.id %>" name="employee" >	
-						<input type="hidden" value="mid_day_out" name="description" >		
-						<%= submit_tag "Mid-day Out", :class => "big-button" %>
-					<% end %>
-				</div>
-			</div>
-		</div>
-	</div>
-	<% end %>
-	<% if @store.mid_day_enabled %>
-			<div class="centering-table">
-				<div class="centering-table-cell">
-					<%= form_tag({controller:"photos",action:"new"}, method: "post") do %> 
-						<input type="hidden" value="<%= @employee.id %>" name="employee" >	
-						<input type="hidden" value="mid_day_present" name="description" >		
-						<%= submit_tag "Mid-day", :class => "big-button" %>
-					<% end %>
-				</div>
-			</div>	
-	<% end %>
+	<%= render "choose_attendance_description" %>
 </div>
 
 <div class = "attendance-page" id= "attendance-page-3">
-	<h3 class="center-text"><%= @employee.name %> : <%= @description%> </h3>
-	<h3 class="center-text">Place your face in front of the webcam</h3>
-	<div class="centering-table">
-	    <div class = "centering-table-cell">
-	        <div id="webcam" style="width:640px; height:480px;margin:0 auto"></div>
-	    </div>
-	</div>
-	<script language="JavaScript">
-	        Webcam.set({
-	            dest_width: 640,
-	            dest_height: 480,
-	            image_format: 'jpeg',
-	            jpeg_quality: 90
-	        });
-	        Webcam.attach( '#webcam' );
-	        Webcam.setSWFLocation("/public/webcam.swf");
-	</script>
-
-	<div class="centering-table">
-	    <div class = "centering-table-cell">
-	        <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
-	        <div id = "spinner"></div>
-	        <div id = "photo-form">
-	            <%= form_tag({controller:"photos"}, method: "post") do %>
-	            	<input type="hidden" name="photo[description]" value="" id="photo_description">
-	            	<input type="hidden" name="photo[user_id]" value="" id="photo_user_id">
-	                <%= submit_tag "Save Photo", :class => "proceed-button" %>
-	            <% end %>
-	        </div>
-	    </div>
-	</div>
+	<%= render "click_photo" %>
 </div>
+<% end %>

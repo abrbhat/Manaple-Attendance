@@ -1,0 +1,16 @@
+<h3 class="center-text"><span class = "employee-name"><span> : <%= @description%> </h3>
+<h3 class="center-text">Place your face in front of the webcam</h3>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <div id="webcam" style="width:640px; height:480px;margin:0 auto"></div>
+    </div>
+</div>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
+        <div id = "spinner"></div>
+        <div id = "photo-form">
+             <%= submit_tag "Save Photo", :class => "proceed-button" %>
+        </div>
+    </div>
+</div>

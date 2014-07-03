@@ -111,6 +111,7 @@ class User < ActiveRecord::Base
     accessible_in["pages"] = []
     accessible_in["photos"] = []
     accessible_in["api"] = []
+    accessible_in["attendance"] = []
     if is_store_incharge?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"
@@ -131,6 +132,10 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] << "choose_attendance_description"
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period"
+      
+      accessible_in["attendance"] <<  "mark"
+      accessible_in["attendance"] <<  "record"
+
 
       accessible_in["leaves"] << "create"
       accessible_in["leaves"] << "apply"
