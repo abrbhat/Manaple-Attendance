@@ -24,5 +24,4 @@ $(document).ready(function(){
 		includeSelectAllOption: true,
 		numberDisplayed: 0
 	});
-
 });

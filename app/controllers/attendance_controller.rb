@@ -18,4 +18,8 @@ class AttendanceController < ApplicationController
     @store = current_user.store
     
   end
+
+  def marked_status
+    
+  end
 end

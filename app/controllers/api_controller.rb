@@ -5,7 +5,6 @@ class ApiController < ApplicationController
 
   	def upload_attendance_data
       attendance_data = params[:attendance_data]
-      #logger.debug ("Attendance Data: #{attendance_data.inspect}")
       attendance_data.each do |index, data|
         store = current_user.store
         File.open(upload_path(store), 'wb') do |file|

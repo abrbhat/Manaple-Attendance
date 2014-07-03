@@ -4,6 +4,7 @@ class PhotosController < ApplicationController
   before_filter :authenticate_user!
 
   def create
+    error = false
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path(@photo.user.store))   
     @photo.status = "verification_pending" 
@@ -14,7 +15,7 @@ class PhotosController < ApplicationController
         AsmMailer.store_opened(@photo.user.store,@photo.created_at).deliver
       end
     else
-      flash[:error] = "There seems to be a network connection error."
+      error = true
     end
     if @photo.original == nil
       original_photo = Photo.new(photo_params)
@@ -24,7 +25,11 @@ class PhotosController < ApplicationController
       original_photo.ip = request.remote_ip
       original_photo.save
     end
-    render "dashboard/attendance_marked"
+    if !error
+      render json: @photo
+    else
+      render :json => {"error"=>"true"}
+    end
   end
   def new   
     if params[:employee].blank?
