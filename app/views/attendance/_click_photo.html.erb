@@ -1,0 +1,37 @@
+<h3 class="center-text"><span class = "employee-name"><span> : <%= @description%> </h3>
+<h3 class="center-text">Place your face in front of the webcam</h3>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <div id="webcam" style="width:640px; height:480px;margin:0 auto"></div>
+    </div>
+</div>
+<script language="JavaScript">
+        Webcam.set({
+            dest_width: 640,
+            dest_height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach( '#webcam' );
+        Webcam.setSWFLocation("/public/webcam.swf");
+</script>
+<div class="centering-table">
+    <div class = "centering-table-cell">
+        <div class = "photo-form-container" id="take-picture-button-container">
+            <input type="button" id="take-picture-button" value="Take picture" class="big-button"/>
+        </div>
+        <div class = "photo-form-container" id = "save-photo-and-take-another-button-container">
+            <div class = "row">
+                <div class = "col-md-6">
+                    <%= submit_tag "Save Photo", :class => "big-button", :id => "save-photo-button" %>
+                </div>
+                <div class = "col-md-6">
+                    <input type="button" id="take-another-picture-button" value="Take Another" class="big-button"/>
+                </div>
+            </div>
+        </div>
+        <div class = "photo-form-container" id="spinner-container">
+            <div id = "spinner"></div>
+        </div>
+    </div>
+</div>

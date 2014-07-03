@@ -4,24 +4,29 @@ class PhotosController < ApplicationController
   before_filter :authenticate_user!
 
   def create
+    error = false
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path(@photo.user.store))   
     @photo.status = "verification_pending" 
     @photo.ip = request.remote_ip
     if @photo.save
       @photo.delay.send_mails
+      if @photo.original == nil
+        original_photo = Photo.new(photo_params)
+        original_photo.image = File.new(upload_path(original_photo.user.store))
+        original_photo.status = "verified"
+        original_photo.description = "original"
+        original_photo.ip = request.remote_ip
+        original_photo.save
+      end
+      render :json => {"employee_name" => @photo.user.name,
+                       "time" => @photo.created_at.strftime("%I:%M%p, %d/%m/%y"),
+                       "description" => @photo.description
+                      }
     else
-      flash[:error] = "There seems to be a network connection error."
+      render :json => {"errors" => "true"}, :status => 422
     end
-    if @photo.original == nil
-      original_photo = Photo.new(photo_params)
-      original_photo.image = File.new(upload_path(original_photo.user.store))
-      original_photo.status = "verified"
-      original_photo.description = "original"
-      original_photo.ip = request.remote_ip
-      original_photo.save
-    end
-    render "dashboard/attendance_marked"
+    
   end
   def new   
     if params[:employee].blank?

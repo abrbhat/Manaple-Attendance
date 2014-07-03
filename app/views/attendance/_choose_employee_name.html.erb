@@ -1,0 +1,10 @@
+<h1 class="center-text"><%= @store.name %></h1>
+<h2 class="center-text">Select Your Name</h2>
+<% @employees.each do |employee| %>
+	<div class="centering-table">
+	    <div class="centering-table-cell">
+    		<div class="employee-name-option big-button next-attendance-page-button" data-employee-id = "<%= employee.id %>"> <%= employee.name %></div>
+	    </div>
+	</div>
+<% end %>
+<input type="hidden" name = "photo[user_id]" value="" id="selected-employee-id">
