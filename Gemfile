@@ -60,6 +60,8 @@ group :assets do
   gem 'uglifier'
 end 
 
+gem 'jquery-ui-rails', '4.2.1'
+
 # For Abhiroop's Dabba
 #gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
 #gem 'activeadmin', git: 'http://github.com/gregbell/active_admin'
@@ -76,3 +78,6 @@ gem "letter_opener", :group => :development
 gem "browser"
 # For pagination
 gem 'kaminari'
+
+gem 'delayed_job_active_record'
+gem "daemons"

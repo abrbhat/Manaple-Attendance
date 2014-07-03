@@ -2,7 +2,13 @@ class Photo < ActiveRecord::Base
   belongs_to :user
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
-  
+
+  def send_mails
+    if is_first_of_day
+      AsmMailer.store_opened(user.store,created_at).deliver
+    end
+  end
+
   def is_first_of_day
   	store = user.store
   	today_photos = []  	
