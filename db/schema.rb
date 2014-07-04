@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703184034) do
+ActiveRecord::Schema.define(version: 20140703200639) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20140703184034) do
   end
 
   add_index "photos", ["created_at"], name: "index_photos_on_created_at"
+  add_index "photos", ["description"], name: "index_photos_on_description"
   add_index "photos", ["user_id"], name: "index_photos_on_user_id"
 
   create_table "stores", force: true do |t|
