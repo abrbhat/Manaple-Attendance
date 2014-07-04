@@ -1,16 +1,30 @@
 [global]
-ApplicationName=webcam_app
+ApplicationName=attendance-system
 AwsCredentialFile=/home/peeyush/.elasticbeanstalk/aws_credential_file
 DevToolsEndpoint=git.elasticbeanstalk.ap-southeast-1.amazonaws.com
-EnvironmentName=webcamapp-env
+EnvironmentName=attendance-new-env
 EnvironmentTier=WebServer::Standard::1.0
-EnvironmentType=SingleInstance
+EnvironmentType=LoadBalanced
 InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.webcamapp-env
-RdsDeletionPolicy=Delete
+OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.attendance-new-env
+RdsDeletionPolicy=Snapshot
 RdsEnabled=Yes
-RdsSourceSnapshotName=
+RdsSourceSnapshotName=snap-5jul
 Region=ap-southeast-1
 ServiceEndpoint=https://elasticbeanstalk.ap-southeast-1.amazonaws.com
-SolutionStack=64bit Amazon Linux 2014.03 v1.0.2 running Ruby 2.0 (Passenger Standalone)
+SolutionStack=64bit Amazon Linux 2014.03 v1.0.3 running Ruby 2.0 (Passenger Standalone)
+
+[branches]
+master=attendance-system-maste
+
+[branch:master]
+ApplicationVersionName=Sample Application
+EnvironmentName=attendance-system-maste
+EnvironmentTier=WebServer::Standard::1.0
+EnvironmentType=LoadBalanced
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.attendance-system-maste
+RdsDeletionPolicy=Snapshot
+RdsEnabled=Yes
+RdsSourceSnapshotName=snap-5jul
 
