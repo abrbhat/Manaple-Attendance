@@ -31,15 +31,15 @@ function goToAttendancePage(page){
 	$("#attendance-page-"+page).show();
 }
 function setWebcam(){
-  $("#webcam").html("");
-  Webcam.set({
+  	$("#webcam").html("");
+  	Webcam.set({
             dest_width: 640,
             dest_height: 480,
             image_format: 'jpeg',
             jpeg_quality: 90
         });
-        Webcam.attach( '#webcam' );
-        Webcam.setSWFLocation("/public/webcam.swf");
+	Webcam.attach( '#webcam' );
+	Webcam.setSWFLocation("/public/webcam.swf");
 
 }
 function showSavePhotoAndTakeAnotherButtonContainer(){
