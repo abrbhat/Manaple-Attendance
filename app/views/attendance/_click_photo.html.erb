@@ -5,22 +5,7 @@
         <div id="webcam" style="width:640px; height:480px;margin:0 auto"></div>
     </div>
 </div>
-<script language="JavaScript">
-        console.log("s1");
-        if (!(typeof Webcam === 'undefined')) {
-           Webcam.set({
-            dest_width: 640,
-            dest_height: 480,
-            image_format: 'jpeg',
-            jpeg_quality: 90
-            });
-            Webcam.attach( '#webcam' );
-            Webcam.setSWFLocation("/public/webcam.swf");
-            console.log("s2");
-        }
-        console.log("s3");
-        
-</script>
+
 <div class="centering-table">
     <div class = "centering-table-cell">
         <div class = "photo-form-container" id="take-picture-button-container">
@@ -41,3 +26,4 @@
         </div>
     </div>
 </div>
+

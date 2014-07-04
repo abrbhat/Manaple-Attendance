@@ -64,9 +64,6 @@ $(document).ready(function() {
 	var selectedEmployeeId, selectedAttendanceMarker;
 	goToAttendancePage('1');
 	initializeSpinner();
-	if (($("#webcam").length != 0) && (typeof Webcam === 'undefined')) {
-  		setWebcam();
-	}
 	
 	$(".next-attendance-page-button").click(function(){
 		var currentPageId = $(this).closest('.attendance-page').attr('id');
