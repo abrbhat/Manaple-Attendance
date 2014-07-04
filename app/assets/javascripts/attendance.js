@@ -40,6 +40,7 @@ function setWebcam(){
         });
         Webcam.attach( '#webcam' );
         Webcam.setSWFLocation("/public/webcam.swf");
+
 }
 function showSavePhotoAndTakeAnotherButtonContainer(){
 	$(".photo-form-container").hide();
@@ -59,17 +60,21 @@ function initializeSpinner(){
     var spinner = new Spinner().spin(target); 
     $("#spinner-container").hide();
 }
-var ready;
-ready = function() {
+$(document).ready(function() {
 	var selectedEmployeeId, selectedAttendanceMarker;
 	goToAttendancePage('1');
 	initializeSpinner();
+	if (($("#webcam").length != 0) && (typeof Webcam === 'undefined')) {
+  		setWebcam();
+	}
+	
 	$(".next-attendance-page-button").click(function(){
 		var currentPageId = $(this).closest('.attendance-page').attr('id');
 		var currentPage = currentPageId.slice(-1);
 		goToNextAttendancePage(currentPage);
 	})
 	$("#take-another-picture-button").click(function(){
+		showTakePictureButtonContainer();
 		setWebcam();
 	})
 	$( "#take-picture-button" ).click(function() {
@@ -132,9 +137,6 @@ ready = function() {
 		goToAttendancePage('1');
 	})
 
-};
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
+});
 
 

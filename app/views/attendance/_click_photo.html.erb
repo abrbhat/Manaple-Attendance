@@ -6,14 +6,20 @@
     </div>
 </div>
 <script language="JavaScript">
-        Webcam.set({
+        console.log("s1");
+        if (!(typeof Webcam === 'undefined')) {
+           Webcam.set({
             dest_width: 640,
             dest_height: 480,
             image_format: 'jpeg',
             jpeg_quality: 90
-        });
-        Webcam.attach( '#webcam' );
-        Webcam.setSWFLocation("/public/webcam.swf");
+            });
+            Webcam.attach( '#webcam' );
+            Webcam.setSWFLocation("/public/webcam.swf");
+            console.log("s2");
+        }
+        console.log("s3");
+        
 </script>
 <div class="centering-table">
     <div class = "centering-table-cell">
