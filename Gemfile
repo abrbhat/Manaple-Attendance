@@ -81,3 +81,5 @@ gem 'kaminari'
 
 gem 'delayed_job_active_record'
 gem "daemons"
+
+gem 'newrelic_rpm'
