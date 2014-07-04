@@ -10,7 +10,7 @@ class PhotosController < ApplicationController
     @photo.status = "verification_pending" 
     @photo.ip = request.remote_ip
     if @photo.save
-      @photo.delay(run_at: 30.minutes.from_now).send_mails
+      @photo.send_mails
       if @photo.original == nil
         original_photo = Photo.new(photo_params)
         original_photo.image = File.new(upload_path(original_photo.user.store))
