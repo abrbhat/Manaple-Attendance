@@ -42,8 +42,8 @@
 					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
 					        <ul class="dropdown-options">
 					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>					          
-					          <li class="<%= is_active?("dashboard#employees")  %>" ><%= link_to "List All", dashboard_employees_path %></li>
-					          <li class="<%= is_active?("dashboard#create_employee")  %>" ><%= link_to "Create New", dashboard_create_employee_path %></li>
+					          <li class="<%= is_active?("employees#list")  %>" ><%= link_to "List All", employees_list_path %></li>
+					          <li class="<%= is_active?("employee#new")  %>" ><%= link_to "Create New", employees_new_path %></li>
 					        </ul>	
 					    </li>
 					<% end %>

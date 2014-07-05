@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
   before_action :check_browser
   Time.zone = 'Kolkata'
+
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
       if current_user.is_store_incharge? or current_user.is_store_common_user? or current_user.is_store_observer?
@@ -22,6 +23,17 @@ class ApplicationController < ActionController::Base
       end
     end
   end    
+
+  def get_stores_to_display
+    stores_to_display = []
+    params[:stores].each do |store_id|
+      if current_user.can('access_store',store_id)
+        store = Store.find(store_id)
+        stores_to_display << store
+      end
+    end
+    return stores_to_display
+  end
   protected
 
   def configure_devise_permitted_parameters

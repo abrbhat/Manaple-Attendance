@@ -1,0 +1,44 @@
+<h1>Employees</h1>
+<div class="attendance-navigator-container">
+<%= form_tag({controller:"employees",action:"list"}, method: "get") do %>
+  <%= render "dashboard/store_chooser_dropdown" %>  
+  <%= submit_tag "Go", :class => "proceed-button"%>
+<% end %>
+</div>
+<table class="list-table">
+  <thead>
+    <tr>
+      <th>Store </th>
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
+      <th>Employee Name</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>   
+      <th>Status</th>
+      <th></th>   
+    </tr>
+  </thead>
+  <tbody>
+      <% @employees_to_display_paginated.each do |employee| %>
+        <tr>
+          <td> <%= employee.store.name %></td>
+          <% if @employee_code_enabled %>
+            <td> <%= employee.code %></td>
+          <% end %>
+          <td> <%= employee.name %></td>
+          <% if @employee_designation_enabled %>
+            <td> <%= employee.designation %></td>
+          <% end %>
+          <td><div class="<%= is_employee_active(employee.status)%>" ><%= employee.status.capitalize %> </div></td>
+            <td>
+              <%= link_to "Edit", employees_edit_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
+            </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+<div id="pagination_navigation">
+  <%= paginate @employees_to_display_paginated %>
+</div>

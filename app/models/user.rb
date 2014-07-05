@@ -112,24 +112,29 @@ class User < ActiveRecord::Base
     accessible_in["photos"] = []
     accessible_in["api"] = []
     accessible_in["attendance"] = []
+    accessible_in["employees"] = []
+
     if is_store_incharge?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"
-      accessible_in["dashboard"] <<  "employees"
+
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"
       accessible_in["dashboard"] <<  "employee_attendance_record"
-      accessible_in["dashboard"] <<  "create_employee"
-      accessible_in["dashboard"] <<  "create_new_employee"
-      accessible_in["dashboard"] <<  "edit_employee"
-      accessible_in["dashboard"] <<  "update_employee"
+
       accessible_in["leaves"] << "index"
       accessible_in["leaves"] << "update"
+
+      accessible_in["employees"] << "create"
+      accessible_in["employees"] << "edit"
+      accessible_in["employees"] << "update"
+      accessible_in["employees"] << "list"
+      accessible_in["employees"] << "new"
+      accessible_in["employees"] << "transfer"
+
     elsif is_store_common_user?
       accessible_in["dashboard"] << "request_leave"
-      accessible_in["dashboard"] << "choose_employee_name"
-      accessible_in["dashboard"] << "choose_attendance_description"
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period"
       
@@ -140,7 +145,6 @@ class User < ActiveRecord::Base
       accessible_in["leaves"] << "create"
       accessible_in["leaves"] << "apply"
 
-      accessible_in["photos"] << "new"
       accessible_in["photos"] << "upload"
       accessible_in["photos"] << "create"
 
@@ -150,7 +154,7 @@ class User < ActiveRecord::Base
     elsif is_store_observer?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"
-      accessible_in["dashboard"] <<  "employees"
+
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"

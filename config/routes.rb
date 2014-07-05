@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'attendance/mark'
+  get 'employees/list'
+  post 'employees/create'
+  get 'employees/transfer'
+  get 'employees/edit'
+  get 'employees/new'
+  post 'employees/update'
 
+  get 'attendance/mark'
   get 'attendance/record'
 
   get 'pages/main'
@@ -10,22 +16,16 @@ Rails.application.routes.draw do
   get 'pages/send_mail'
 
   get 'dashboard/index'
-  get 'dashboard/notification_settings'
-  get 'dashboard/employees'
-  get 'dashboard/create_employee'
-  post 'dashboard/create_new_employee'
+  get 'dashboard/notification_settings'   
+  get 'dashboard/notification_settings_view'
+  post 'dashboard/notification_settings_update'
+
   get 'dashboard/attendance_specific_day'
   get 'dashboard/attendance_time_period_consolidated'
   get 'dashboard/attendance_time_period_detailed'
-  get 'dashboard/notification_settings_view'
   get 'dashboard/employee_attendance_record'
-  get 'dashboard/edit_employee'
-  post 'dashboard/update_employee'
 
   get 'verification/mass_verify'
-
-  post 'dashboard/notification_settings_update'
-
   post 'verification/do_mass_verification'
 
   post 'api/upload_attendance_data'
