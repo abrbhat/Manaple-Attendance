@@ -63,12 +63,12 @@ end
 gem 'jquery-ui-rails', '4.2.1'
 
 # For Abhiroop's Dabba
-gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
-gem 'activeadmin', git: 'http://github.com/gregbell/active_admin'
+#gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
+#gem 'activeadmin', git: 'http://github.com/gregbell/active_admin'
 
 #For AWS
-#gem 'sass-rails', github: 'rails/sass-rails'
-#gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'sass-rails', github: 'rails/sass-rails'
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 # Cron jobs in Ruby
 gem 'whenever', :require => false

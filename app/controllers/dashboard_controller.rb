@@ -255,34 +255,7 @@ class DashboardController < ApplicationController
     end
   end
 
-  def choose_employee_name
-    @store = current_user.store
-    @employees = @store.employees
-  end
-
-  def choose_attendance_description
-    unless current_user.can('access_employee',params[:employee])
-      render :status => :unauthorized
-      return
-    end
-    employee_id = params[:employee]
-    @employee = User.find(employee_id)
-    @store = current_user.store
-    today_photos = @employee.photos.where(created_at: (Time.zone.now.midnight)..Time.zone.now.midnight + 1.day)
-    in_photo = today_photos.select { |photo| photo.description == 'in' }
-    out_photo = today_photos.select { |photo| photo.description == 'out' }    
-    @in_attendance_marked_for_today = false
-    @out_attendance_marked_for_today = false
-    if in_photo.present?
-      @in_attendance_marked_for_today = true
-      @in_attendance_time = in_photo.last.created_at
-    end
-    if out_photo.present?
-      @out_attendance_marked_for_today = true
-      @out_attendance_time = out_photo.last.created_at
-    end
-  end
-  
+ 
   private
   def get_start_date
     if params[:time_period_start].blank?
