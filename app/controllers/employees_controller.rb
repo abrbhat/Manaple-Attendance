@@ -75,16 +75,17 @@ class EmployeesController < ApplicationController
     end
   end
 
-  def implement_transfer
+  def update_store
     if current_user.can('access_employee',employee_params[:id])
       employee = User.find(employee_params[:id])    
-      autorizations = employee.authorizations.find_by! 
-
-      if @employee.update(employee_params)
+      authorization = employee.authorizations.find_by! store_id: employee_params[:from_store]
+      authorization.store_id = employee_params[:destination_store]
+      if authorization.save
+        flash[:notice] = "Employee Store Updated"
         redirect_to employees_list_path
       else
         flash[:error] = "Could not save data"
-        render "edit"
+        render "transfer"
       end
     else
       render :status => :unauthorized
@@ -97,6 +98,6 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store, :destination_store)
+    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store, :from_store,:destination_store)
   end
 end

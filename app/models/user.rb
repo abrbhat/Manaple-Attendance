@@ -132,6 +132,7 @@ class User < ActiveRecord::Base
       accessible_in["employees"] << "list"
       accessible_in["employees"] << "new"
       accessible_in["employees"] << "transfer"
+      accessible_in["employees"] << "update_store"
 
     elsif is_store_common_user?
       accessible_in["dashboard"] << "request_leave"
