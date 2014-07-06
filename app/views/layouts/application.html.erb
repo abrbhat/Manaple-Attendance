@@ -44,6 +44,7 @@
 					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>					          
 					          <li class="<%= is_active?("employees#list")  %>" ><%= link_to "List All", employees_list_path %></li>
 					          <li class="<%= is_active?("employee#new")  %>" ><%= link_to "Create New", employees_new_path %></li>
+					           <li class="<%= is_active?("employee#transfer")  %>" ><%= link_to "Transfer", employees_transfer_path %></li>
 					        </ul>	
 					    </li>
 					<% end %>

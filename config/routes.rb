@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'employees/edit'
   get 'employees/new'
   post 'employees/update'
+  post 'employees/update_store'
 
   get 'attendance/mark'
   get 'attendance/record'

@@ -1,2 +1,42 @@
-<h1>Employees#transfer</h1>
-<p>Find me in app/views/employees/transfer.html.erb</p>
+<%= javascript_include_tag "employees" %>
+<h2>Transfer Employee</h2>
+<h2>Enter Employee Name</h2>
+<div class = "form-container left-side">
+<%= form_tag({controller:"employees",action:"update"}, method: "post",class:"form-horizontal") do %>
+	<div class="form-group">
+	    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+	    <div class="col-sm-10">
+		    <select class="form-control" id="select-from-store">
+			  	<% @stores.each do |store| %>
+			    	<option value="<%= store.id %>" class="<%= store.id %>"><%= store.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+	    <label for="inputEmail3" class="col-sm-2 control-label">Employee</label>
+	    <div class="col-sm-10">
+		    <select class="form-control" name="employee[id]" id="select-employee">
+			  	<% @employees.each do |employee| %>
+			    	<option value="<%= employee.id %>" class="<%= employee.store.id %>" ><%= employee.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+	    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+	    <div class="col-sm-10">
+		    <select class="form-control" name="store_id">
+			  	<% @stores.each do |store| %>
+			    	<option value="<%= store.id %>" ><%= store.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+    
+
+  <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
+<% end %>
+</div>
+

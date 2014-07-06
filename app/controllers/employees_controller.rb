@@ -40,6 +40,14 @@ class EmployeesController < ApplicationController
 
 
   def transfer
+    @stores = current_user.stores
+    @employees = []
+    @stores.each do |store|
+      @employees << store.employees
+    end
+    @employees.flatten!
+    @employee_code_enabled = @stores.first.employee_code_enabled
+    @employee_designation_enabled = @stores.first.employee_designation_enabled
   end
 
   def edit
@@ -54,7 +62,24 @@ class EmployeesController < ApplicationController
 
   def update
     if current_user.can('access_employee',employee_params[:id])
-      @employee = User.find(employee_params[:id])    
+      employee = User.find(employee_params[:id])    
+      if employee.update(employee_params)
+        redirect_to employees_list_path
+      else
+        flash[:error] = "Could not save data"
+        render "edit"
+      end
+    else
+      render :status => :unauthorized
+      return
+    end
+  end
+
+  def implement_transfer
+    if current_user.can('access_employee',employee_params[:id])
+      employee = User.find(employee_params[:id])    
+      autorizations = employee.authorizations.find_by! 
+
       if @employee.update(employee_params)
         redirect_to employees_list_path
       else
@@ -67,9 +92,11 @@ class EmployeesController < ApplicationController
     end
   end
 
+
+
   private
 
   def employee_params
-    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store)
+    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store, :destination_store)
   end
 end
