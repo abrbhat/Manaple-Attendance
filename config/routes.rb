@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'pages/send_notification_mail'
   post 'pages/send_specific_day_notification_mail'
   get 'pages/send_mail'
+  get 'pages/allot_stores'
 
   get 'dashboard/index'
   get 'dashboard/notification_settings'   
@@ -32,6 +33,8 @@ Rails.application.routes.draw do
   post 'api/upload_attendance_data'
   get 'api/get_employee_data'
   get 'api/get_attendance_markers'
+
+  
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

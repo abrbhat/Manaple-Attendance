@@ -47,6 +47,7 @@ class PhotosController < ApplicationController
     render :text => "ok"
   end
 
+
   private
 
   def photo_params

@@ -19,4 +19,14 @@ class PagesController < ApplicationController
     User.mail_stores_specific_day_attendance(@date)
   end
 
+  
+  def allot_stores
+    # this is retrospective action to be run only once
+    Photo.all.each do |photo|
+      photo.store_id = photo.user.store.id
+      photo.save
+    end
+    render :text => "done"
+  end
+
 end
