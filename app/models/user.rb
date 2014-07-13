@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :authorizations
   has_many :photos
   has_many :leaves
+  has_many :transfers
   before_save :ensure_authentication_token!
   after_initialize :set_defaults
   include Rails.application.routes.url_helpers

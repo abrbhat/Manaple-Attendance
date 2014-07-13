@@ -28,6 +28,7 @@ class EmployeesController < ApplicationController
       email << "@manaple.com"
     end
     user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20], employee_code: employee_code, employee_designation: employee_designation)
+    Transfer.create(user_id: user.id, to_store_id: store.id, date: Time.zone.now )
     Authorization.create(user_id: user.id, store_id: store.id, permission: "staff" )
     redirect_to(:controller => 'employees', :action => 'list')
   end

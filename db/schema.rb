@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140713163454) do
+ActiveRecord::Schema.define(version: 20140713181613) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -116,6 +116,19 @@ ActiveRecord::Schema.define(version: 20140713163454) do
     t.boolean  "employee_designation_enabled"
     t.boolean  "employee_code_enabled"
   end
+
+  create_table "transfers", force: true do |t|
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "from_store_id"
+    t.integer  "to_store_id"
+    t.integer  "user_id"
+  end
+
+  add_index "transfers", ["from_store_id"], name: "index_transfers_on_from_store_id"
+  add_index "transfers", ["to_store_id"], name: "index_transfers_on_to_store_id"
+  add_index "transfers", ["user_id"], name: "index_transfers_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

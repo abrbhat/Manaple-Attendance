@@ -61,7 +61,8 @@ function initializeSpinner(){
     $("#spinner-container").hide();
 }
 $(document).ready(function() {
-	var selectedEmployeeId, selectedAttendanceMarker;
+	var selectedEmployeeId, selectedAttendanceMarker, storeId;
+	storeId = $("#store-id").val();
 	goToAttendancePage('1');
 	initializeSpinner();
 	
@@ -102,7 +103,8 @@ $(document).ready(function() {
 	      type: "POST",
 	      url: "/photos",
 	      async:"true",      
-	      data: {"photo[user_id]":selectedEmployeeId,
+	      data: {"photo[store_id]":storeId,
+	      		 "photo[user_id]":selectedEmployeeId,
 	  			 "photo[description]":selectedAttendanceMarker},
 	      error: function(){
 	        alert('There was an error during file upload. Please contact at 8953342253.'); 
