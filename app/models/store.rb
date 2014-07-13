@@ -1,5 +1,6 @@
 class Store < ActiveRecord::Base
   has_many :authorizations
+  has_many :photos
   after_initialize :set_defaults
   def employees #return only active enployees
   	employees = []
