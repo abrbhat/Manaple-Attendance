@@ -197,11 +197,18 @@ class User < ActiveRecord::Base
     photos.where(created_at: date.midnight..date.midnight + 1.day)
   end
 
-  def attendance_data_for(date)
+  def attendance_data_for(date)    
+    photos_for_date = self.photos_for(date)
+    attendance_data = self.get_attendance_data_from_photos(self.store,date,photos_for_date)
+    return attendance_data
+  end
+
+  def get_attendance_data_from_photos(store,date,photos_array)
     attendance_data = Hash.new    
     attendance_data["date"] = date.strftime("%d-%m-%Y")
     attendance_data["employee"] = self
     attendance_data["status"] = "absent"
+    attendance_data["store"] = store
     attendance_data["in_time"] = nil
     attendance_data["in_status"] = nil
     attendance_data["in_photo"] = nil
@@ -214,12 +221,11 @@ class User < ActiveRecord::Base
 
     attendance_data["mid_day_tabulated_data"] = "No Data" # Common for both mid day present and mid day in out
     
-    photos_for_date = self.photos_for(date)
-    in_photos = photos_for_date.select {|photo| photo.description=="in"}
-    out_photos = photos_for_date.select {|photo| photo.description=="out"}
-    mid_day_present_photos = photos_for_date.select {|photo| photo.description=="mid_day_present"}
-    mid_day_in_photos = photos_for_date.select {|photo| photo.description=="mid_day_in"}
-    mid_day_out_photos = photos_for_date.select {|photo| photo.description=="mid_day_out"}
+    in_photos = photos_array.select {|photo| photo.description=="in"}
+    out_photos = photos_array.select {|photo| photo.description=="out"}
+    mid_day_present_photos = photos_array.select {|photo| photo.description=="mid_day_present"}
+    mid_day_in_photos = photos_array.select {|photo| photo.description=="mid_day_in"}
+    mid_day_out_photos = photos_array.select {|photo| photo.description=="mid_day_out"}
     if in_photos.present?
       attendance_data["in_photo"] = in_photos.last
       attendance_data["in_status"] = attendance_data["in_photo"].status
@@ -227,6 +233,7 @@ class User < ActiveRecord::Base
         attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
       end
+      attendance_data["store"] = attendance_data["in_photo"].store
     end
     if out_photos.present?
       attendance_data["out_photo"] = out_photos.last
@@ -283,8 +290,6 @@ class User < ActiveRecord::Base
     end
     return attendance_data
   end
-
-  
   def generate_secure_token_string
     SecureRandom.urlsafe_base64(25).tr('lIO0', 'sxyz')
   end
@@ -340,4 +345,5 @@ class User < ActiveRecord::Base
   def designation
     return employee_designation
   end
+
 end

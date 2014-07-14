@@ -77,9 +77,12 @@ class EmployeesController < ApplicationController
   end
 
   def update_store
-    if current_user.can('access_employee',employee_params[:id])
+    if current_user.can('access_employee',employee_params[:id]) and current_user.can('access_store',employee_params[:to_store_id]) and current_user.can('access_store',employee_params[:from_store_id])
+      to_store_id = employee_params[:to_store_id]
+      from_store_id = employee_params[:from_store_id]
       employee = User.find(employee_params[:id])    
-      authorization = employee.authorizations.find_by! store_id: employee_params[:from_store]
+      Transfer.create(user_id: employee.id, to_store_id: to_store.id, from_store: from_store_id, date: Time.zone.now )
+      authorization = employee.authorizations.find_by! store_id: employee_params[:from_store_id]
       authorization.store_id = employee_params[:destination_store]
       if authorization.save
         flash[:notice] = "Employee Store Updated"
@@ -99,6 +102,6 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store, :from_store,:destination_store)
+    params.require(:employee).permit(:id,:name, :employee_code, :employee_designation, :employee_status, :store, :to_store_id,:from_store_id)
   end
 end
