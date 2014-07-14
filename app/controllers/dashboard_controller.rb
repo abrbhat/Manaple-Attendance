@@ -18,18 +18,10 @@ class DashboardController < ApplicationController
   end
 
   def attendance_specific_day
-    @all_stores = current_user.stores
-    @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
-    @employee_code_enabled = @all_stores.first.employee_code_enabled
-    @employee_designation_enabled = @all_stores.first.employee_designation_enabled
+    initialize_attendance_view
     @attendance_data_all = []
-    @date = get_date
     @mid_day_enabled = false
     @mid_day_in_out_enabled = false
-    if @date.midnight > Time.zone.now.midnight
-      flash[:error] = "Date cannot be later than today"
-      @date = Time.zone.now
-    end
     @stores_to_display.each do |store|
       @mid_day_enabled = true if store.mid_day_enabled
       @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
@@ -51,32 +43,7 @@ class DashboardController < ApplicationController
 
   def attendance_time_period_consolidated
     initialize_attendance_view    
-    @attendance_data_all = []
-    @stores_to_display.each do |store|
-      store.employees.each do |employee|        
-        attendance_data = Hash.new
-        attendance_data["employee"] = employee
-        attendance_data["store"] = store
-        attendance_data["present_count"] = 0
-        attendance_data["absent_count"] = 0
-        attendance_data["leave_count"] = 0
-        attendance_data_for = Hash.new
-        (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-          attendance_data_for[date.strftime("%d-%m-%Y")] = Hash.new
-          attendance_data_for[date.strftime("%d-%m-%Y")] = employee.attendance_data_for(date)
-          attendance_status = attendance_data_for[date.strftime("%d-%m-%Y")]["status"]
-          case attendance_status
-          when "present"
-            attendance_data["present_count"] += 1
-          when "absent"
-            attendance_data["absent_count"] += 1
-          when "on_leave"
-            attendance_data["leave_count"] += 1
-          end
-        end       
-        @attendance_data_all << attendance_data
-      end
-    end
+    @attendance_data_all = get_attendance_data_for_stores(@stores_to_display, @start_date, @end_date, 'consolidated')
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
     respond_to do |format|
@@ -87,11 +54,7 @@ class DashboardController < ApplicationController
 
   def attendance_time_period_detailed
     initialize_attendance_view    
-    @attendance_data_all = []
-    @stores_to_display.each do |store|
-      attendance_data = store.get_attendance_data_between(@start_date,@end_date)
-      @attendance_data_all.concat attendance_data
-    end
+    @attendance_data_all = get_attendance_data_for_stores(@stores_to_display, @start_date, @end_date, 'detailed')
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['date'],attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
@@ -113,38 +76,23 @@ class DashboardController < ApplicationController
   end
 
   def employee_attendance_record
+    initialize_attendance_view
     if params[:employee_id].blank?
       @employee = current_user.employees.first
     else
+      unless current_user.can('access_employee',params[:employee_id])
+        render :status => :unauthorized
+        return
+      end 
       @employee = User.find(params[:employee_id])
-    end
-
-    if !current_user.stores.include? @employee.store
-      flash[:error] = 'You are not allowed there'
-      redirect_to current_user.home_path
-    end     
-    @start_date = get_start_date
-    @end_date = get_end_date
-
-    if @end_date < @start_date
-      flash[:error] = "End Date has to be later than Start Date"
-      @start_date = Time.zone.now
-      @end_date = Time.zone.now
-    end
-    if @end_date.midnight > Time.zone.now.midnight
-      flash[:error] = "End Date cannot be later than today"
-      @start_date = Time.zone.now
-      @end_date = Time.zone.now
-    end
+    end   
 
     @attendance_data_for = Hash.new
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
       @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
     end    
-    @stores = current_user.stores
+    
     @employees = current_user.employees
-    @employee_code_enabled = @employee.store.employee_code_enabled
-    @employee_designation_enabled = @employee.store.employee_designation_enabled
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|
@@ -154,6 +102,14 @@ class DashboardController < ApplicationController
   end
  
   private
+  def get_attendance_data_for_stores stores_array, start_date, end_date, type
+    attendance_data_all = []
+    stores_array.each do |store|
+      attendance_data = store.get_attendance_data_between(start_date,end_date,type)
+      attendance_data_all.concat attendance_data
+    end
+    return attendance_data_all
+  end
   def get_start_date
     if params[:time_period_start].blank?
       start_date = Time.zone.now
@@ -185,6 +141,7 @@ class DashboardController < ApplicationController
     @employee_designation_enabled = @all_stores.first.employee_designation_enabled
     @start_date = get_start_date
     @end_date = get_end_date
+    @date = get_date
     if @end_date < @start_date
       flash[:error] = "End Date has to be later than Start Date"
       @start_date = Time.zone.now
@@ -194,6 +151,10 @@ class DashboardController < ApplicationController
       flash[:error] = "End Date cannot be later than today"
       @start_date = Time.zone.now
       @end_date = Time.zone.now
+    end
+    if @date.midnight > Time.zone.now.midnight
+      flash[:error] = "Date cannot be later than today"
+      @date = Time.zone.now
     end
   end
 

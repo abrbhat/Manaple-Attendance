@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140713181613) do
+ActiveRecord::Schema.define(version: 20140714210404) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20140713181613) do
     t.boolean  "mid_day_enabled"
     t.boolean  "employee_designation_enabled"
     t.boolean  "employee_code_enabled"
+    t.boolean  "transfers_enabled"
+    t.boolean  "leaves_enabled"
   end
 
   create_table "transfers", force: true do |t|

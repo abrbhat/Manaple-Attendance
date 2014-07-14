@@ -27,6 +27,7 @@
   <thead>
     <tr>
       <th>Date </th>
+      <th>Store </th>
       <th>In Time</th>
       <th>In Photo</th>
       <th>Out Time</th>
@@ -39,6 +40,7 @@
       <tr>
         <td> <%= date.strftime("%d-%m-%Y") %></td>
         <% attendance_data_for_date = @attendance_data_for[date.strftime("%d-%m-%Y")] %>
+        <td><%= attendance_data_for_date['store'].name %></td>
           <td><%= print_hyphen_if_empty(attendance_data_for_date['in_time']) %></td>
           <td>
             <% if attendance_data_for_date['in_photo'].present? %> 
@@ -84,4 +86,3 @@
 <div id="pagination_navigation">
   <%= paginate @dates_paginated %>
 </div>
-<%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xls,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"),employee_id: @employee.id) , class:'medium-button' %>

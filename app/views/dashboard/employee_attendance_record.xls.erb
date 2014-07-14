@@ -15,6 +15,7 @@
           <Cell><Data ss:Type="String">Employee Designation</Data></Cell>
         <% end %>
         <Cell><Data ss:Type="String">Date</Data></Cell>
+        <Cell><Data ss:Type="String">Store</Data></Cell>
         <Cell><Data ss:Type="String">In Time</Data></Cell>
         <Cell><Data ss:Type="String">Out Time</Data></Cell>
         <Cell><Data ss:Type="String">Status</Data></Cell>
@@ -30,6 +31,7 @@
         <% end %>
         <Cell><Data ss:Type="String"><%= date.strftime("%d-%m-%Y") %></Data></Cell>
         <% attendance_data_for_date = @attendance_data_for[date.strftime("%d-%m-%Y")] %>
+        <Cell><Data ss:Type="String"><%= attendance_data_for_date['store'].name %></Data></Cell>
         <% if attendance_data_for_date['in_status'] != 'verification_rejected' %>
 	        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data_for_date['in_time']) %></Data></Cell>
         <% else %>

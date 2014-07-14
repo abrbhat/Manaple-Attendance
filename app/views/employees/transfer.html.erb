@@ -38,4 +38,43 @@
   <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
 <% end %>
 </div>
-
+<div class="clear-sides">
+  <h3 >Transfers:</h3>
+</div>
+<table class="list-table">
+  <thead>
+    <tr>    	
+      <th>Date</th>
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
+      <th>Employee</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>      
+      <th>From</th>
+      <th>To</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <% @transfers_paginated.each do |transfer| %>
+    	<% if transfer.from_store.present? %>
+		    <tr>		    	
+		    	<td> <%= transfer.date.strftime("%d-%m-%Y") %></td>   
+		      	<% if @employee_code_enabled %>
+		    		<td><%= transfer.employee.code %></td>
+		      	<% end %>
+		      	<td><%= transfer.employee.name %></td>
+		      	<% if @employee_designation_enabled %>
+		        	<td><%= transfer.employee.designation %></td>
+		      	<% end %>  
+		    	<td> <%= transfer.from_store.name %></td>
+		    	<td> <%= transfer.to_store.name %></td>    
+		  	</tr>
+      	<% end %>
+    <% end %>
+  </tbody>
+</table>
+<div id="pagination_navigation">
+  <%= paginate @transfers_paginated %>
+</div>

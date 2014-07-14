@@ -43,12 +43,16 @@ class EmployeesController < ApplicationController
   def transfer
     @stores = current_user.stores
     @employees = []
+    transfers = []
     @stores.each do |store|
-      @employees << store.employees
+      @employees = @employees + store.employees
+      store.all_employees.each do |employee|
+        transfers.concat employee.transfers
+      end
     end
-    @employees.flatten!
     @employee_code_enabled = @stores.first.employee_code_enabled
-    @employee_designation_enabled = @stores.first.employee_designation_enabled
+    @employee_designation_enabled = @stores.first.employee_designation_enabled    
+    @transfers_paginated = Kaminari.paginate_array(transfers).page(params[:page]).per(30)
   end
 
   def edit

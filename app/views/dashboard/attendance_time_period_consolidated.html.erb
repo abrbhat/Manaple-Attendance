@@ -28,7 +28,7 @@
   <tbody>
     <% @attendance_data_paginated.each do |attendance_data| %>
       <tr>
-        <td> <%= attendance_data['employee'].store.name %></td>
+        <td> <%= attendance_data['store'].name %></td>
         <% if @employee_code_enabled %>
           <td> <%= attendance_data['employee'].code %> </td>
         <% end %>

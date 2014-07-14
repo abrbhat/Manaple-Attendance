@@ -199,7 +199,8 @@ class User < ActiveRecord::Base
 
   def attendance_data_for(date)    
     photos_for_date = self.photos_for(date)
-    attendance_data = self.get_attendance_data_from_photos(self.store,date,photos_for_date)
+    store_on_date = self.store_on date
+    attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
     return attendance_data
   end
 
@@ -292,7 +293,7 @@ class User < ActiveRecord::Base
   end
 
   def dates_for_which_employee_was_in(store,start_date,end_date)
-    all_dates = time_period_dates = (start_date.to_date..(end_date).to_date).to_a
+    all_dates = (start_date.to_date..(end_date).to_date).to_a
     dates = []
     joining_transfers = self.transfers.select {|transfer| transfer.to_store == store }
     leaving_transfers = self.transfers.select {|transfer| transfer.from_store == store}
@@ -300,7 +301,7 @@ class User < ActiveRecord::Base
       time_period = Hash.new
       time_period["begin"] = joining_transfer.date
       leaving_transfers_after_this_joining = leaving_transfers.select{|transfer| transfer.date > joining_transfer.date}
-      if time_period["end"].blank?
+      if leaving_transfers_after_this_joining.blank?
         time_period["end"] = end_date
       else
         time_period["end"] = leaving_transfers_after_this_joining.min_by(&:date).date
@@ -309,8 +310,20 @@ class User < ActiveRecord::Base
       dates = dates + time_period_dates
     end
     common_dates = all_dates & dates
-    logger.debug "Dates: #{common_dates.inspect}"
     return common_dates
+  end
+
+  def store_on date
+    last_transfer_before_date = self.transfers.select {|transfer| transfer.date < date}.max_by(&:date)
+    return last_transfer_before_date.to_store
+  end
+
+  def transfers_enabled?
+    self.stores.first.transfers_enabled
+  end
+
+  def leaves_enabled?
+    self.stores.first.leaves_enabled
   end
 
   def generate_secure_token_string

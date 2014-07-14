@@ -20,7 +20,6 @@ class Photo < ActiveRecord::Base
         end
   	  end
     end
-    logger.debug "Today hotos: #{today_photos.inspect}"
   	if today_photos.count == 1
   		return true
   	else
