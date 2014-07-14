@@ -23,7 +23,7 @@
       </Row>
     <% data.each do |attendance_data| %>
       <Row>
-        <Cell><Data ss:Type="String"><%= attendance_data['date'] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= attendance_data['date'].strftime("%d-%m-%Y") %></Data></Cell>
         <Cell><Data ss:Type="String"><%= attendance_data['employee'].store.name %></Data></Cell>
         <% if @employee_code_enabled %>
           <Cell><Data ss:Type="String"><%= attendance_data['employee'].code %></Data></Cell>

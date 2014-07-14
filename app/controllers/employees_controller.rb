@@ -81,9 +81,9 @@ class EmployeesController < ApplicationController
       to_store_id = employee_params[:to_store_id]
       from_store_id = employee_params[:from_store_id]
       employee = User.find(employee_params[:id])    
-      Transfer.create(user_id: employee.id, to_store_id: to_store.id, from_store: from_store_id, date: Time.zone.now )
-      authorization = employee.authorizations.find_by! store_id: employee_params[:from_store_id]
-      authorization.store_id = employee_params[:destination_store]
+      Transfer.create(user_id: employee.id, to_store_id: to_store_id, from_store_id: from_store_id, date: Time.zone.now )
+      authorization = employee.authorizations.find_by! store_id: from_store_id
+      authorization.store_id = to_store_id
       if authorization.save
         flash[:notice] = "Employee Store Updated"
         redirect_to employees_list_path

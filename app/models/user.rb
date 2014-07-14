@@ -205,7 +205,7 @@ class User < ActiveRecord::Base
 
   def get_attendance_data_from_photos(store,date,photos_array)
     attendance_data = Hash.new    
-    attendance_data["date"] = date.strftime("%d-%m-%Y")
+    attendance_data["date"] = date
     attendance_data["employee"] = self
     attendance_data["status"] = "absent"
     attendance_data["store"] = store
@@ -290,6 +290,29 @@ class User < ActiveRecord::Base
     end
     return attendance_data
   end
+
+  def dates_for_which_employee_was_in(store,start_date,end_date)
+    all_dates = time_period_dates = (start_date.to_date..(end_date).to_date).to_a
+    dates = []
+    joining_transfers = self.transfers.select {|transfer| transfer.to_store == store }
+    leaving_transfers = self.transfers.select {|transfer| transfer.from_store == store}
+    joining_transfers.each do |joining_transfer|
+      time_period = Hash.new
+      time_period["begin"] = joining_transfer.date
+      leaving_transfers_after_this_joining = leaving_transfers.select{|transfer| transfer.date > joining_transfer.date}
+      if time_period["end"].blank?
+        time_period["end"] = end_date
+      else
+        time_period["end"] = leaving_transfers_after_this_joining.min_by(&:date).date
+      end
+      time_period_dates = (time_period["begin"].to_date..(time_period["end"]).to_date).to_a
+      dates = dates + time_period_dates
+    end
+    common_dates = all_dates & dates
+    logger.debug "Dates: #{common_dates.inspect}"
+    return common_dates
+  end
+
   def generate_secure_token_string
     SecureRandom.urlsafe_base64(25).tr('lIO0', 'sxyz')
   end

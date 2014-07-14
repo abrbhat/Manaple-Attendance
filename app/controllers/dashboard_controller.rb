@@ -97,7 +97,7 @@ class DashboardController < ApplicationController
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @group_by = params[:group_by]
     if @group_by == 'date'
-      @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['date']}
+      @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['date'].strftime("%d-%m-%Y")}
     else
       @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name }
     end

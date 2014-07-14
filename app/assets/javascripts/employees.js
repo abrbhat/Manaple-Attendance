@@ -1,15 +1,17 @@
-$(document).ready(function () {    
-	console.log("test1");
-    var allOptions = $('#select-employee option');
-    //console.log(allOptions);
+$(document).ready(function () {
+    var allEmployeeOptions = $('#select-employee option');
+    var allToStoreOptions = $('#select-to-store option');
     $('#select-from-store').change(function () {
         $('#select-employee option').remove(); //remove all options
-        var classN = $('#select-from-store option:selected').prop('class'); //get the 
-        console.log(classN);
-        var opts = allOptions.filter('.' + classN); //selected option's classname
-        console.log(opts);
-        $.each(opts, function (i, j) {
+        $('#select-to-store option').remove(); //remove all options
+        var fromStoreId = $('#select-from-store option:selected').prop('class'); //get the selected option's classname
+        var employeeOpts = allEmployeeOptions.filter('.' + fromStoreId); 
+        var toStoreOpts = allToStoreOptions.not('.' + fromStoreId);
+        $.each(employeeOpts, function (i, j) {
             $(j).appendTo('#select-employee'); //append those options back
+        });
+        $.each(toStoreOpts, function (i, j) {
+            $(j).appendTo('#select-to-store'); //append those options back
         });
     });
 });

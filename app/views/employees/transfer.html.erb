@@ -1,10 +1,9 @@
 <%= javascript_include_tag "employees" %>
 <h2>Transfer Employee</h2>
-<h2>Enter Employee Name</h2>
 <div class = "form-container left-side">
 <%= form_tag({controller:"employees",action:"update_store"}, method: "post",class:"form-horizontal") do %>
 	<div class="form-group">
-	    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+	    <label for="inputEmail" class="col-sm-2 control-label">From:</label>
 	    <div class="col-sm-10">
 		    <select class="form-control" id="select-from-store" name="employee[from_store_id]">
 			  	<% @stores.each do |store| %>
@@ -14,7 +13,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-	    <label for="inputEmail" class="col-sm-2 control-label">Employee</label>
+	    <label for="inputEmail" class="col-sm-2 control-label">Name:</label>
 	    <div class="col-sm-10">
 		    <select class="form-control" name="employee[id]" id="select-employee">
 			  	<% @employees.each do |employee| %>
@@ -24,11 +23,11 @@
 		</div>
 	</div>
 	<div class="form-group">
-	    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+	    <label for="inputEmail" class="col-sm-2 control-label">To:</label>
 	    <div class="col-sm-10">
-		    <select class="form-control" name="employee[to_store_id]">
+		    <select class="form-control" name="employee[to_store_id]" id="select-to-store">
 			  	<% @stores.each do |store| %>
-			    	<option value="<%= store.id %>" ><%= store.name %></option>
+			    	<option value="<%= store.id %>" class="<%= store.id %>" ><%= store.name %></option>
 			 	<% end %>
 			</select>
 		</div>

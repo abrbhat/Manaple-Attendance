@@ -59,7 +59,8 @@ class Store < ActiveRecord::Base
     photos_between_dates = self.photos.select {|photo| photo.created_at >= start_date.midnight and photo.created_at <= end_date.midnight}
     photos_of_a_date = photos_between_dates.group_by {|photo| photo.created_at.strftime("%d-%m-%Y")}
     all_employees.each do |employee|
-      (start_date.to_date..(end_date.midnight).to_date).each do |date|
+      dates = employee.dates_for_which_employee_was_in(self,start_date,end_date)
+      dates.each do |date|
         employee_photos = photos_between_dates.select {|photo| photo.created_at.to_date == date and photo.user == employee}
         attendance_data = employee.get_attendance_data_from_photos(self,date,employee_photos)
         attendance_data_all << attendance_data
@@ -69,7 +70,12 @@ class Store < ActiveRecord::Base
   end
 
   def all_employees_between_dates start_date, end_date
-    all_employees = self.employees
-    
+    all_employees = []
+    all_employees << self.employees
+    away_transfers_between_dates = self.away_transfers.select {|transfer| transfer.date >= start_date.midnight and transfer.date <= end_date.midnight}
+    away_transfers_between_dates.each do |transfer|
+      all_employees << transfer.user
+    end
+    return all_employees.flatten
   end
 end

@@ -29,4 +29,14 @@ class PagesController < ApplicationController
     render :text => "done"
   end
 
+  def create_initial_transfers
+    # this is retrospective action to be run only once
+    User.all.each do |employee|
+      if employee.store.present?
+        Transfer.create(user_id: employee.id, to_store_id: employee.store.id, date: employee.authorizations.first.created_at )
+      end
+    end
+    render :text => "transfer created"
+  end
+
 end

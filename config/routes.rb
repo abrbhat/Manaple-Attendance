@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   post 'pages/send_specific_day_notification_mail'
   get 'pages/send_mail'
   get 'pages/allot_stores'
-
+  get 'pages/create_initial_transfers'
   get 'dashboard/index'
   get 'dashboard/notification_settings'   
   get 'dashboard/notification_settings_view'
