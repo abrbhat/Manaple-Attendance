@@ -65,6 +65,17 @@ class User < ActiveRecord::Base
       return authorizations.first.permission == 'observer'
     end
   end
+
+  def is_master?
+    is_master = true
+    self.authorizations.each do |authorization|
+      if authorization.permission != "master"
+        is_master = false
+      end
+    end
+    logger.debug "master:#{is_master}"
+    return is_master
+  end
   def stores
   	stores = []
   	authorizations.each do |authorization|
@@ -161,6 +172,10 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"
       accessible_in["dashboard"] <<  "employee_attendance_record"
+    elsif is_master?
+      
+      accessible_in["dashboard"] <<  "master_settings"
+      accessible_in["dashboard"] <<  "master_settings_update"
     else
       accessible_in["dashboard"] = []
     end
@@ -171,6 +186,8 @@ class User < ActiveRecord::Base
       dashboard_attendance_specific_day_path
     elsif is_store_common_user?
       attendance_mark_path   
+    elsif is_master?
+      dashboard_master_settings_path
     else
       new_user_session_path
     end

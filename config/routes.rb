@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   get 'dashboard/index'
   get 'dashboard/notification_settings'   
   get 'dashboard/notification_settings_view'
+  get 'dashboard/master_settings'
   post 'dashboard/notification_settings_update'
+  post 'dashboard/master_settings_update'
 
   get 'dashboard/attendance_specific_day'
   get 'dashboard/attendance_time_period_consolidated'

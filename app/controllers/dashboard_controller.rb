@@ -6,6 +6,7 @@ class DashboardController < ApplicationController
     @mobile = incharge.store.phone
     @email = incharge.store.email
   end
+
   def notification_settings_update
     incharge = current_user
     incharge.stores.each do |store|
@@ -15,6 +16,32 @@ class DashboardController < ApplicationController
     end
     flash[:notice] = "Your settings have been saved"
     redirect_to dashboard_notification_settings_path
+  end
+
+  def master_settings
+    unless current_user.is_master?
+      render :status => :unauthorized
+      return
+    end
+    store = current_user.stores.first
+    @mid_day_enabled = store.mid_day_enabled
+    @mid_day_in_out_enabled = store.mid_day_in_out_enabled
+    @leaves_enabled = store.leaves_enabled
+    @transfers_enabled = store.transfers_enabled
+    @employee_code_enabled = store.employee_code_enabled
+    @employee_designation_enabled = store.employee_designation_enabled
+  end
+
+  def master_settings_update
+    unless current_user.is_master?
+      render :status => :unauthorized
+      return
+    end
+    current_user.stores.each do |store|
+      store.update(store_params)
+    end
+    flash[:notice] = "Your settings have been saved"
+    redirect_to dashboard_master_settings_path
   end
 
   def attendance_specific_day
@@ -156,6 +183,10 @@ class DashboardController < ApplicationController
       flash[:error] = "Date cannot be later than today"
       @date = Time.zone.now
     end
+  end
+
+  def store_params
+    params.require(:store).permit(:mid_day_enabled,:mid_day_in_out_enabled, :leaves_enabled, :employee_designation_enabled, :employee_code_enabled, :transfers_enabled)
   end
 
   
