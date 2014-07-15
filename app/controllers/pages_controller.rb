@@ -7,7 +7,10 @@ class PagesController < ApplicationController
   end
 
   def send_mail
-    
+  end
+
+  def send_test_mail
+    AdminMailer.notification().deliver
   end
 
   def send_specific_day_notification_mail
