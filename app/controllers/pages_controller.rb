@@ -26,8 +26,10 @@ class PagesController < ApplicationController
   def allot_stores
     # this is retrospective action to be run only once
     Photo.all.each do |photo|
-      photo.store_id = photo.user.store.id
-      photo.save
+      if photo.user.present?
+        photo.store_id = photo.user.store.id
+        photo.save
+      end
     end
     render :text => "done"
   end
