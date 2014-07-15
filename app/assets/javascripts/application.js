@@ -7,4 +7,3 @@
 //= require bootstrap-multiselect
 //= require dashboard
 //= require spinner
-//= require webcam

@@ -1,0 +1,80 @@
+<%= javascript_include_tag "employees" %>
+<h2>Transfer Employee</h2>
+<div class = "form-container left-side">
+<%= form_tag({controller:"employees",action:"update_store"}, method: "post",class:"form-horizontal") do %>
+	<div class="form-group">
+	    <label for="inputEmail" class="col-sm-2 control-label">From:</label>
+	    <div class="col-sm-10">
+		    <select class="form-control" id="select-from-store" name="employee[from_store_id]">
+			  	<% @stores.each do |store| %>
+			    	<option value="<%= store.id %>" class="<%= store.id %>"><%= store.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+	    <label for="inputEmail" class="col-sm-2 control-label">Name:</label>
+	    <div class="col-sm-10">
+		    <select class="form-control" name="employee[id]" id="select-employee">
+			  	<% @employees.each do |employee| %>
+			    	<option value="<%= employee.id %>" class="<%= employee.store.id %>" ><%= employee.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+	    <label for="inputEmail" class="col-sm-2 control-label">To:</label>
+	    <div class="col-sm-10">
+		    <select class="form-control" name="employee[to_store_id]" id="select-to-store">
+			  	<% @stores.each do |store| %>
+			    	<option value="<%= store.id %>" class="<%= store.id %>" ><%= store.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+    
+
+  <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
+<% end %>
+</div>
+<div class="clear-sides">
+  <h3 >Transfers:</h3>
+</div>
+<table class="list-table">
+  <thead>
+    <tr>    	
+      <th>Date</th>
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
+      <th>Employee</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>      
+      <th>From</th>
+      <th>To</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <% @transfers_paginated.each do |transfer| %>
+    	<% if transfer.from_store.present? and transfer.to_store.present? %>
+		    <tr>		    	
+		    	<td> <%= transfer.date.strftime("%d-%m-%Y") %></td>   
+		      	<% if @employee_code_enabled %>
+		    		<td><%= transfer.employee.code %></td>
+		      	<% end %>
+		      	<td><%= transfer.employee.name %></td>
+		      	<% if @employee_designation_enabled %>
+		        	<td><%= transfer.employee.designation %></td>
+		      	<% end %>  
+		    	<td> <%= transfer.from_store.name %></td>
+		    	<td> <%= transfer.to_store.name %></td>    
+		  	</tr>
+      	<% end %>
+    <% end %>
+  </tbody>
+</table>
+<div id="pagination_navigation">
+  <%= paginate @transfers_paginated %>
+</div>

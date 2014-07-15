@@ -1,8 +1,8 @@
 ActiveAdmin.register Photo do
 
-  config.per_page = 5
+  config.per_page = 20
 
-  permit_params :description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at, :status, :ip
+  permit_params :created_at,:description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at, :status, :ip
 
   index do
     column :description
@@ -11,6 +11,7 @@ ActiveAdmin.register Photo do
     column :image_updated_at
     column :status
     column :ip
+    column :store
     column :image do |photo|
       image_tag photo.image.url(:medium)
     end

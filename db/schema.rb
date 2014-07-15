@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703200639) do
+ActiveRecord::Schema.define(version: 20140714210404) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -96,10 +96,12 @@ ActiveRecord::Schema.define(version: 20140703200639) do
     t.integer  "user_id"
     t.string   "status"
     t.string   "ip"
+    t.integer  "store_id"
   end
 
   add_index "photos", ["created_at"], name: "index_photos_on_created_at"
   add_index "photos", ["description"], name: "index_photos_on_description"
+  add_index "photos", ["store_id"], name: "index_photos_on_store_id"
   add_index "photos", ["user_id"], name: "index_photos_on_user_id"
 
   create_table "stores", force: true do |t|
@@ -113,7 +115,22 @@ ActiveRecord::Schema.define(version: 20140703200639) do
     t.boolean  "mid_day_enabled"
     t.boolean  "employee_designation_enabled"
     t.boolean  "employee_code_enabled"
+    t.boolean  "transfers_enabled"
+    t.boolean  "leaves_enabled"
   end
+
+  create_table "transfers", force: true do |t|
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "from_store_id"
+    t.integer  "to_store_id"
+    t.integer  "user_id"
+  end
+
+  add_index "transfers", ["from_store_id"], name: "index_transfers_on_from_store_id"
+  add_index "transfers", ["to_store_id"], name: "index_transfers_on_to_store_id"
+  add_index "transfers", ["user_id"], name: "index_transfers_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

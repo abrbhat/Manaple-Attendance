@@ -1,39 +1,40 @@
 Rails.application.routes.draw do
 
-  get 'attendance/mark'
+  get 'employees/list'
+  post 'employees/create'
+  get 'employees/transfer'
+  get 'employees/edit'
+  get 'employees/new'
+  post 'employees/update'
+  post 'employees/update_store'
 
+  get 'attendance/mark'
   get 'attendance/record'
 
   get 'pages/main'
   get 'pages/send_notification_mail'
   post 'pages/send_specific_day_notification_mail'
   get 'pages/send_mail'
-
+  get 'pages/allot_stores'
+  get 'pages/create_initial_transfers'
   get 'dashboard/index'
-  get 'dashboard/notification_settings'
-  get 'dashboard/employees'
-  get 'dashboard/create_employee'
-  post 'dashboard/create_new_employee'
+  get 'dashboard/notification_settings'   
+  get 'dashboard/notification_settings_view'
+  post 'dashboard/notification_settings_update'
+
   get 'dashboard/attendance_specific_day'
   get 'dashboard/attendance_time_period_consolidated'
   get 'dashboard/attendance_time_period_detailed'
-  get 'dashboard/choose_employee_name'
-  get 'dashboard/attendance_marked'
-  get 'dashboard/notification_settings_view'
   get 'dashboard/employee_attendance_record'
-  get 'dashboard/edit_employee'
-  post 'dashboard/update_employee'
 
   get 'verification/mass_verify'
-
-  post 'dashboard/notification_settings_update'
-  post 'dashboard/choose_attendance_description'
-  post 'photos/new'
   post 'verification/do_mass_verification'
 
   post 'api/upload_attendance_data'
   get 'api/get_employee_data'
   get 'api/get_attendance_markers'
+
+  
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

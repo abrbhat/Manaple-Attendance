@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :authorizations
   has_many :photos
   has_many :leaves
+  has_many :transfers
   before_save :ensure_authentication_token!
   after_initialize :set_defaults
   include Rails.application.routes.url_helpers
@@ -112,24 +113,30 @@ class User < ActiveRecord::Base
     accessible_in["photos"] = []
     accessible_in["api"] = []
     accessible_in["attendance"] = []
+    accessible_in["employees"] = []
+
     if is_store_incharge?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"
-      accessible_in["dashboard"] <<  "employees"
+
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"
       accessible_in["dashboard"] <<  "employee_attendance_record"
-      accessible_in["dashboard"] <<  "create_employee"
-      accessible_in["dashboard"] <<  "create_new_employee"
-      accessible_in["dashboard"] <<  "edit_employee"
-      accessible_in["dashboard"] <<  "update_employee"
+
       accessible_in["leaves"] << "index"
       accessible_in["leaves"] << "update"
+
+      accessible_in["employees"] << "create"
+      accessible_in["employees"] << "edit"
+      accessible_in["employees"] << "update"
+      accessible_in["employees"] << "list"
+      accessible_in["employees"] << "new"
+      accessible_in["employees"] << "transfer"
+      accessible_in["employees"] << "update_store"
+
     elsif is_store_common_user?
       accessible_in["dashboard"] << "request_leave"
-      accessible_in["dashboard"] << "choose_employee_name"
-      accessible_in["dashboard"] << "choose_attendance_description"
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period"
       
@@ -140,7 +147,6 @@ class User < ActiveRecord::Base
       accessible_in["leaves"] << "create"
       accessible_in["leaves"] << "apply"
 
-      accessible_in["photos"] << "new"
       accessible_in["photos"] << "upload"
       accessible_in["photos"] << "create"
 
@@ -150,7 +156,7 @@ class User < ActiveRecord::Base
     elsif is_store_observer?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"
-      accessible_in["dashboard"] <<  "employees"
+
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"
@@ -191,11 +197,19 @@ class User < ActiveRecord::Base
     photos.where(created_at: date.midnight..date.midnight + 1.day)
   end
 
-  def attendance_data_for(date)
+  def attendance_data_for(date)    
+    photos_for_date = self.photos_for(date)
+    store_on_date = self.store_on date
+    attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
+    return attendance_data
+  end
+
+  def get_attendance_data_from_photos(store,date,photos_array)
     attendance_data = Hash.new    
-    attendance_data["date"] = date.strftime("%d-%m-%Y")
+    attendance_data["date"] = date
     attendance_data["employee"] = self
     attendance_data["status"] = "absent"
+    attendance_data["store"] = store
     attendance_data["in_time"] = nil
     attendance_data["in_status"] = nil
     attendance_data["in_photo"] = nil
@@ -208,12 +222,11 @@ class User < ActiveRecord::Base
 
     attendance_data["mid_day_tabulated_data"] = "No Data" # Common for both mid day present and mid day in out
     
-    photos_for_date = self.photos_for(date)
-    in_photos = photos_for_date.select {|photo| photo.description=="in"}
-    out_photos = photos_for_date.select {|photo| photo.description=="out"}
-    mid_day_present_photos = photos_for_date.select {|photo| photo.description=="mid_day_present"}
-    mid_day_in_photos = photos_for_date.select {|photo| photo.description=="mid_day_in"}
-    mid_day_out_photos = photos_for_date.select {|photo| photo.description=="mid_day_out"}
+    in_photos = photos_array.select {|photo| photo.description=="in"}
+    out_photos = photos_array.select {|photo| photo.description=="out"}
+    mid_day_present_photos = photos_array.select {|photo| photo.description=="mid_day_present"}
+    mid_day_in_photos = photos_array.select {|photo| photo.description=="mid_day_in"}
+    mid_day_out_photos = photos_array.select {|photo| photo.description=="mid_day_out"}
     if in_photos.present?
       attendance_data["in_photo"] = in_photos.last
       attendance_data["in_status"] = attendance_data["in_photo"].status
@@ -221,6 +234,7 @@ class User < ActiveRecord::Base
         attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
       end
+      attendance_data["store"] = attendance_data["in_photo"].store
     end
     if out_photos.present?
       attendance_data["out_photo"] = out_photos.last
@@ -278,7 +292,40 @@ class User < ActiveRecord::Base
     return attendance_data
   end
 
-  
+  def dates_for_which_employee_was_in(store,start_date,end_date)
+    all_dates = (start_date.to_date..(end_date).to_date).to_a
+    dates = []
+    joining_transfers = self.transfers.select {|transfer| transfer.to_store == store }
+    leaving_transfers = self.transfers.select {|transfer| transfer.from_store == store}
+    joining_transfers.each do |joining_transfer|
+      time_period = Hash.new
+      time_period["begin"] = joining_transfer.date
+      leaving_transfers_after_this_joining = leaving_transfers.select{|transfer| transfer.date > joining_transfer.date}
+      if leaving_transfers_after_this_joining.blank?
+        time_period["end"] = end_date
+      else
+        time_period["end"] = leaving_transfers_after_this_joining.min_by(&:date).date
+      end
+      time_period_dates = (time_period["begin"].to_date..(time_period["end"]).to_date).to_a
+      dates = dates + time_period_dates
+    end
+    common_dates = all_dates & dates
+    return common_dates
+  end
+
+  def store_on date
+    last_transfer_before_date = self.transfers.select {|transfer| transfer.date < date}.max_by(&:date)
+    return last_transfer_before_date.to_store
+  end
+
+  def transfers_enabled?
+    self.stores.first.transfers_enabled
+  end
+
+  def leaves_enabled?
+    self.stores.first.leaves_enabled
+  end
+
   def generate_secure_token_string
     SecureRandom.urlsafe_base64(25).tr('lIO0', 'sxyz')
   end
@@ -334,4 +381,5 @@ class User < ActiveRecord::Base
   def designation
     return employee_designation
   end
+
 end

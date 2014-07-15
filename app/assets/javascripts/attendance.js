@@ -31,15 +31,16 @@ function goToAttendancePage(page){
 	$("#attendance-page-"+page).show();
 }
 function setWebcam(){
-  $("#webcam").html("");
-  Webcam.set({
+  	$("#webcam").html("");
+  	Webcam.set({
             dest_width: 640,
             dest_height: 480,
             image_format: 'jpeg',
             jpeg_quality: 90
         });
-        Webcam.attach( '#webcam' );
-        Webcam.setSWFLocation("/public/webcam.swf");
+	Webcam.attach( '#webcam' );
+	Webcam.setSWFLocation("/public/webcam.swf");
+
 }
 function showSavePhotoAndTakeAnotherButtonContainer(){
 	$(".photo-form-container").hide();
@@ -59,17 +60,19 @@ function initializeSpinner(){
     var spinner = new Spinner().spin(target); 
     $("#spinner-container").hide();
 }
-var ready;
-ready = function() {
-	var selectedEmployeeId, selectedAttendanceMarker;
+$(document).ready(function() {
+	var selectedEmployeeId, selectedAttendanceMarker, storeId;
+	storeId = $("#store-id").val();
 	goToAttendancePage('1');
 	initializeSpinner();
+	
 	$(".next-attendance-page-button").click(function(){
 		var currentPageId = $(this).closest('.attendance-page').attr('id');
 		var currentPage = currentPageId.slice(-1);
 		goToNextAttendancePage(currentPage);
 	})
 	$("#take-another-picture-button").click(function(){
+		showTakePictureButtonContainer();
 		setWebcam();
 	})
 	$( "#take-picture-button" ).click(function() {
@@ -100,7 +103,8 @@ ready = function() {
 	      type: "POST",
 	      url: "/photos",
 	      async:"true",      
-	      data: {"photo[user_id]":selectedEmployeeId,
+	      data: {"photo[store_id]":storeId,
+	      		 "photo[user_id]":selectedEmployeeId,
 	  			 "photo[description]":selectedAttendanceMarker},
 	      error: function(){
 	        alert('There was an error during file upload. Please contact at 8953342253.'); 
@@ -132,9 +136,6 @@ ready = function() {
 		goToAttendancePage('1');
 	})
 
-};
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
+});
 
 

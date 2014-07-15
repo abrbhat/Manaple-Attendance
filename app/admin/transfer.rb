@@ -1,11 +1,11 @@
-ActiveAdmin.register Store do
+ActiveAdmin.register Transfer do
 
-  permit_params :name, :email, :phone, :in_out_enabled, :mid_day_enabled, :mid_day_in_out_enabled, :employee_code_enabled,:transfers_enabled,:leaves_enabled, :employee_designation_enabled
   
   # See permitted parameters documentation:
   # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # permit_params :list, :of, :attributes, :on, :model
+  permit_params :user_id,:from_store_id,:to_store_id,:date
   #
   # or
   #
@@ -14,5 +14,12 @@ ActiveAdmin.register Store do
   #  permitted << :other if resource.something?
   #  permitted
   # end
+  index do
+    column :from_store
+    column :to_store
+    column :user
+    column :date
+    actions
+  end
   
 end

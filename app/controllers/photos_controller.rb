@@ -47,10 +47,11 @@ class PhotosController < ApplicationController
     render :text => "ok"
   end
 
+
   private
 
   def photo_params
-    params.require(:photo).permit(:description, :commit, :user_id,:data)
+    params.require(:photo).permit(:description, :commit, :user_id,:data, :store_id)
   end
 
   def upload_path store# is used in upload and create

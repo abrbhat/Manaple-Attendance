@@ -1,7 +1,7 @@
 <h1>Employees</h1>
 <div class="attendance-navigator-container">
-<%= form_tag({controller:"dashboard",action:"employees"}, method: "get") do %>
-  <%= render "store_chooser_dropdown" %>  
+<%= form_tag({controller:"employees",action:"list"}, method: "get") do %>
+  <%= render "dashboard/store_chooser_dropdown" %>  
   <%= submit_tag "Go", :class => "proceed-button"%>
 <% end %>
 </div>
@@ -33,7 +33,7 @@
           <% end %>
           <td><div class="<%= is_employee_active(employee.status)%>" ><%= employee.status.capitalize %> </div></td>
             <td>
-              <%= link_to "Edit", dashboard_edit_employee_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
+              <%= link_to "Edit", employees_edit_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
             </td>
         </tr>
       <% end %>

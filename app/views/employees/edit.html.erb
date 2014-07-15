@@ -1,6 +1,6 @@
 <h2>Enter Employee Name</h2>
 <div class = "form-container left-side">
-<%= form_tag({controller:"dashboard",action:"update_employee"}, method: "post",class:"form-horizontal") do %>
+<%= form_tag({controller:"employees",action:"update"}, method: "post",class:"form-horizontal") do %>
     <input type="hidden" name ="employee[id]" value="<%= @employee.id %>" >
     <div class="form-element-group">
       <label for="employee-designation" class="form-label col-sm-5">Store:</label>

@@ -59,7 +59,6 @@ class LeavesController < ApplicationController
   end
   # PATCH/PUT /leaves/1
   def update
-    logger.debug "Leave Params: #{leave_params.inspect}"
     if @leave.update(leave_params)
       redirect_to leaves_path, notice: 'Leave was successfully updated.'
     else

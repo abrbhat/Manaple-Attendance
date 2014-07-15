@@ -5,7 +5,7 @@
     <span class="sr-only">Toggle Dropdown</span>
   </button>
   <ul class="dropdown-menu" role="menu"> 
-    <% @stores.each do |store| %>  
+    <% @all_stores.each do |store| %>  
     <li class="dropdown-submenu">
       <a tabindex="-1" href="#"><%= store.name %></a>
       <ul class="dropdown-menu">
