@@ -2,15 +2,29 @@
 ApplicationName=webcam_app
 AwsCredentialFile=/home/peeyush/.elasticbeanstalk/aws_credential_file
 DevToolsEndpoint=git.elasticbeanstalk.ap-southeast-1.amazonaws.com
-EnvironmentName=webcamapp-env
+EnvironmentName=attendance-app
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=SingleInstance
 InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.webcamapp-env
-RdsDeletionPolicy=Delete
+OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.attendance-app
+RdsDeletionPolicy=Snapshot
 RdsEnabled=Yes
-RdsSourceSnapshotName=
+RdsSourceSnapshotName=snap-9-july
 Region=ap-southeast-1
 ServiceEndpoint=https://elasticbeanstalk.ap-southeast-1.amazonaws.com
-SolutionStack=64bit Amazon Linux 2014.03 v1.0.2 running Ruby 2.0 (Passenger Standalone)
+SolutionStack=64bit Amazon Linux 2014.03 v1.0.3 running Ruby 2.0 (Passenger Standalone)
+
+[branches]
+master=webcamapp-master-env
+
+[branch:master]
+ApplicationVersionName=Sample Application
+EnvironmentName=webcamapp-master-env
+EnvironmentTier=WebServer::Standard::1.0
+EnvironmentType=SingleInstance
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=/home/peeyush/webcam_app/.elasticbeanstalk/optionsettings.webcamapp-master-env
+RdsDeletionPolicy=Snapshot
+RdsEnabled=Yes
+RdsSourceSnapshotName=snap-9-july
 

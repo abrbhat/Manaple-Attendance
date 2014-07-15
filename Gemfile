@@ -60,7 +60,7 @@ group :assets do
   gem 'uglifier'
 end 
 
-gem 'jquery-ui-rails', '4.2.1'
+gem 'jquery-ui-rails', '5.0'
 
 # For Abhiroop's Dabba
 #gem 'sass-rails', git: 'http://github.com/rails/sass-rails'
