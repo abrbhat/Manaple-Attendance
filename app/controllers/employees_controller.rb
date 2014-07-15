@@ -67,8 +67,16 @@ class EmployeesController < ApplicationController
 
   def update
     if current_user.can('access_employee',employee_params[:id])
-      employee = User.find(employee_params[:id])    
+      employee = User.find(employee_params[:id])
+      status_changed = employee_params[:employee_status] != employee.status ? true : false
       if employee.update(employee_params)
+        if status_changed
+          if employee_params[:employee_status] == 'active' 
+            Transfer.create(user_id: employee.id, to_store_id: employee.store.id, date: Time.zone.now )
+          elsif employee_params[:employee_status] == 'inactive'
+            Transfer.create(user_id: employee.id, from_store_id: employee.store.id, date: Time.zone.now )
+          end
+        end
         redirect_to employees_list_path
       else
         flash[:error] = "Could not save data"
@@ -83,9 +91,8 @@ class EmployeesController < ApplicationController
   def update_store
     if current_user.can('access_employee',employee_params[:id]) and current_user.can('access_store',employee_params[:to_store_id]) and current_user.can('access_store',employee_params[:from_store_id])
       to_store_id = employee_params[:to_store_id]
-      from_store_id = employee_params[:from_store_id]
       employee = User.find(employee_params[:id])    
-      Transfer.create(user_id: employee.id, to_store_id: to_store_id, from_store_id: from_store_id, date: Time.zone.now )
+      Transfer.create(user_id: employee.id, to_store_id: to_store_id, from_store_id: employee.store.id, date: Time.zone.now )
       authorization = employee.authorizations.find_by! store_id: from_store_id
       authorization.store_id = to_store_id
       if authorization.save
