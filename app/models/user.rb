@@ -73,7 +73,6 @@ class User < ActiveRecord::Base
         is_master = false
       end
     end
-    logger.debug "master:#{is_master}"
     return is_master
   end
   def stores
@@ -216,7 +215,7 @@ class User < ActiveRecord::Base
   end
 
   def attendance_data_for(date)    
-    photos_for_date = self.photos_for(date)
+    photos_for_date = self.photos_for(date)    
     store_on_date = self.store_on date
     attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
     return attendance_data
