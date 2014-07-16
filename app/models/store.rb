@@ -78,6 +78,20 @@ class Store < ActiveRecord::Base
     self.employee_designation_enabled = false if self.employee_designation_enabled.nil?
   end
 
+  def opening_time_on(date)
+    photos_of_date = self.photos.select{|photo| photo.created_at >= date.midnight and photo.created_at <= (date.midnight + 1.day)}
+    in_photos_of_date = photos_of_date.select {|photo| photo.description == 'in' and photo.status != 'verification_rejected'}
+    first_photo_of_date = in_photos_of_date.min_by(&:created_at)
+    return first_photo_of_date.created_at.strftime("%I:%M%p") if first_photo_of_date.present?
+  end
+
+  def closing_time_on(date)
+    photos_of_date = self.photos.select{|photo| photo.created_at >= date.midnight and photo.created_at <= (date.midnight + 1.day)}
+    out_photos_of_date = photos_of_date.select {|photo| photo.description == 'out' and photo.status != 'verification_rejected'}
+    last_photo_of_date = out_photos_of_date.max_by(&:created_at)
+    return last_photo_of_date.created_at.strftime("%I:%M%p") if last_photo_of_date.present?
+  end
+
   def get_attendance_data_between start_date, end_date, type
     attendance_data_all = []
     attendance_count_data = []
