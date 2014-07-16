@@ -24,18 +24,21 @@
   </thead>
   <tbody>
     <% @attendance_data_paginated_grouped.each_value do |grouped_data| %>
-    <tr>
-      <td><%= grouped_data[0]["store"].name %></td>
-      <td><%= grouped_data[0]["store"].opening_time_on(@date) %></td>
-      <td><%= grouped_data[0]["store"].closing_time_on(@date) %></td>      
-    </tr>
-    <tr>
-      <td colspan='3'>
-        <div class='hidden-element'>
-          <table class="list-table">
+      <tr>
+        <td><%= grouped_data[0]["store"].name %></td>
+        <td><%= grouped_data[0]["store"].opening_time_on(@date) %></td>
+        <td><%= grouped_data[0]["store"].closing_time_on(@date) %></td>    
+        <td>
+          <button type="button" class="btn btn-default btn-sm attendance-view-slide-down-button">
+            <span class="glyphicon glyphicon-arrow-down"></span>
+          </button>
+        </td>  
+      </tr>
+      <tr class='hidden-element store-employee-data'>
+        <td colspan='4'>          
+          <table class="list-table nested-table">
             <thead>
               <tr>
-                <th>Store </th>
                 <% if @employee_code_enabled %>
                   <th>Employee Code</th>
                 <% end %>
@@ -56,7 +59,6 @@
             <tbody>
               <% grouped_data.each do |attendance_data| %>
                 <tr>
-                  <td> <%= attendance_data['employee'].store.name %></td>
                   <% if @employee_code_enabled %>
                     <td> <%= attendance_data['employee'].code %></td>
                   <% end %>
@@ -111,11 +113,9 @@
                 </tr>
               <% end %>
             </tbody>
-          </table>
-        </div>
-      </td>
-    </tr>
-    
+          </table>        
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

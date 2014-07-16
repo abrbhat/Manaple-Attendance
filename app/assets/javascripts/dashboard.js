@@ -24,4 +24,9 @@ $(document).ready(function(){
 		includeSelectAllOption: true,
 		numberDisplayed: 0
 	});
+	$('.attendance-view-slide-down-button').click(function(){
+		var employeeDataRow;
+		employeeDataRow = $(this).closest('tr').next();
+		employeeDataRow.toggle();
+	})
 });
