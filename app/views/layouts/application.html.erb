@@ -60,13 +60,17 @@
 					        </ul>	
 					    </li>
 					<% end %>
-					<% if current_user.is_store_common_user? %>		    
+					<% if current_user.can 'mark_attendance' %>		    
 					    <li class="<%= is_active?("attendance#mark")  %>"><%= link_to "Home", attendance_mark_path %></li>
 					    <li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Attendance Data", dashboard_attendance_specific_day_path %></li>
-					    <li class="<%= is_active?("leaves#apply")  %>"><%= link_to "Leaves", apply_leaves_path %></li>
-					    
+					    <% if current_user.leaves_enabled? %>
+					    	<li class="<%= is_active?("leaves#apply")  %>"><%= link_to "Leaves", apply_leaves_path %></li>
+					    <% end %>
 				    <% end %>  
-				      	
+				    <% if current_user.is_master? %>		    
+					    <li class="<%= is_active?("employees#bulk_add_form")  %>"><%= link_to "Bulk Add Employees", employees_bulk_add_form_path %></li>
+					    <li class="<%= is_active?("dashboard#master_settings")  %>"><%= link_to "Master Settings", dashboard_master_settings_path %></li>					       
+				    <% end %> 				      	
 					    <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
 				    </ul>	
 				<% end %>

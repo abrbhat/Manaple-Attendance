@@ -1,0 +1,23 @@
+
+    <tr id = "employee-add-row">		    	
+    	<td> 
+    		<select class="form-control" id="select-store" name="employee_data[][store_id]">
+			  	<% @stores.each do |store| %>
+			    	<option value="<%= store.id %>"><%= store.name %></option>
+			 	<% end %>
+			</select>
+    	</td>   
+      	<% if @employee_code_enabled %>
+    		<td>
+    			<input type="text" class="form-control" id="employee-code" placeholder="Enter Employee Code" name="employee_data[][employee_code]">
+    		</td>
+      	<% end %>
+      	<td>
+      		<input type="text" class="form-control" id="employee-name" placeholder="Enter Employee Name" name="employee_data[][name]">
+      	</td>
+      	<% if @employee_designation_enabled %>
+        	<td>
+        		<input type="text" class="form-control" id="employee-designation" placeholder="Enter Employee Designation" name="employee_data[][employee_designation]">
+        	</td>
+      	<% end %>     
+  	</tr>

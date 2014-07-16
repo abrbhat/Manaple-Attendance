@@ -15,21 +15,32 @@ class EmployeesController < ApplicationController
   end
 
   def create
-    name = params[:employee_name]
-    employee_code = params[:employee_code]
-    employee_designation = params[:employee_designation]
-    store_name = params[:store_name]
-    store = Store.where(name: store_name).first
-    email = name.delete(' ').downcase
-    email << "@manaple.com"
-    while User.where(email: email).present? do
-      email = name.delete(' ').downcase
-      email << (0...4).map { ('a'..'z').to_a[rand(26)] }.join
-      email << "@manaple.com"
+    employee_code_enabled = current_user.stores.first.employee_code_enabled
+    employee_designation_enabled = current_user.stores.first.employee_designation_enabled
+    new_employee_data = params[:employee_data]
+    new_employee_data.each do |employee_data|
+      name = employee_data["name"]
+      employee_code = employee_data["employee_code"]
+      employee_designation = employee_data["employee_designation"]
+      store_id = employee_data["store_id"]
+      if name.present?
+        unless current_user.can('access_store',store_id)
+          render :status => :unauthorized
+          return
+        end 
+        store = Store.find(store_id)
+        email = name.delete(' ').downcase
+        email << "@manaple.com"
+        while User.where(email: email).present? do
+          email = name.delete(' ').downcase
+          email << (0...4).map { ('a'..'z').to_a[rand(26)] }.join
+          email << "@manaple.com"
+        end
+        user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20], employee_code: employee_code, employee_designation: employee_designation)
+        Transfer.create(user_id: user.id, to_store_id: store.id, date: Time.zone.now )
+        Authorization.create(user_id: user.id, store_id: store.id, permission: "staff" )
+      end
     end
-    user = User.create!(name: name, email: email, :password => Devise.friendly_token[0,20], employee_code: employee_code, employee_designation: employee_designation)
-    Transfer.create(user_id: user.id, to_store_id: store.id, date: Time.zone.now )
-    Authorization.create(user_id: user.id, store_id: store.id, permission: "staff" )
     redirect_to(:controller => 'employees', :action => 'list')
   end
 
@@ -108,6 +119,15 @@ class EmployeesController < ApplicationController
     end
   end
 
+  def bulk_create
+    new_employee_data = params[:employee_data]
+    new_employee_data.each do |employee_data|
+      logger.debug "Data#{employee_data.inspect}"
+      #User.create(employee_data)
+    end
+    flash[:notice] = "Employees Created"
+    redirect_to employees_bulk_add_form_path
+  end
 
 
   private

@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   end
   def is_store_incharge?
     if authorizations.present?
-      return ((authorizations.first.permission == 'asm') or (authorizations.first.permission == 'owner'))
+      return ((authorizations.first.permission == 'asm') or (authorizations.first.permission == 'owner') or (authorizations.first.permission == 'incharge'))
     end
   end
   def is_store_common_user?
@@ -101,7 +101,9 @@ class User < ActiveRecord::Base
     when 'modify_profile_settings'
       allowed = true if is_store_incharge? or is_store_observer?   
     when 'access_employee_list'
-      allowed = true if is_store_incharge? or is_store_observer?     
+      allowed = true if is_store_incharge? or is_store_observer?  
+    when 'mark_attendance'
+      allowed = true if is_store_common_user?      
     when 'access_employee'
       employee = User.find(object_id)
       if employee.present?
@@ -172,8 +174,7 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"
       accessible_in["dashboard"] <<  "employee_attendance_record"
-    elsif is_master?
-      
+    elsif is_master?      
       accessible_in["dashboard"] <<  "master_settings"
       accessible_in["dashboard"] <<  "master_settings_update"
     else
@@ -332,7 +333,11 @@ class User < ActiveRecord::Base
 
   def store_on date
     last_transfer_before_date = self.transfers.select {|transfer| transfer.date < date}.max_by(&:date)
-    return last_transfer_before_date.to_store
+    if last_transfer_before_date.present?
+      return last_transfer_before_date.to_store
+    else
+      return nil
+    end
   end
 
   def transfers_enabled?
