@@ -67,8 +67,7 @@
 					    	<li class="<%= is_active?("leaves#apply")  %>"><%= link_to "Leaves", apply_leaves_path %></li>
 					    <% end %>
 				    <% end %>  
-				    <% if current_user.is_master? %>		    
-					    <li class="<%= is_active?("employees#bulk_add_form")  %>"><%= link_to "Bulk Add Employees", employees_bulk_add_form_path %></li>
+				    <% if current_user.is_master? %>	
 					    <li class="<%= is_active?("dashboard#master_settings")  %>"><%= link_to "Master Settings", dashboard_master_settings_path %></li>					       
 				    <% end %> 				      	
 					    <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
