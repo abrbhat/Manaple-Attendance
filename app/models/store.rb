@@ -128,13 +128,17 @@ class Store < ActiveRecord::Base
     end
   end
 
-  def all_employees_between_dates start_date, end_date
-    all_employees = []
-    all_employees << self.employees_eligible_for_attendance
-    away_transfers_between_dates = self.away_transfers.select {|transfer| transfer.date >= start_date.midnight and transfer.date <= end_date.midnight}
-    away_transfers_between_dates.each do |transfer|
-      all_employees << transfer.user
+  def all_employees_between_dates start_date, end_date   
+    all_employees = []    
+    self.to_transfers.each do |transfer|
+      if transfer.user.dates_for_which_employee_was_in(self,start_date,end_date).present?
+        all_employees << transfer.user
+      end
     end
-    return all_employees.flatten
+    return all_employees.uniq
+  end
+
+  def employees_on date
+    return self.all_employees_between_dates(date,date)
   end
 end

@@ -52,9 +52,9 @@ class DashboardController < ApplicationController
     @stores_to_display.each do |store|
       @mid_day_enabled = true if store.mid_day_enabled
       @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
-      store.employees_eligible_for_attendance.each do |employee|  
+      employees_to_display = store.employees_on(@date).select{|employee| employee.is_eligible_for_attendance?}
+      employees_to_display.each do |employee|  
         attendance_data = employee.attendance_data_for(@date)
-        attendance_data['store'] = store 
         @attendance_data_all << attendance_data
       end
     end    

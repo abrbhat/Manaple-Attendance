@@ -214,6 +214,13 @@ class User < ActiveRecord::Base
     photos.where(created_at: date.midnight..date.midnight + 1.day)
   end
 
+  def is_eligible_for_attendance?
+    if self.is_store_asm? or self.is_store_manager? or self.is_store_staff?
+      true
+    else
+      false
+    end
+  end
   def attendance_data_for(date)    
     photos_for_date = self.photos_for(date)    
     store_on_date = self.store_on date
@@ -337,7 +344,7 @@ class User < ActiveRecord::Base
     if last_transfer_before_date.present?
       return last_transfer_before_date.to_store
     else
-      return nil
+      return self.store
     end
   end
 
