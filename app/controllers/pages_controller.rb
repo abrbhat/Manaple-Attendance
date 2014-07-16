@@ -52,9 +52,8 @@ class PagesController < ApplicationController
     end 
   end
 
-  def trasnfer_photos_view
+  def transfer_photos_view
     if admin_user_signed_in?
-      # this is retrospective action to be run only once
       @users = User.all
     else
       render :text => "You need to be admin"

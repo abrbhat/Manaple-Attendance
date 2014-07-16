@@ -6,7 +6,7 @@
 	    <div class="col-sm-10">
 		    <select class="form-control"  name="from_user_id">
 			  	<% @users.each do |user| %>
-			    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name %></option>
+			    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name if user.store.present? %></option>
 			 	<% end %>
 			</select>
 		</div>
@@ -16,7 +16,7 @@
 	    <div class="col-sm-10">
 		    <select class="form-control"  name="to_user_id">
 			  	<% @users.each do |user| %>
-			    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name %></option>
+			    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name if user.store.present? %></option>
 			 	<% end %>
 			</select>
 		</div>
