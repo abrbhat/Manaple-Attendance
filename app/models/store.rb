@@ -58,7 +58,7 @@ class Store < ActiveRecord::Base
     attendance_data_all = []
     attendance_count_data = []
     all_employees = all_employees_between_dates(start_date,end_date)
-    photos_between_dates = self.photos.select {|photo| photo.created_at >= start_date.midnight and photo.created_at <= end_date.midnight}
+    photos_between_dates = self.photos.select {|photo| photo.created_at >= start_date.midnight and photo.created_at <= (end_date.midnight + 1.day)}
     photos_of_a_date = photos_between_dates.group_by {|photo| photo.created_at.strftime("%d-%m-%Y")}
     all_employees.each do |employee|
       attendance_count = Hash.new

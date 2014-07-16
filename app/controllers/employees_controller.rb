@@ -119,17 +119,6 @@ class EmployeesController < ApplicationController
     end
   end
 
-  def bulk_create
-    new_employee_data = params[:employee_data]
-    new_employee_data.each do |employee_data|
-      logger.debug "Data#{employee_data.inspect}"
-      #User.create(employee_data)
-    end
-    flash[:notice] = "Employees Created"
-    redirect_to employees_bulk_add_form_path
-  end
-
-
   private
 
   def employee_params
