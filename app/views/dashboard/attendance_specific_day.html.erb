@@ -14,7 +14,7 @@
   <% end %>
 
 </div>
-<table class="list-table">
+<table class="list-table-with-hover">
   <thead>
     <tr>
       <th>Store Name</th>
@@ -26,8 +26,8 @@
     <% @attendance_data_paginated_grouped.each_value do |grouped_data| %>
       <tr>
         <td><%= grouped_data[0]["store"].name %></td>
-        <td><%= grouped_data[0]["store"].opening_time_on(@date) %></td>
-        <td><%= grouped_data[0]["store"].closing_time_on(@date) %></td>    
+        <td><%= print_hyphen_if_empty(grouped_data[0]["store"].opening_time_on(@date)) %></td>
+        <td><%= print_hyphen_if_empty(grouped_data[0]["store"].closing_time_on(@date)) %></td>    
         <td>
           <button type="button" class="btn btn-default btn-sm attendance-view-slide-down-button">
             <span class="glyphicon glyphicon-arrow-down"></span>

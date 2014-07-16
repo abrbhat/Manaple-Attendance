@@ -212,6 +212,10 @@ body {
 .list-table{
   @extend .table;
 }
+.list-table-with-hover{
+  @extend .table;
+  @extend .table-hover;
+}
 .list-table th{
   text-align:center;
 }
