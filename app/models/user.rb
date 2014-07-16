@@ -221,9 +221,13 @@ class User < ActiveRecord::Base
       false
     end
   end
-  def attendance_data_for(date)    
-    photos_for_date = self.photos_for(date)    
-    store_on_date = self.store_on date
+  def attendance_data_for(date,store)    
+    photos_for_date = self.photos_for(date)  
+    if store.present?
+      store_on_date = store
+    else
+      store_on_date = self.store_on date
+    end
     attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
     return attendance_data
   end

@@ -52,15 +52,15 @@ class DashboardController < ApplicationController
     @stores_to_display.each do |store|
       @mid_day_enabled = true if store.mid_day_enabled
       @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
-      employees_to_display = store.employees_on(@date).select{|employee| employee.is_eligible_for_attendance?}
+      employees_to_display = store.employees_on(@date)
       employees_to_display.each do |employee|  
-        attendance_data = employee.attendance_data_for(@date)
+        attendance_data = employee.attendance_data_for(@date,store)
         @attendance_data_all << attendance_data
       end
     end    
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
-    @attendance_data_paginated_grouped = @attendance_data_paginated.group_by{|attendance_data| attendance_data["employee"].store.name}
+    @attendance_data_paginated_grouped = @attendance_data_paginated.group_by{|attendance_data| attendance_data["store"].name}
     respond_to do |format|
       format.html
       format.xls
