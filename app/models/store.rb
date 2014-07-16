@@ -25,6 +25,30 @@ class Store < ActiveRecord::Base
     return employees
   end
 
+  def asm
+    employees = []
+    authorizations.each do |authorization|
+      if authorization.permission == 'asm'
+        employees << authorization.user if authorization.user.is_active?
+      end
+    end
+    return employees    
+  end
+
+  def employees_eligible_for_attendance
+    return self.employees + self.asm
+  end
+
+  def all_employees
+    employees = []
+    authorizations.each do |authorization|
+      if authorization.permission == 'staff' or authorization.permission == 'manager' or authorization.permission == 'asm'
+        employees << authorization.user
+      end
+    end
+    return employees
+  end
+
   def leaves
     leaves = []
     employees.each do |employee|
@@ -92,7 +116,7 @@ class Store < ActiveRecord::Base
 
   def all_employees_between_dates start_date, end_date
     all_employees = []
-    all_employees << self.employees
+    all_employees << self.employees_eligible_for_attendance
     away_transfers_between_dates = self.away_transfers.select {|transfer| transfer.date >= start_date.midnight and transfer.date <= end_date.midnight}
     away_transfers_between_dates.each do |transfer|
       all_employees << transfer.user

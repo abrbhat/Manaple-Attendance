@@ -52,7 +52,7 @@ class DashboardController < ApplicationController
     @stores_to_display.each do |store|
       @mid_day_enabled = true if store.mid_day_enabled
       @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
-      store.employees.each do |employee|  
+      store.employees_eligible_for_attendance.each do |employee|  
         attendance_data = employee.attendance_data_for(@date)
         attendance_data['store'] = store 
         @attendance_data_all << attendance_data
@@ -119,7 +119,7 @@ class DashboardController < ApplicationController
       @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
     end    
     
-    @employees = current_user.employees
+    @employees = current_user.employees_eligible_for_attendance
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|

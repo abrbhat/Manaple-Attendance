@@ -2,12 +2,8 @@ class AttendanceController < ApplicationController
   before_filter :authenticate_user!
   def mark
   	@store = current_user.store
-    @employees = @store.employees
+    @employees = @store.employees + @store.asm
   end
-
-  def record
-  end
-
 
   def choose_attendance_description
     unless current_user.can('access_employee',params[:employee])
