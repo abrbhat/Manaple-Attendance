@@ -251,7 +251,9 @@ class User < ActiveRecord::Base
         attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
       end
-      attendance_data["store"] = attendance_data["in_photo"].store
+      if attendance_data["store"].blank? 
+        attendance_data["store"] = attendance_data["in_photo"].store
+      end
     end
     if out_photos.present?
       attendance_data["out_photo"] = out_photos.last

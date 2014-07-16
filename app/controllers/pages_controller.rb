@@ -42,8 +42,9 @@ class PagesController < ApplicationController
     if admin_user_signed_in?
       # this is retrospective action to be run only once
       User.all.each do |employee|
-        if employee.store.present?
-          Transfer.create(user_id: employee.id, to_store_id: employee.store.id, date: employee.authorizations.first.created_at )
+        employee.stores.each do |store|
+          authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
+          Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
         end
       end
       render :text => "transfer created"
