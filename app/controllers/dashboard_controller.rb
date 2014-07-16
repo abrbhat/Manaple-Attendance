@@ -60,6 +60,7 @@ class DashboardController < ApplicationController
     end    
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
+    @attendance_data_paginated_grouped = @attendance_data_paginated.group_by{|attendance_data| attendance_data["employee"].store.name}
     respond_to do |format|
       format.html
       format.xls
