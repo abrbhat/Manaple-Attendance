@@ -25,23 +25,56 @@ class PagesController < ApplicationController
   
   def allot_stores
     # this is retrospective action to be run only once
-    Photo.all.each do |photo|
-      if photo.user.present?
-        photo.store_id = photo.user.store.id
-        photo.save
+    if admin_user_signed_in?
+      Photo.all.each do |photo|
+        if photo.user.present?
+          photo.store_id = photo.user.store.id
+          photo.save
+        end
       end
+      render :text => "done"
+    else
+      render :text => "You need to be admin"
     end
-    render :text => "done"
   end
 
   def create_initial_transfers
-    # this is retrospective action to be run only once
-    User.all.each do |employee|
-      if employee.store.present?
-        Transfer.create(user_id: employee.id, to_store_id: employee.store.id, date: employee.authorizations.first.created_at )
+    if admin_user_signed_in?
+      # this is retrospective action to be run only once
+      User.all.each do |employee|
+        employee.stores.each do |store|
+          authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
+          Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+        end
       end
-    end
-    render :text => "transfer created"
+      render :text => "transfer created"
+    else
+      render :text => "You need to be admin"
+    end 
+  end
+
+  def transfer_photos_view
+    if admin_user_signed_in?
+      @users = User.all
+    else
+      render :text => "You need to be admin"
+      return
+    end 
+  end
+
+  def transfer_photos
+    if admin_user_signed_in?
+      from_user = User.find(params[:from_user_id])
+      to_user = User.find(params[:to_user_id])
+      from_user.photos.each do |photo|
+        photo.user_id = to_user.id
+        photo.save
+      end
+      render :text => "Photos transferred"
+    else
+      render :text => "You need to be admin"
+      return
+    end 
   end
 
 end

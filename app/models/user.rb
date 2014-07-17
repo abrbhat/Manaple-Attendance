@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   end
   def is_store_incharge?
     if authorizations.present?
-      return ((authorizations.first.permission == 'asm') or (authorizations.first.permission == 'owner'))
+      return ((authorizations.first.permission == 'asm') or (authorizations.first.permission == 'owner') or (authorizations.first.permission == 'incharge'))
     end
   end
   def is_store_common_user?
@@ -73,7 +73,6 @@ class User < ActiveRecord::Base
         is_master = false
       end
     end
-    logger.debug "master:#{is_master}"
     return is_master
   end
   def stores
@@ -101,7 +100,9 @@ class User < ActiveRecord::Base
     when 'modify_profile_settings'
       allowed = true if is_store_incharge? or is_store_observer?   
     when 'access_employee_list'
-      allowed = true if is_store_incharge? or is_store_observer?     
+      allowed = true if is_store_incharge? or is_store_observer?  
+    when 'mark_attendance'
+      allowed = true if is_store_common_user?      
     when 'access_employee'
       employee = User.find(object_id)
       if employee.present?
@@ -172,8 +173,7 @@ class User < ActiveRecord::Base
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
       accessible_in["dashboard"] <<  "attendance_time_period_detailed"
       accessible_in["dashboard"] <<  "employee_attendance_record"
-    elsif is_master?
-      
+    elsif is_master?      
       accessible_in["dashboard"] <<  "master_settings"
       accessible_in["dashboard"] <<  "master_settings_update"
     else
@@ -214,9 +214,20 @@ class User < ActiveRecord::Base
     photos.where(created_at: date.midnight..date.midnight + 1.day)
   end
 
-  def attendance_data_for(date)    
-    photos_for_date = self.photos_for(date)
-    store_on_date = self.store_on date
+  def is_eligible_for_attendance?
+    if self.is_store_asm? or self.is_store_manager? or self.is_store_staff?
+      true
+    else
+      false
+    end
+  end
+  def attendance_data_for(date,store)    
+    photos_for_date = self.photos_for(date)  
+    if store.present?
+      store_on_date = store
+    else
+      store_on_date = self.store_on date
+    end
     attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
     return attendance_data
   end
@@ -251,7 +262,9 @@ class User < ActiveRecord::Base
         attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
       end
-      attendance_data["store"] = attendance_data["in_photo"].store
+      if attendance_data["store"].blank? 
+        attendance_data["store"] = attendance_data["in_photo"].store
+      end
     end
     if out_photos.present?
       attendance_data["out_photo"] = out_photos.last
@@ -332,7 +345,11 @@ class User < ActiveRecord::Base
 
   def store_on date
     last_transfer_before_date = self.transfers.select {|transfer| transfer.date < date}.max_by(&:date)
-    return last_transfer_before_date.to_store
+    if last_transfer_before_date.present?
+      return last_transfer_before_date.to_store
+    else
+      return self.store
+    end
   end
 
   def transfers_enabled?

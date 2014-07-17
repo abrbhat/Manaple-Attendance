@@ -1,39 +1,31 @@
-<h2>Enter Employee Name</h2>
-<div class = "form-container left-side">
-<%= form_tag({controller:"employees",action:"create"}, method: "post",class:"form-horizontal") do %>
-    <div class="form-element-group">
-	    <label for="employee-name" class="form-label col-sm-5">Name</label>
-	    <div class="col-sm-7">
-	    	<input type="text" class="form-element" id="employee-name" placeholder="Enter employee name" name="employee_name">
-		  </div>  
-	  </div>
-    <% if @employee_code_enabled %>
-    <div class="form-element-group">
-      <label for="employee-code" class="form-label col-sm-5">Employee Code</label>
-      <div class="col-sm-7">
-        <input type="text" class="form-element" id="employee-code" placeholder="Enter employee code" name="employee_code">
-      </div>  
-    </div>
-    <% end %>
-    <% if @employee_designation_enabled %>
-    <div class="form-element-group">
-      <label for="employee-designation" class="form-label col-sm-5">Employee Designation</label>
-      <div class="col-sm-7">
-        <input type="text" class="form-element" id="employee-designation" placeholder="Enter employee designation" name="employee_designation">
-      </div>  
-    </div>
-    <% end %>
-	  <div class ="form-element-group">
-      <label class="control-label col-sm-5">Store Name</label>
-        <div class = "col-sm-7">
-          <select name="store_name" class="form-element">    
-            <% @stores.each do |store| %>
-              <option value="<%= store.name %>"><%= store.name %></option>
-            <% end %> 
-          </select>
-        </div>
-    </div>
-  <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
-  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
+<%= javascript_include_tag "employees" %>
+<h2>Add Employees</h2>
+<div class="right-side clear-sides">
+  <div class='medium-button' id = 'add-one-row-button'>+1</div>
+  <div class='medium-button' id = 'add-25-rows-button'>+25</div>
+</div>
+<div class = "container left-side">
+
+<%= form_tag({controller:"employees",action:"create"}, method: "post",class:"form-inline") do %>
+<table class="list-table">
+  <thead>
+      <tr>      
+        <th>Store</th>
+        <% if @employee_code_enabled %>
+          <th>Code</th>
+        <% end %>
+        <th>Name</th>
+        <% if @employee_designation_enabled %>
+          <th>Designation</th>
+        <% end %>  
+      </tr>
+  </thead>
+  <tbody id = 'add-employee-table-body'>   
+    <%= render 'add_employee_row' %>
+  </tbody>
+</table>
+  
+  <%= submit_tag "Save", :class => "form-submit-button" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button"}  ) %>
 <% end %>
 </div>

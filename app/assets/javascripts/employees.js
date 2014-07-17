@@ -14,4 +14,15 @@ $(document).ready(function () {
             $(j).appendTo('#select-to-store'); //append those options back
         });
     });
+    $('#add-one-row-button').click(function(){
+        rowHtml = "<tr>" + $("#employee-add-row").html() + "</tr>" ;
+        $('#add-employee-table-body').append(rowHtml);
+    })
+    $('#add-25-rows-button').click(function(){
+        rowHtml = "<tr>" + $("#employee-add-row").html() + "</tr>" ;
+        for(i=1;i<=25;i++){
+            $('#add-employee-table-body').append(rowHtml);
+        }
+        
+    })
 });

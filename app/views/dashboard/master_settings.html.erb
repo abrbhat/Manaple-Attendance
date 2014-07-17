@@ -2,43 +2,43 @@
 <div class = "form-container left-side">
 <%= form_tag({controller:"dashboard",action:"master_settings_update"}, method: "post", class:"form-horizontal") do %> 
 	<div class="form-element-group">
-      	<label class="form-label col-sm-5">Mid-Day Present Enabled:</label>
-      	<div class="col-sm-7">
+      	<label class="form-label col-sm-8">Mid-Day Present Enabled:</label>
+      	<div class="col-sm-4">
 			<input type="hidden" name="store[mid_day_enabled]" value="off">
 			<input type="checkbox" name="store[mid_day_enabled]"  <%= "checked" if @mid_day_enabled==true %> />
 		</div>
     </div>
     <div class="form-element-group">
-      	<label  class="form-label col-sm-5">Mid-Day In-Out Enabled:</label>
-      	<div class="col-sm-7">
+      	<label  class="form-label col-sm-8">Mid-Day In-Out Enabled:</label>
+      	<div class="col-sm-4">
 			<input type="hidden" name="store[mid_day_in_out_enabled]" value="off">
 			<input type="checkbox" name="store[mid_day_in_out_enabled]"  <%= "checked" if @mid_day_in_out_enabled==true %> />
 		</div>
     </div>
     <div class="form-element-group">
-      	<label  class="form-label col-sm-5">Transfers Enabled:</label>
-      	<div class="col-sm-7">
+      	<label  class="form-label col-sm-8">Transfers Enabled:</label>
+      	<div class="col-sm-4">
 			<input type="hidden" name="store[transfers_enabled]" value="off">
 			<input type="checkbox" name="store[transfers_enabled]"  <%= "checked" if @transfers_enabled==true %> />
 		</div>
     </div>
     <div class="form-element-group">
-      	<label  class="form-label col-sm-5">Leaves Enabled:</label>
-      	<div class="col-sm-7">
+      	<label  class="form-label col-sm-8">Leaves Enabled:</label>
+      	<div class="col-sm-4">
 			<input type="hidden" name="store[leaves_enabled]" value="off">
 			<input type="checkbox" name="store[leaves_enabled]"  <%= "checked" if @leaves_enabled==true %> />
 		</div>
     </div>	
     <div class="form-element-group">
-      	<label  class="form-label col-sm-5">Employee Designation Enabled:</label>
-      	<div class="col-sm-7">
+      	<label  class="form-label col-sm-8">Employee Designation Enabled:</label>
+      	<div class="col-sm-4">
 			<input type="hidden" name="store[employee_designation_enabled]" value="off">
 			<input type="checkbox" name="store[employee_designation_enabled]"  <%= "checked" if @employee_designation_enabled==true %> />
 		</div>
     </div>
     <div class="form-element-group">
-      	<label  class="form-label col-sm-5">Employee Code Enabled:</label>
-      	<div class="col-sm-7 ">
+      	<label  class="form-label col-sm-8">Employee Code Enabled:</label>
+      	<div class="col-sm-4 ">
 			<input type="hidden" name="store[employee_code_enabled]" value="off">
 			<input type="checkbox" name="store[employee_code_enabled]"  <%= "checked" if @employee_code_enabled==true %> />
 		</div>

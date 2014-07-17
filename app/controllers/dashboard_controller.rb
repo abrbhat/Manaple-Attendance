@@ -52,14 +52,15 @@ class DashboardController < ApplicationController
     @stores_to_display.each do |store|
       @mid_day_enabled = true if store.mid_day_enabled
       @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
-      store.employees.each do |employee|  
-        attendance_data = employee.attendance_data_for(@date)
-        attendance_data['store'] = store 
+      employees_to_display = store.employees_on(@date)
+      employees_to_display.each do |employee|  
+        attendance_data = employee.attendance_data_for(@date,store)
         @attendance_data_all << attendance_data
       end
     end    
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
+    @attendance_data_paginated_grouped = @attendance_data_paginated.group_by{|attendance_data| attendance_data["store"].name}
     respond_to do |format|
       format.html
       format.xls
@@ -88,7 +89,7 @@ class DashboardController < ApplicationController
     @group_by = params[:group_by]
     if @group_by == 'date'
       @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['date'].strftime("%d-%m-%Y")}
-    else
+    elsif @group_by == 'employee'
       @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name }
     end
 
@@ -119,7 +120,7 @@ class DashboardController < ApplicationController
       @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
     end    
     
-    @employees = current_user.employees
+    @employees = current_user.employees_eligible_for_attendance
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|
