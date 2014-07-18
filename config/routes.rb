@@ -18,8 +18,8 @@ Rails.application.routes.draw do
   get 'pages/send_mail'
   get 'pages/allot_stores'
   get 'pages/create_initial_transfers'
-  get 'pages/transfer_photos_view'
-  post 'pages/transfer_photos'
+  get 'pages/transfer_attendance_data_view'
+  post 'pages/transfer_attendance_data'
 
 
   get 'dashboard/index'
