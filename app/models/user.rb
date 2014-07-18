@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
 
   def self.mail_stores_attendance
     users = User.all
-    users.each do |u|
-      if u.is_store_asm? || u.is_store_owner?
+    users.each do |user|
+      if user.is_store_asm? || user.is_store_owner?
         AsmMailer.notification(u).deliver
       end
     end
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   def self.mail_stores_specific_day_attendance(date)
     users = User.all
     users.each do |user|
-      if user.is_store_incharge?
+      if user.is_store_incharge? or user.is_store_observer?
         AsmMailer.specific_date_notification(user, date).deliver
       end
     end
@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
     return authorizations.exists?(:permission => 'observer')
   end  
   def is_store_incharge?
-    return is_store_owner?
+    return (is_store_owner? or is_store_asm? or is_store_supervisor?)
   end
 
   def is_master?

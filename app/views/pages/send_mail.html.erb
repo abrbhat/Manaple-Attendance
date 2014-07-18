@@ -1,7 +1,0 @@
-<h1>Enter the date below:</h1>
-<%= form_tag({controller:"pages",action:"send_specific_day_notification_mail"}, method: "post") do %>
-  <%= text_field_tag(:date) %>
-  <%= submit_tag "Send" %>
-<% end %>
-
-<h3>Default date is today. Format: YYYY-MM-DD</h3>

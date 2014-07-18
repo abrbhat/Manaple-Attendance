@@ -6,7 +6,8 @@ class PagesController < ApplicationController
   	User.mail_stores_attendance
   end
 
-  def send_mail
+  def choose_attendance_mail_date
+    @date = Time.zone.now
   end
 
   def send_test_mail

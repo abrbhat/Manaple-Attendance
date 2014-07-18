@@ -10,56 +10,66 @@ Dear Sir,
 <% end %>
 <br><br>
 Attendance Data for <%= @date.strftime("%d-%m-%Y") %>
-<br>
+<br><br>
 Summary:
 <br>
-<% @stores.each do |store| %>
-<table width="300px">
+<table width="350px">
   <tr>
     <th>Store Name</td>
     <th>Opening Time</td>
     <th>Closing Time</td>
   </tr>
-  <tr>
-    <td><%= store.name %></td>
-    <td><%= store.opening_time_on(@date) %></td>
-    <td><%= store.closing_time_on(@date) %></td>
-  </tr>
-  <% end %>
-</table>
-<% end %>
-<br><br>
-Details:
-<br><br>
-<% @stores.each do |store| %>
-<b><%= store.name %>:</b>
-<br>
-<table width="300px">
-  <tr>
-    <th>Employee Name</td>
-    <th>In Time</td>
-    <th>Out Time</td>
-  </tr>
-  <% store.employees.each do |employee| %>
-    <% photos = employee.photos.where(created_at: @date.to_date.midnight..@date.to_date.midnight + 1.day) %>
-    <% in_photos = photos.select {|photo| photo.description=="in"} %>
-    <% if in_photos.present? %>
-      <% in_time = in_photos.last.created_at.strftime("%I:%M%p") %>
-    <% end %>
-    <% out_photos = photos.select {|photo| photo.description=="out"} %>
-    <% if out_photos.present? %>
-      <% out_time = out_photos.last.created_at.strftime("%I:%M%p") %>
-    <% end %>
+  <% @stores.each do |store| %>
     <tr>
-      <td><%= employee.name %></td>
-      <td><%= in_time.blank? ? "-" : in_time %></td>
-      <td><%= out_time.blank? ? "-" : out_time %></td>
+      <td><%= store.name %></td>
+      <td><%= store.opening_time_on(@date).present? ? store.opening_time_on(@date) : '-' %></td>
+      <td><%= store.closing_time_on(@date).present? ? store.closing_time_on(@date) : '-' %></td>
     </tr>
   <% end %>
 </table>
+<br>
+Detailed Data:
+<br>
+<table width="700px">
+  <thead>
+    <tr>
+      <th>Store</th>
+      <% if @employee_code_enabled %>
+        <th>Employee Code</th>
+      <% end %>
+      <th>Employee</th>
+      <% if @employee_designation_enabled %>
+        <th>Employee Designation</th>
+      <% end %>
+      <th>In Time</th>
+      <th>Out Time</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @attendance_data_all.each do |attendance_data| %>
+      <tr>
+        <td> <%= attendance_data['store'].name %></td>
+        <% if @employee_code_enabled %>
+          <td> <%= attendance_data['employee'].code %></td>
+        <% end %>
+        <td> <%= attendance_data['employee'].name %></td>
+        <% if @employee_designation_enabled %>
+          <td> <%= attendance_data['employee'].designation %></td>
+        <% end %>
+        <td>
+          <%= attendance_data['in_time'].present? ? attendance_data['in_time'] : '-' %>
+        </td>
+        <td>
+          <%= attendance_data['out_time'].present? ? attendance_data['out_time'] : '-' %>
+        <td> 
+            <%= attendance_data['status'].tr('_', ' ').capitalize %>                    
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <br><br>
-<% end %>
-
 Regards,<br>
 Team Manaple
 </body>
