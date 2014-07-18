@@ -1,0 +1,14 @@
+<h2>Select the date for which attendance mail should be sent:</h2>
+<div class = "container">
+<%= form_tag({controller:"pages",action:"send_specific_day_notification_mail"}, method: "post") do %>
+    <div class="date-chooser-container">
+	    <div class= "inline-form-element more-side-margins">Date: </div>
+			<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="send-attendance-mail-date-chooser" name="date" >
+		</div>
+	</div>
+	<br>
+	<%= submit_tag "Send", :class => "form-submit-button" %>
+	<%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button"}  ) %>
+
+<% end %>
+</div>

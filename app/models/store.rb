@@ -79,17 +79,15 @@ class Store < ActiveRecord::Base
   end
 
   def opening_time_on(date)
-    photos_of_date = self.photos.select{|photo| photo.created_at >= date.midnight and photo.created_at <= (date.midnight + 1.day)}
-    in_photos_of_date = photos_of_date.select {|photo| photo.description == 'in' and photo.status != 'verification_rejected'}
-    first_photo_of_date = in_photos_of_date.min_by(&:created_at)
-    return first_photo_of_date.created_at.strftime("%I:%M%p") if first_photo_of_date.present?
+    attendance_data_for_date = self.attendance_data_for date
+    first_data_for_date = attendance_data_for_date.select{|attendance_data| attendance_data["in_photo"].present? }.min_by{|attendance_data| attendance_data["in_photo"].created_at }    
+    return first_data_for_date["in_time"] if first_data_for_date.present?
   end
 
   def closing_time_on(date)
-    photos_of_date = self.photos.select{|photo| photo.created_at >= date.midnight and photo.created_at <= (date.midnight + 1.day)}
-    out_photos_of_date = photos_of_date.select {|photo| photo.description == 'out' and photo.status != 'verification_rejected'}
-    last_photo_of_date = out_photos_of_date.max_by(&:created_at)
-    return last_photo_of_date.created_at.strftime("%I:%M%p") if last_photo_of_date.present?
+    attendance_data_for_date = self.attendance_data_for date
+    last_data_for_date = attendance_data_for_date.select{|attendance_data| attendance_data["out_photo"].present? }.max_by{|attendance_data| attendance_data["out_photo"].created_at }    
+    return last_data_for_date["out_time"] if last_data_for_date.present?
   end
 
   def get_attendance_data_between start_date, end_date, type
@@ -138,6 +136,15 @@ class Store < ActiveRecord::Base
     return all_employees.uniq
   end
 
+  def attendance_data_for date
+    attendance_data_all = []
+    employees_to_display = self.employees_on(date)
+    employees_to_display.each do |employee|  
+      attendance_data = employee.attendance_data_for(date,self)
+      attendance_data_all << attendance_data
+    end
+    return attendance_data_all.flatten
+  end
   def employees_on date
     return self.all_employees_between_dates(date,date)
   end

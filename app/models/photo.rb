@@ -40,4 +40,7 @@ class Photo < ActiveRecord::Base
   def is_pending_verification?
     status == "verification_pending"
   end
+  def employee
+    self.user
+  end
 end

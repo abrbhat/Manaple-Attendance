@@ -8,6 +8,9 @@ $(document).ready(function(){
 	$('#attendance-data-time-period-end-chooser').datepicker({
 					format: 'dd-mm-yyyy'
 				});
+	$('#send-attendance-mail-date-chooser').datepicker({
+					format: 'dd-mm-yyyy'
+				});
 	$('.attendance-status-popover').tooltip();
 	$('#select-all').change(function() {
 	    var checkboxes = $(this).closest('form').find(':checkbox');
@@ -28,5 +31,6 @@ $(document).ready(function(){
 		var employeeDataRow;
 		employeeDataRow = $(this).closest('tr').next();
 		employeeDataRow.toggle();
+		$(this).children(".show-hide-text").toggle();
 	})
 });

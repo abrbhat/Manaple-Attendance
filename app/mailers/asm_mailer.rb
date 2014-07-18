@@ -14,6 +14,7 @@ class AsmMailer < ActionMailer::Base
   	@incharge = incharge
     @stores = incharge.stores
     @store = incharge.store
+    @date = Time.zone.now.to_date
     mail to: @incharge.email, subject: "Attendance at your Stores"
   end
 
@@ -46,11 +47,15 @@ class AsmMailer < ActionMailer::Base
     end
   end
 
-  def specific_date_notification(incharge, date)
-    @incharge = incharge
+  def specific_date_notification(user, date)
+    @incharge = user
     @date = date
-    @stores = incharge.stores
-    @store = incharge.store
+    @stores = @incharge.stores
+    @attendance_data_all = []    
+    @stores.each do |store|
+      @attendance_data_all = @attendance_data_all + store.attendance_data_for(@date) 
+    end    
+    @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     mail to: @incharge.email, subject: "Attendance at your Stores"
   end
 end

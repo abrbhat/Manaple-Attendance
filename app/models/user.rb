@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
 
   def self.mail_stores_attendance
     users = User.all
-    users.each do |u|
-      if u.is_store_asm? || u.is_store_owner?
+    users.each do |user|
+      if user.is_store_asm? || user.is_store_owner?
         AsmMailer.notification(u).deliver
       end
     end
@@ -23,49 +23,35 @@ class User < ActiveRecord::Base
   def self.mail_stores_specific_day_attendance(date)
     users = User.all
     users.each do |user|
-      if user.is_store_asm? || user.is_store_owner?
+      if user.is_store_incharge? or user.is_store_observer?
         AsmMailer.specific_date_notification(user, date).deliver
       end
     end
   end
-
+  # Fundamental Employee Hierarchy Deciding Functions: 
   def is_store_staff?
-    if authorizations.present?
-      return authorizations.first.permission == 'staff'
-    end
+    return authorizations.exists?(:permission => 'staff')
   end
   def is_store_manager?
-    if authorizations.present?
-      return authorizations.first.permission == 'manager'
-    end
+    return authorizations.exists?(:permission => 'manager')
   end
   def is_store_asm?
-    if authorizations.present?
-      return authorizations.first.permission == 'asm'
-    end
+    # Incharge who has to mark attendance too, unlike supervisor or owner
+    return authorizations.exists?(:permission => 'asm')
   end
   def is_store_owner?
-    # A Store Owner
-    if authorizations.present?
-      return authorizations.first.permission == 'owner'    
-    end
+    return authorizations.exists?(:permission => 'owner')
   end
-  def is_store_incharge?
-    if authorizations.present?
-      return ((authorizations.first.permission == 'asm') or (authorizations.first.permission == 'owner') or (authorizations.first.permission == 'incharge'))
-    end
+  def is_store_supervisor?
+    # Incharge who is not owner
+    return authorizations.exists?(:permission => 'supervisor')
   end
   def is_store_common_user?
-    if authorizations.present?
-      return authorizations.first.permission == 'common_user'
-    end
+    return authorizations.exists?(:permission => 'common_user')
   end
   def is_store_observer?
-    if authorizations.present?
-      return authorizations.first.permission == 'observer'
-    end
-  end
-
+    return authorizations.exists?(:permission => 'observer')
+  end  
   def is_master?
     is_master = true
     self.authorizations.each do |authorization|
@@ -75,12 +61,23 @@ class User < ActiveRecord::Base
     end
     return is_master
   end
+
+  #Inheriting Hierarchy Deciding Functions
+  def is_store_incharge?
+    return (self.is_store_owner? or self.is_store_asm? or self.is_store_supervisor?)
+  end
+  def is_eligible_for_attendance?
+    return (self.is_store_staff? or self.is_store_asm? or self.is_store_manager?)
+  end
+
+
+
   def stores
   	stores = []
   	authorizations.each do |authorization|
   		stores << authorization.store
   	end
-  	return stores
+  	return stores.uniq
   end
   def store
     stores = []
@@ -92,17 +89,7 @@ class User < ActiveRecord::Base
 
   def can(permission,object_id = nil)
     allowed = false
-    case permission
-    when 'view_attendance_data'
-      allowed = true if is_store_incharge? or is_store_observer?
-    when 'modify_store_data'  
-      allowed = true if is_store_incharge?
-    when 'modify_profile_settings'
-      allowed = true if is_store_incharge? or is_store_observer?   
-    when 'access_employee_list'
-      allowed = true if is_store_incharge? or is_store_observer?  
-    when 'mark_attendance'
-      allowed = true if is_store_common_user?      
+    case permission     
     when 'access_employee'
       employee = User.find(object_id)
       if employee.present?
@@ -113,6 +100,26 @@ class User < ActiveRecord::Base
       if store.present?
         allowed = true if stores.include?(store)
       end
+    else      
+      permissions = []
+      if self.is_store_asm? 
+        permissions << 'view_attendance_data'
+        permissions << 'modify_store_data'  
+        permissions << 'modify_profile_settings'
+        permissions << 'access_employee_list'
+      elsif self.is_store_owner?
+        permissions << 'view_attendance_data'
+        permissions << 'modify_store_data'  
+        permissions << 'modify_profile_settings'
+        permissions << 'access_employee_list'
+      elsif self.is_store_observer?
+        permissions << 'view_attendance_data'
+        permissions << 'modify_profile_settings'
+        permissions << 'access_employee_list'
+      elsif self.is_store_common_user?
+        permissions << 'mark_attendance'
+      end
+      allowed = permissions.include? permission
     end
     return allowed
   end
@@ -228,7 +235,8 @@ class User < ActiveRecord::Base
     else
       store_on_date = self.store_on date
     end
-    attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
+    photos_for_date_and_store = self.photos_for(date).select {|photo| photo.store == store_on_date}
+    attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date_and_store)
     return attendance_data
   end
 

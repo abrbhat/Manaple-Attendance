@@ -6,7 +6,8 @@ class PagesController < ApplicationController
   	User.mail_stores_attendance
   end
 
-  def send_mail
+  def choose_attendance_mail_date
+    @date = Time.zone.now
   end
 
   def send_test_mail
@@ -15,9 +16,9 @@ class PagesController < ApplicationController
 
   def send_specific_day_notification_mail
     if params[:date].present?
-      @date = params[:date]
+      @date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
     else
-      @date = Date.today
+      @date = Time.zone.now
     end
     User.mail_stores_specific_day_attendance(@date)
   end
@@ -40,14 +41,20 @@ class PagesController < ApplicationController
 
   def create_initial_transfers
     if admin_user_signed_in?
+      if Transfer.all.blank?
       # this is retrospective action to be run only once
-      User.all.each do |employee|
-        employee.stores.each do |store|
-          authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
-          Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+        User.all.each do |employee|
+            if employee.is_eligible_for_attendance?
+              employee.stores.each do |store|
+                authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
+                Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+              end
+            end
         end
+        render :text => "transfer created"
+      else
+        render :text => "transfers already present"
       end
-      render :text => "transfer created"
     else
       render :text => "You need to be admin"
     end 
