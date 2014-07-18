@@ -228,7 +228,8 @@ class User < ActiveRecord::Base
     else
       store_on_date = self.store_on date
     end
-    attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date)
+    photos_for_date_and_store = self.photos_for(date).select {|photo| photo.store == store_on_date}
+    attendance_data = self.get_attendance_data_from_photos(store_on_date,date,photos_for_date_and_store)
     return attendance_data
   end
 
