@@ -46,17 +46,9 @@ class DashboardController < ApplicationController
 
   def attendance_specific_day
     initialize_attendance_view
-    @attendance_data_all = []
-    @mid_day_enabled = false
-    @mid_day_in_out_enabled = false
+    @attendance_data_all = []    
     @stores_to_display.each do |store|
-      @mid_day_enabled = true if store.mid_day_enabled
-      @mid_day_in_out_enabled = true if store.mid_day_in_out_enabled
-      employees_to_display = store.employees_on(@date)
-      employees_to_display.each do |employee|  
-        attendance_data = employee.attendance_data_for(@date,store)
-        @attendance_data_all << attendance_data
-      end
+      @attendance_data_all = @attendance_data_all + store.attendance_data_for(@date) 
     end    
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
@@ -167,6 +159,8 @@ class DashboardController < ApplicationController
     @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
     @employee_code_enabled = @all_stores.first.employee_code_enabled
     @employee_designation_enabled = @all_stores.first.employee_designation_enabled
+    @mid_day_enabled = @all_stores.first.mid_day_enabled
+    @mid_day_in_out_enabled = @all_stores.first.mid_day_in_out_enabled
     @start_date = get_start_date
     @end_date = get_end_date
     @date = get_date

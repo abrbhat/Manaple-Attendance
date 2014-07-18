@@ -14,6 +14,7 @@ class AsmMailer < ActionMailer::Base
   	@incharge = incharge
     @stores = incharge.stores
     @store = incharge.store
+    @date = Time.zone.now.to_date
     mail to: @incharge.email, subject: "Attendance at your Stores"
   end
 

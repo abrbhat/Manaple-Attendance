@@ -138,6 +138,15 @@ class Store < ActiveRecord::Base
     return all_employees.uniq
   end
 
+  def attendance_data_for date
+    attendance_data_all = []
+    employees_to_display = self.employees_on(date)
+    employees_to_display.each do |employee|  
+      attendance_data = employee.attendance_data_for(date,self)
+      attendance_data_all << attendance_data
+    end
+    return attendance_data_all.flatten
+  end
   def employees_on date
     return self.all_employees_between_dates(date,date)
   end

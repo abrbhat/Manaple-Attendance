@@ -9,7 +9,27 @@ Dear <%= @incharge.name%>,
 Dear Sir,
 <% end %>
 <br><br>
-Here is a list of attendance data at your stores for <%= @date.to_date %>.
+Attendance Data for <%= @date.strftime("%d-%m-%Y") %>
+<br>
+Summary:
+<br>
+<% @stores.each do |store| %>
+<table width="300px">
+  <tr>
+    <th>Store Name</td>
+    <th>Opening Time</td>
+    <th>Closing Time</td>
+  </tr>
+  <tr>
+    <td><%= store.name %></td>
+    <td><%= store.opening_time_on(@date) %></td>
+    <td><%= store.closing_time_on(@date) %></td>
+  </tr>
+  <% end %>
+</table>
+<% end %>
+<br><br>
+Details:
 <br><br>
 <% @stores.each do |store| %>
 <b><%= store.name %>:</b>

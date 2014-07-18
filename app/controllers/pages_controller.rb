@@ -15,9 +15,9 @@ class PagesController < ApplicationController
 
   def send_specific_day_notification_mail
     if params[:date].present?
-      @date = params[:date]
+      @date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
     else
-      @date = Date.today
+      @date = Time.zone.now
     end
     User.mail_stores_specific_day_attendance(@date)
   end
