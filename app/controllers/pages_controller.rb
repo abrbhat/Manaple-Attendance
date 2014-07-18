@@ -41,14 +41,18 @@ class PagesController < ApplicationController
 
   def create_initial_transfers
     if admin_user_signed_in?
+      if Transfer.all.blank?
       # this is retrospective action to be run only once
-      User.all.each do |employee|
-        employee.stores.each do |store|
-          authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
-          Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+        User.all.each do |employee|
+            employee.stores.each do |store|
+              authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
+              Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+            end
         end
+        render :text => "transfer created"
+      else
+        render :text => "transfers already present"
       end
-      render :text => "transfer created"
     else
       render :text => "You need to be admin"
     end 
