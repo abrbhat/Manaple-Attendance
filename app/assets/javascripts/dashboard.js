@@ -31,5 +31,6 @@ $(document).ready(function(){
 		var employeeDataRow;
 		employeeDataRow = $(this).closest('tr').next();
 		employeeDataRow.toggle();
+		$(this).children(".show-hide-text").toggle();
 	})
 });
