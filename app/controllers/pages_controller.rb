@@ -44,9 +44,11 @@ class PagesController < ApplicationController
       if Transfer.all.blank?
       # this is retrospective action to be run only once
         User.all.each do |employee|
-            employee.stores.each do |store|
-              authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
-              Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+            if employee.is_eligible_for_attendance?
+              employee.stores.each do |store|
+                authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
+                Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
+              end
             end
         end
         render :text => "transfer created"

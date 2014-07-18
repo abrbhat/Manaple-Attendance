@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
       end
     end
   end
-
+  # Fundamental Employee Hierarchy Deciding Functions: 
   def is_store_staff?
     return authorizations.exists?(:permission => 'staff')
   end
@@ -52,10 +52,6 @@ class User < ActiveRecord::Base
   def is_store_observer?
     return authorizations.exists?(:permission => 'observer')
   end  
-  def is_store_incharge?
-    return (is_store_owner? or is_store_asm? or is_store_supervisor?)
-  end
-
   def is_master?
     is_master = true
     self.authorizations.each do |authorization|
@@ -65,6 +61,17 @@ class User < ActiveRecord::Base
     end
     return is_master
   end
+
+  #Inheriting Hierarchy Deciding Functions
+  def is_store_incharge?
+    return (self.is_store_owner? or self.is_store_asm? or self.is_store_supervisor?)
+  end
+  def is_eligible_for_attendance?
+    return (self.is_store_staff? or self.is_store_asm? or self.is_store_manager?)
+  end
+
+
+
   def stores
   	stores = []
   	authorizations.each do |authorization|
