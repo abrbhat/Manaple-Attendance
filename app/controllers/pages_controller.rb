@@ -53,7 +53,7 @@ class PagesController < ApplicationController
     end 
   end
 
-  def transfer_photos_view
+  def transfer_attendance_data_view
     if admin_user_signed_in?
       @users = User.all
     else
@@ -62,7 +62,7 @@ class PagesController < ApplicationController
     end 
   end
 
-  def transfer_photos
+  def transfer_attendance_data
     if admin_user_signed_in?
       from_user = User.find(params[:from_user_id])
       to_user = User.find(params[:to_user_id])
@@ -70,7 +70,11 @@ class PagesController < ApplicationController
         photo.user_id = to_user.id
         photo.save
       end
-      render :text => "Photos transferred"
+      from_user.leaves.each do |leave|
+        leave.user_id = to_user.id
+        leave.save
+      end
+      render :text => "Photos and Leaves transferred"
     else
       render :text => "You need to be admin"
       return
