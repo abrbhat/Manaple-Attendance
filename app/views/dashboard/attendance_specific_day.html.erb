@@ -23,7 +23,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @attendance_data_paginated_grouped.each_value do |grouped_data| %>
+    <% @attendance_data_grouped.each_value do |grouped_data| %>
       <tr>
         <td><%= grouped_data[0]["store"].name %></td>
         <td><%= print_hyphen_if_empty(grouped_data[0]["store"].opening_time_on(@date)) %></td>
@@ -120,8 +120,3 @@
     <% end %>
   </tbody>
 </table>
-
-<hr>
-<div id="pagination_navigation">
-  <%= paginate @attendance_data_paginated %>
-</div>
