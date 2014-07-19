@@ -51,8 +51,7 @@ class DashboardController < ApplicationController
       @attendance_data_all = @attendance_data_all + store.attendance_data_for(@date) 
     end    
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]}
-    @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
-    @attendance_data_paginated_grouped = @attendance_data_paginated.group_by{|attendance_data| attendance_data["store"].name}
+    @attendance_data_grouped = @attendance_data_all.group_by{|attendance_data| attendance_data["store"].name}
     respond_to do |format|
       format.html
       format.xls
@@ -89,6 +88,8 @@ class DashboardController < ApplicationController
       format.html
       format.xls {
         if params[:attendance_register] == 'true'
+          # Grouping is done so to have all data of an employee in a store in a group
+          @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name + '_in_' + attendance_data['store'].name }
           render 'attendance_register.xls'
         end
       }
@@ -97,22 +98,24 @@ class DashboardController < ApplicationController
 
   def employee_attendance_record
     initialize_attendance_view
-    if params[:employee_id].blank?
+    if params[:employee_id].blank? or params[:store_id].blank?
       @employee = current_user.employees.first
     else
-      unless current_user.can('access_employee',params[:employee_id])
+      unless (current_user.can('access_employee',params[:employee_id]) and current_user.can('access_store',params[:store_id]))
         render :status => :unauthorized
         return
       end 
       @employee = User.find(params[:employee_id])
+      store = Store.find(params[:store_id])
     end   
 
     @attendance_data_for = Hash.new
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
+
+      store = @employee.store_on(date) if store.blank?
+      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date,store)
     end    
     
-    @employees = current_user.employees_eligible_for_attendance
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|

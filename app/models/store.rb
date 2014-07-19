@@ -15,16 +15,6 @@ class Store < ActiveRecord::Base
   	return employees
   end
 
-  def all_employees
-    employees = []
-    authorizations.each do |authorization|
-      if authorization.permission == 'staff' or authorization.permission == 'manager'
-        employees << authorization.user
-      end
-    end
-    return employees
-  end
-
   def asm
     employees = []
     authorizations.each do |authorization|
@@ -35,11 +25,19 @@ class Store < ActiveRecord::Base
     return employees    
   end
 
-  def employees_eligible_for_attendance
+  def employees_currently_eligible_for_attendance
     return self.employees + self.asm
   end
 
-  def all_employees
+  def employees_who_ever_marked_attendance
+    employees = []
+    self.to_transfers.each do |to_transfer|
+      employees <<  to_transfer.employee
+    end
+    return employees
+  end
+
+  def all_current_employees
     employees = []
     authorizations.each do |authorization|
       if authorization.permission == 'staff' or authorization.permission == 'manager' or authorization.permission == 'asm'

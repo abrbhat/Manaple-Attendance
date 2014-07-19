@@ -20,9 +20,10 @@
         	<Cell><Data ss:Type="String"><%= date.strftime("%d") + "-Out"%></Data></Cell>
         <% end %>
       </Row>
-    <% @grouped_attendance_data.each do |key, data|%>	    
+    <% @grouped_attendance_data.each do |key, grouped_data|%>	    
 	      <Row>
-	      	<% employee = data.first.fetch('employee') %>
+	      	<% employee = grouped_data.first.fetch('employee') %>
+          <% store = grouped_data.first.fetch('store') %>
 	      	<% if @employee_code_enabled %>
 	          <Cell><Data ss:Type="String"><%= employee.code %></Data></Cell>
 	        <% end %>
@@ -30,11 +31,17 @@
 	        <% if @employee_designation_enabled %>
 	          <Cell><Data ss:Type="String"><%= employee.designation %></Data></Cell>
 	        <% end %>	        
-	        <Cell><Data ss:Type="String"><%= employee.store.name %></Data></Cell>
-	        <% data.each do |attendance_data| %>
-	        	<Cell><Data ss:Type="String"><%= is_marked?(attendance_data['in_time']) %></Data></Cell>
-	        	<Cell><Data ss:Type="String"><%= is_marked?(attendance_data['out_time']) %></Data></Cell>
-        	<% end %>
+	        <Cell><Data ss:Type="String"><%= store.name %></Data></Cell>
+          <% @dates_all.each do |date|%>
+            <% attendance_data_for_date = grouped_data.select{|attendance_data| attendance_data["date"] == date }.first %>
+              <% if attendance_data_for_date.present? %>
+    	        	<Cell><Data ss:Type="String"><%= attendance_data_for_date['in_attendance_status'].first.capitalize %></Data></Cell>
+    	        	<Cell><Data ss:Type="String"><%= attendance_data_for_date['out_attendance_status'].first.capitalize %></Data></Cell>
+              <% else %>
+                <Cell><Data ss:Type="String">DNB</Data></Cell>
+                <Cell><Data ss:Type="String">DNB</Data></Cell>
+              <% end %>
+          <% end %>
 	      </Row>
     <% end %>
     </Table>

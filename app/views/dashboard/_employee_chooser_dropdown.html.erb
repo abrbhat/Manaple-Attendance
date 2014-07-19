@@ -9,8 +9,8 @@
     <li class="dropdown-submenu">
       <a tabindex="-1" href="#"><%= store.name %></a>
       <ul class="dropdown-menu">
-        <% store.employees.each do |employee| %>
-          <li><%= link_to employee.name,dashboard_employee_attendance_record_path(:employee_id => employee.id, :time_period_start => params[:time_period_start],:time_period_end => params[:time_period_end]) %></li>
+        <% store.employees_who_ever_marked_attendance.each do |employee| %>
+          <li><%= link_to employee.name,dashboard_employee_attendance_record_path(:employee_id => employee.id, :store_id => store.id, :time_period_start => params[:time_period_start],:time_period_end => params[:time_period_end]) %></li>
         <% end %>
       </ul>
     </li>

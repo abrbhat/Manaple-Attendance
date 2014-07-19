@@ -58,7 +58,6 @@
   </thead>
   <tbody>
     <% @transfers_paginated.each do |transfer| %>
-    	<% if transfer.from_store.present? and transfer.to_store.present? %>
 		    <tr>		    	
 		    	<td> <%= transfer.date.strftime("%d-%m-%Y") %></td>   
 		      	<% if @employee_code_enabled %>
@@ -71,7 +70,6 @@
 		    	<td> <%= transfer.from_store.name %></td>
 		    	<td> <%= transfer.to_store.name %></td>    
 		  	</tr>
-      	<% end %>
     <% end %>
   </tbody>
 </table>

@@ -8,7 +8,7 @@ class EmployeesController < ApplicationController
     @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
     @employees_to_display = []
     @stores_to_display.each do |store|
-      @employees_to_display << store.all_employees
+      @employees_to_display << store.all_current_employees
     end
     @employees_to_display.flatten!
     @employees_to_display_paginated = Kaminari.paginate_array(@employees_to_display).page(params[:page]).per(30)
@@ -52,18 +52,21 @@ class EmployeesController < ApplicationController
 
 
   def transfer
+    # Only Staff and Managers should be transferred!!
     @stores = current_user.stores
     @employees = []
     transfers = []
     @stores.each do |store|
-      @employees = @employees + store.employees
-      store.all_employees.each do |employee|
+      employees_which_can_be_transferred = store.all_current_employees.select{|employee| employee.is_store_staff? or employee.is_store_manager?}
+      @employees = @employees + employees_which_can_be_transferred
+      employees_which_can_be_transferred.each do |employee|
         transfers.concat employee.transfers
       end
     end
     @employee_code_enabled = @stores.first.employee_code_enabled
-    @employee_designation_enabled = @stores.first.employee_designation_enabled    
-    @transfers_paginated = Kaminari.paginate_array(transfers).page(params[:page]).per(30)
+    @employee_designation_enabled = @stores.first.employee_designation_enabled  
+    relevant_transfers = transfers.select{|transfer| transfer.to_store.present? and transfer.from_store.present?}  
+    @transfers_paginated = Kaminari.paginate_array(relevant_transfers).page(params[:page]).per(30)
   end
 
   def edit
@@ -100,11 +103,12 @@ class EmployeesController < ApplicationController
   end
 
   def update_store
+    # Only Staff and Managers should be transferred
     if current_user.can('access_employee',employee_params[:id]) and current_user.can('access_store',employee_params[:to_store_id]) and current_user.can('access_store',employee_params[:from_store_id])
       to_store_id = employee_params[:to_store_id]
       employee = User.find(employee_params[:id])    
       Transfer.create(user_id: employee.id, to_store_id: to_store_id, from_store_id: employee.store.id, date: Time.zone.now )
-      authorization = employee.authorizations.find_by! store_id: from_store_id
+      authorization = employee.authorizations.find_by! store_id: employee.store.id
       authorization.store_id = to_store_id
       if authorization.save
         flash[:notice] = "Employee Store Updated"
