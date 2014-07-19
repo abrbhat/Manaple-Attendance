@@ -247,11 +247,13 @@ class User < ActiveRecord::Base
     attendance_data["status"] = "absent"
     attendance_data["store"] = store
     attendance_data["in_time"] = nil
-    attendance_data["in_status"] = nil
+    attendance_data["in_status"] = nil # In Photo Verification Status
     attendance_data["in_photo"] = nil
+    attendance_data["in_attendance_status"] = nil
     attendance_data["out_time"] = nil
     attendance_data["out_status"] = nil
-    attendance_data["out_photo"] = nil
+    attendance_data["out_photo"] = nil # Out Photo Verification Status
+    attendance_data["out_attendance_status"] = nil
     attendance_data["mid_day_present_data"] = []
     attendance_data["mid_day_in_data"] = []
     attendance_data["mid_day_out_data"] = []
@@ -269,6 +271,7 @@ class User < ActiveRecord::Base
       unless attendance_data["in_photo"].is_rejected?       
         attendance_data["in_time"] = attendance_data["in_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
+        attendance_data["in_attendance_status"] = "present"
       end
       if attendance_data["store"].blank? 
         attendance_data["store"] = attendance_data["in_photo"].store
@@ -280,6 +283,7 @@ class User < ActiveRecord::Base
       unless attendance_data["out_photo"].is_rejected?
         attendance_data["out_time"] = attendance_data["out_photo"].created_at.strftime("%I:%M%p")
         attendance_data["status"] = "present"
+        attendance_data["out_attendance_status"] = "present"
       end
     end
     if mid_day_present_photos.present?
@@ -323,10 +327,14 @@ class User < ActiveRecord::Base
     if attendance_data["in_time"].blank? and attendance_data["out_time"].blank?
       if self.is_on_leave_on?(date.to_date)
         attendance_data["status"] = "on_leave"
+        attendance_data["in_attendance_status"] = "leave"
+        attendance_data["out_attendance_status"] = "leave"
       else
         attendance_data["status"] = "absent"
       end
     end
+    attendance_data["in_attendance_status"] = "absent" if attendance_data["in_attendance_status"].blank?
+    attendance_data["out_attendance_status"] = "absent" if attendance_data["out_attendance_status"].blank?
     return attendance_data
   end
 

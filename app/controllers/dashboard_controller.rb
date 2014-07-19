@@ -88,6 +88,8 @@ class DashboardController < ApplicationController
       format.html
       format.xls {
         if params[:attendance_register] == 'true'
+          # Grouping is done so to have all data of an employee in a store in a group
+          @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name + '_in_' + attendance_data['store'].name }
           render 'attendance_register.xls'
         end
       }
