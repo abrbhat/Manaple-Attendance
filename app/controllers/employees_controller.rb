@@ -52,12 +52,14 @@ class EmployeesController < ApplicationController
 
 
   def transfer
+    # Only Staff and Managers should be transferred!!
     @stores = current_user.stores
     @employees = []
     transfers = []
     @stores.each do |store|
-      @employees = @employees + store.employees
-      store.all_current_employees.each do |employee|
+      employees_which_can_be_transferred = store.all_current_employees.select{|employee| employee.is_store_staff? or employee.is_store_manager?}
+      @employees = @employees + employees_which_can_be_transferred
+      employees_which_can_be_transferred.each do |employee|
         transfers.concat employee.transfers
       end
     end
@@ -100,11 +102,12 @@ class EmployeesController < ApplicationController
   end
 
   def update_store
+    # Only Staff and Managers should be transferred
     if current_user.can('access_employee',employee_params[:id]) and current_user.can('access_store',employee_params[:to_store_id]) and current_user.can('access_store',employee_params[:from_store_id])
       to_store_id = employee_params[:to_store_id]
       employee = User.find(employee_params[:id])    
       Transfer.create(user_id: employee.id, to_store_id: to_store_id, from_store_id: employee.store.id, date: Time.zone.now )
-      authorization = employee.authorizations.find_by! store_id: from_store_id
+      authorization = employee.authorizations.find_by! store_id: employee.store.id
       authorization.store_id = to_store_id
       if authorization.save
         flash[:notice] = "Employee Store Updated"

@@ -96,19 +96,22 @@ class DashboardController < ApplicationController
 
   def employee_attendance_record
     initialize_attendance_view
-    if params[:employee_id].blank?
+    if params[:employee_id].blank? or params[:store_id].blank?
       @employee = current_user.employees.first
     else
-      unless current_user.can('access_employee',params[:employee_id])
+      unless (current_user.can('access_employee',params[:employee_id]) and current_user.can('access_store',params[:store_id]))
         render :status => :unauthorized
         return
       end 
       @employee = User.find(params[:employee_id])
+      store = Store.find(params[:store_id])
     end   
 
     @attendance_data_for = Hash.new
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date,@employee.store_on(date))
+
+      store = @employee.store_on(date) if store.blank?
+      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date,store)
     end    
     
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
