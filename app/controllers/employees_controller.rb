@@ -8,7 +8,7 @@ class EmployeesController < ApplicationController
     @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
     @employees_to_display = []
     @stores_to_display.each do |store|
-      @employees_to_display << store.all_employees
+      @employees_to_display << store.all_current_employees
     end
     @employees_to_display.flatten!
     @employees_to_display_paginated = Kaminari.paginate_array(@employees_to_display).page(params[:page]).per(30)
@@ -57,7 +57,7 @@ class EmployeesController < ApplicationController
     transfers = []
     @stores.each do |store|
       @employees = @employees + store.employees
-      store.all_employees.each do |employee|
+      store.all_current_employees.each do |employee|
         transfers.concat employee.transfers
       end
     end

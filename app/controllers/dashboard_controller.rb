@@ -108,10 +108,9 @@ class DashboardController < ApplicationController
 
     @attendance_data_for = Hash.new
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|
-      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date)
+      @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date,@employee.store_on(date))
     end    
     
-    @employees = current_user.employees_eligible_for_attendance
     @dates_all = (@start_date.to_date..(@end_date.midnight).to_date).to_a
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|
