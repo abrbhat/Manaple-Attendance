@@ -54,7 +54,9 @@ class DashboardController < ApplicationController
     @attendance_data_grouped = @attendance_data_all.group_by{|attendance_data| attendance_data["store"].name}
     respond_to do |format|
       format.html
-      format.xls
+      format.xlsx{
+
+      }
       format.json { render :json => {"got json"=>"true"} }
     end
 
@@ -67,7 +69,10 @@ class DashboardController < ApplicationController
     @attendance_data_paginated = Kaminari.paginate_array(@attendance_data_all).page(params[:page]).per(30)
     respond_to do |format|
       format.html
-      format.xls
+      format.xlsx{
+        #filename = "Manaple-Consolidated-Attendance-Data-From_"+@start_date.strftime("%d-%m-%Y")+"_To_"+@end_date.strftime("%d-%m-%Y")
+        #response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '"' 
+      }
     end
   end
 
@@ -86,11 +91,13 @@ class DashboardController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xls {
+      format.xlsx {          
         if params[:attendance_register] == 'true'
           # Grouping is done so to have all data of an employee in a store in a group
           @grouped_attendance_data = @attendance_data_all.group_by {|attendance_data| attendance_data['employee'].name + '_in_' + attendance_data['store'].name }
-          render 'attendance_register.xls'
+          render 'attendance_register.xlsx.axlsx'
+        else
+          
         end
       }
     end
@@ -120,7 +127,10 @@ class DashboardController < ApplicationController
     @dates_paginated = Kaminari.paginate_array(@dates_all).page(params[:page]).per(30)
     respond_to do |format|
       format.html
-      format.xls
+      format.xlsx{
+        #filename = "Manaple-Employee-Attendance-Data-From_"+@start_date.strftime("%d-%m-%Y")+"_To_"+@end_date.strftime("%d-%m-%Y")
+        #response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '"' 
+      }
     end
   end
  

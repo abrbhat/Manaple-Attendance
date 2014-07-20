@@ -61,6 +61,13 @@ GEM
     aws-sdk (1.46.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
+    axlsx (2.0.1)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.4.1)
+      rubyzip (~> 1.0.0)
+    axlsx_rails (0.2.0)
+      axlsx (>= 2.0.1)
+      rails (>= 3.1)
     bcrypt (3.1.7)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -109,6 +116,7 @@ GEM
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
     hike (1.2.3)
+    htmlentities (4.3.2)
     i18n (0.6.9)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
@@ -180,6 +188,7 @@ GEM
       polyamorous (~> 1.0.0)
     responders (1.0.0)
       railties (>= 3.2, < 5)
+    rubyzip (1.0.0)
     sass (3.3.9)
     sprockets (2.12.1)
       hike (~> 1.2)
@@ -218,6 +227,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin!
   aws-sdk
+  axlsx_rails
   better_errors
   binding_of_caller
   bootstrap-sass

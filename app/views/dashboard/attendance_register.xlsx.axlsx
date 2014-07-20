@@ -1,0 +1,40 @@
+wb = xlsx_package.workbook
+worksheet_name = "Attendance Register"
+wb.add_worksheet(name: worksheet_name) do |sheet|	
+	header = %w{Employee-Code Employee Employee-Designation Store}
+	if !@employee_code_enabled
+		header = header - ["Employee-Code"]
+	end
+	if !@employee_designation_enabled
+		header = header - ["Employee-Designation"]
+	end
+    @dates_all.each do |date|
+        header << date.strftime("%d") + "-In"
+        header << date.strftime("%d") + "-Out"
+    end
+    sheet.add_row header
+    @grouped_attendance_data.each do |key, grouped_data|
+        data_row = []
+        employee = grouped_data.first.fetch('employee')
+        store = grouped_data.first.fetch('store')
+        if @employee_code_enabled               
+            data_row << employee.code
+        end
+        data_row << employee.name
+        if @employee_designation_enabled        
+            data_row << employee.designation
+        end
+        data_row << store.name
+        @dates_all.each do |date|
+            attendance_data_for_date = grouped_data.select{|attendance_data| attendance_data["date"] == date }.first
+            if attendance_data_for_date.present?
+                data_row << attendance_data_for_date['in_attendance_status'].first.capitalize
+                data_row << attendance_data_for_date['out_attendance_status'].first.capitalize
+            else
+                data_row << "DNB"
+                data_row << "DNB"
+            end
+        end
+        sheet.add_row data_row
+    end    	    
+end

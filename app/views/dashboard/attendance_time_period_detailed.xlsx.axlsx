@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+@grouped_attendance_data.each do |key, data|
+	wb.add_worksheet(name: key) do |sheet|	
+		header = %w{Date Store Employee-Code Employee Employee-Designation In-Time Out-Time Status}
+		if !@employee_code_enabled
+			header = header - ["Employee-Code"]
+		end
+		if !@employee_designation_enabled
+			header = header - ["Employee-Designation"]
+		end
+	    sheet.add_row header
+	    data.each do |attendance_data|
+	 		data_row = []
+	    	data_row << attendance_data['date'].strftime("%d-%m-%Y")
+	    	data_row << attendance_data['store'].name
+	    	if @employee_code_enabled				
+	    		data_row << attendance_data['employee'].code
+			end
+	    	data_row << attendance_data['employee'].name
+	    	if @employee_designation_enabled		
+	    		data_row << attendance_data['employee'].designation
+			end
+	    	data_row << print_hyphen_if_empty(attendance_data['in_time'])
+	    	data_row << print_hyphen_if_empty(attendance_data['out_time'])
+	    	data_row << print_hyphen_if_empty(attendance_data['status'])
+	    	sheet.add_row data_row
+	    end	    
+	end
+end
