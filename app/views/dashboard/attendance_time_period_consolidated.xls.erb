@@ -29,9 +29,9 @@
         <% if @employee_designation_enabled %>
           <Cell><Data ss:Type="String"><%= attendance_data['employee'].designation %></Data></Cell>
         <% end %>
-        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['present_count']) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['absent_count']) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['leave_count']) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['present_count'].to_s) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['absent_count'].to_s) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= print_hyphen_if_empty(attendance_data['leave_count'].to_s) %></Data></Cell>
       </Row>
     <% end %>
     </Table>
