@@ -112,7 +112,7 @@ class EmployeesController < ApplicationController
       authorization.store_id = to_store_id
       if authorization.save
         flash[:notice] = "Employee Store Updated"
-        redirect_to employees_list_path
+        redirect_to employees_transfer_path
       else
         flash[:error] = "Could not save data"
         render "transfer"
