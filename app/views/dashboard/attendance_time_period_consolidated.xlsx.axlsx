@@ -1,0 +1,27 @@
+wb = xlsx_package.workbook
+worksheet_name = "Attendance Count"
+wb.add_worksheet(name: worksheet_name) do |sheet|	
+	header = %w{Store Employee-Code Employee Employee-Designation Present-Count(Days) Absent-Count(Days) Leave-Count(Days)}
+	if !@employee_code_enabled
+		header = header - ["Employee-Code"]
+	end
+	if !@employee_designation_enabled
+		header = header - ["Employee-Designation"]
+	end
+    sheet.add_row header
+    @attendance_data_all.each do |attendance_data|
+ 		data_row = []
+    	data_row << attendance_data['store'].name
+    	if @employee_code_enabled				
+    		data_row << attendance_data['employee'].code
+		end
+    	data_row << attendance_data['employee'].name
+    	if @employee_designation_enabled		
+    		data_row << attendance_data['employee'].designation
+		end
+    	data_row << print_hyphen_if_empty(attendance_data['present_count'].to_s)
+    	data_row << print_hyphen_if_empty(attendance_data['absent_count'].to_s)
+    	data_row << print_hyphen_if_empty(attendance_data['leave_count'].to_s)
+    	sheet.add_row data_row
+    end	    
+end

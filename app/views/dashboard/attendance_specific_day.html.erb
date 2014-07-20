@@ -10,7 +10,7 @@
 		<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" name="date" >
 	</div>
 	<%= submit_tag "Go", :class => "proceed-button" %>
-  <%= link_to "Download XLS", dashboard_attendance_specific_day_path(format: :xls,date: @date.strftime("%d-%m-%Y")), class:'medium-button right-side' %>
+  <%= link_to "Download XLS", dashboard_attendance_specific_day_path(format: :xlsx,date: @date.strftime("%d-%m-%Y")), class:'medium-button right-side' %>
   <% end %>
 
 </div>

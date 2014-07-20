@@ -83,3 +83,5 @@ gem 'delayed_job_active_record'
 gem "daemons"
 
 gem 'newrelic_rpm'
+
+gem 'axlsx_rails'

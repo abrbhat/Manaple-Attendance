@@ -5,24 +5,26 @@ class Store < ActiveRecord::Base
   has_many :to_transfers, :class_name => 'Transfer', :foreign_key => 'to_store_id'
   after_initialize :set_defaults
 
-  def employees #return only active enployees
+  def employees #return only active staff and managers
   	employees = []
   	authorizations.each do |authorization|
-  		if authorization.permission == 'staff' or authorization.permission == 'manager'
-  			employees << authorization.user if authorization.user.is_active?
-  		end
-  	end
-  	return employees
+      employee = authorization.user
+      if (employee.is_store_staff? or employee.is_store_manager?) and employee.is_active?
+          employees << employee
+      end
+    end
+    return employees
   end
 
   def asm
     employees = []
     authorizations.each do |authorization|
-      if authorization.permission == 'asm'
-        employees << authorization.user if authorization.user.is_active?
+      employee = authorization.user
+      if employee.is_store_asm? and employee.is_active?
+          employees << employee
       end
     end
-    return employees    
+    return employees  
   end
 
   def employees_currently_eligible_for_attendance
@@ -37,11 +39,12 @@ class Store < ActiveRecord::Base
     return employees
   end
 
-  def all_current_employees
+  def inactive_employees
     employees = []
     authorizations.each do |authorization|
-      if authorization.permission == 'staff' or authorization.permission == 'manager' or authorization.permission == 'asm'
-        employees << authorization.user
+      employee = authorization.user
+      if (employee.is_store_staff? or employee.is_store_manager?) and !employee.is_active?
+          employees << employee
       end
     end
     return employees

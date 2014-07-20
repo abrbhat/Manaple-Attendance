@@ -8,9 +8,11 @@ class EmployeesController < ApplicationController
     @stores_to_display = params[:stores].present? ? get_stores_to_display : @all_stores
     @employees_to_display = []
     @stores_to_display.each do |store|
-      @employees_to_display << store.all_current_employees
+      @employees_to_display << store.inactive_employees
+      @employees_to_display << store.employees
+      @employees_to_display << store.asm
     end
-    @employees_to_display.flatten!
+    @employees_to_display.flatten!.uniq!
     @employees_to_display_paginated = Kaminari.paginate_array(@employees_to_display).page(params[:page]).per(30)
   end
 
@@ -57,7 +59,7 @@ class EmployeesController < ApplicationController
     @employees = []
     transfers = []
     @stores.each do |store|
-      employees_which_can_be_transferred = store.all_current_employees.select{|employee| employee.is_store_staff? or employee.is_store_manager?}
+      employees_which_can_be_transferred = store.employees
       @employees = @employees + employees_which_can_be_transferred
       employees_which_can_be_transferred.each do |employee|
         transfers.concat employee.transfers
@@ -112,7 +114,7 @@ class EmployeesController < ApplicationController
       authorization.store_id = to_store_id
       if authorization.save
         flash[:notice] = "Employee Store Updated"
-        redirect_to employees_list_path
+        redirect_to employees_transfer_path
       else
         flash[:error] = "Could not save data"
         render "transfer"
