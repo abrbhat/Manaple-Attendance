@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   def self.mail_stores_attendance
     users = User.all
     users.each do |user|
-      if user.is_store_asm? || user.is_store_owner?
+      if user.should_receive_daily_attendance_notification_mail?
         AsmMailer.notification(u).deliver
       end
     end
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   def self.mail_stores_specific_day_attendance(date)
     users = User.all
     users.each do |user|
-      if user.is_store_incharge? or user.is_store_observer?
+      if user.should_receive_daily_attendance_notification_mail?
         AsmMailer.specific_date_notification(user, date).deliver
       end
     end
@@ -68,6 +68,14 @@ class User < ActiveRecord::Base
   end
   def is_eligible_for_attendance?
     return (self.is_store_staff? or self.is_store_asm? or self.is_store_manager?)
+  end
+  
+  def should_receive_store_opening_mail?
+  	return (self.is_store_incharge? or self.is_store_observer?	)
+  end
+  
+  def should_receive_daily_attendance_notification_mail?
+  	return (self.is_store_incharge? or self.is_store_observer?)	
   end
 
 

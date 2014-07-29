@@ -27,16 +27,24 @@ class Store < ActiveRecord::Base
     return employees  
   end
 
-  def employees_currently_eligible_for_attendance
-    return self.employees + self.asm
-  end
-
-  def employees_who_ever_marked_attendance
-    employees = []
-    self.to_transfers.each do |to_transfer|
-      employees <<  to_transfer.employee
+  def incharges
+    incharges = []
+    authorizations.each do |authorization|
+      if authorization.user.is_store_incharge?
+        incharges << authorization.user
+      end
     end
-    return employees
+    return incharges
+  end
+  
+  def observers
+    incharges = []
+    authorizations.each do |authorization|
+      if authorization.user.is_store_observer?
+        incharges << authorization.user
+      end
+    end
+    return incharges
   end
 
   def inactive_employees
@@ -50,6 +58,26 @@ class Store < ActiveRecord::Base
     return employees
   end
 
+  def employees_currently_eligible_for_attendance
+    return self.employees + self.asm
+  end
+
+  def employees_who_ever_marked_attendance
+    employees = []
+    self.to_transfers.each do |to_transfer|
+      employees <<  to_transfer.employee
+    end
+    return employees
+  end
+	
+	def users_who_should_receive_store_opening_mail
+		return self.incharges + self.observers
+	end
+	
+	def users_who_should_receive_leave_request_mail
+		return self.incharges + self.observers
+	end
+	
   def leaves
     leaves = []
     employees.each do |employee|
@@ -59,16 +87,6 @@ class Store < ActiveRecord::Base
     end
     leaves.flatten!
     return leaves
-  end
-
-  def incharges
-    incharges = []
-    authorizations.each do |authorization|
-      if authorization.permission == 'asm' or authorization.permission == 'owner'
-        incharges << authorization.user
-      end
-    end
-    return incharges
   end
 
   def set_defaults
