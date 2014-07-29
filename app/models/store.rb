@@ -30,7 +30,7 @@ class Store < ActiveRecord::Base
   def incharges
     incharges = []
     authorizations.each do |authorization|
-      if authorization.user.is_store_incharge?
+      if authorization.user.is_store_incharge? and authorization.user.is_active?
         incharges << authorization.user
       end
     end
