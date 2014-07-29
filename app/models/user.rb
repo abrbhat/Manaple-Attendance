@@ -102,12 +102,7 @@ class User < ActiveRecord::Base
       end
     else      
       permissions = []
-      if self.is_store_asm? 
-        permissions << 'view_attendance_data'
-        permissions << 'modify_store_data'  
-        permissions << 'modify_profile_settings'
-        permissions << 'access_employee_list'
-      elsif self.is_store_owner?
+      if self.is_store_incharge? 
         permissions << 'view_attendance_data'
         permissions << 'modify_store_data'  
         permissions << 'modify_profile_settings'
