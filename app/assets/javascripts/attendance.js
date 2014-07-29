@@ -63,7 +63,6 @@ function initializeSpinner(){
 $(document).ready(function() {
 	var selectedEmployeeId, selectedAttendanceMarker, storeId;
 	storeId = $("#store-id").val();
-	goToAttendancePage('1');
 	initializeSpinner();
 	
 	$(".next-attendance-page-button").click(function(){
@@ -76,8 +75,9 @@ $(document).ready(function() {
 		setWebcam();
 	})
 	$( "#take-picture-button" ).click(function() {
-		var data_uri = Webcam.snap();
-    	var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+		 var data_uri = Webcam.snap();
+     var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+     showSpinner();
     	$.ajax({
 	      type: "POST",
 	      url: "/photos/upload",
@@ -94,11 +94,12 @@ $(document).ready(function() {
         	$('#webcam').html('<img src="'+data_uri+'"/>');
 	      },
 	      beforeSend: function(){
-	      	showSpinner();	      	
+	      	
 	      }
 	    });
 	});	
 	$("#save-photo-button").click(function() {
+		showSpinner();
 		$.ajax({
 	      type: "POST",
 	      url: "/photos",
@@ -117,7 +118,7 @@ $(document).ready(function() {
 	      	$("#time-attendance-marked").html(data["time"]);   
 	      },
 	      beforeSend: function(){
-	      	showSpinner();
+	      	
 	      }
 	    });
 	});	
@@ -137,5 +138,4 @@ $(document).ready(function() {
 	})
 
 });
-
 
