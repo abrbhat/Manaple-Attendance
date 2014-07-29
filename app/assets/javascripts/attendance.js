@@ -63,6 +63,7 @@ function initializeSpinner(){
 $(document).ready(function() {
 	var selectedEmployeeId, selectedAttendanceMarker, storeId;
 	storeId = $("#store-id").val();
+  goToAttendancePage('1');
 	initializeSpinner();
 	
 	$(".next-attendance-page-button").click(function(){

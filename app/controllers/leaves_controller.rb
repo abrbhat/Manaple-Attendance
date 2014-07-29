@@ -7,7 +7,8 @@ class LeavesController < ApplicationController
     @stores = @incharge.stores
     @leaves = []
     @stores.each do |store|
-      store.employees.each do |employee|
+
+      store.employees_currently_eligible_for_attendance.each do |employee|
           @leaves << employee.leaves
       end
     end

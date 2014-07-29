@@ -80,7 +80,7 @@ class Store < ActiveRecord::Base
 	
   def leaves
     leaves = []
-    employees.each do |employee|
+    employees_currently_eligible_for_attendance.each do |employee|
       if employee.leaves.present?
         leaves << employee.leaves
       end
