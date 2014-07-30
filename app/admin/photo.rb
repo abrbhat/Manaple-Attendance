@@ -13,7 +13,7 @@ ActiveAdmin.register Photo do
     column :ip
     column :store
     column :image do |photo|
-      image_tag photo.image.url(:medium)
+      image_tag photo.image.url(:thumb)
     end
     actions
   end
