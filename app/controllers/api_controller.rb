@@ -16,6 +16,7 @@ class ApiController < ApplicationController
         photo.image = File.new(upload_path(store))   
         photo.status = "verification_pending" 
         photo.ip = request.remote_ip
+        photo.store = store
         photo.created_at = Time.zone.now - data['count'].to_i.seconds
         if photo.save
           # AdminMailer.notification().deliver
@@ -45,7 +46,7 @@ class ApiController < ApplicationController
   	def get_employee_data
   		store = current_user.store
   		employee_data = {}
-  		store.employees.each do |employee|
+  		store.employees_currently_eligible_for_attendance.each do |employee|
   			employee_data[employee.id] = employee.name
   		end
   		respond_to do |format|
