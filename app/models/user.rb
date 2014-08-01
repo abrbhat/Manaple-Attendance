@@ -11,15 +11,6 @@ class User < ActiveRecord::Base
   after_initialize :set_defaults
   include Rails.application.routes.url_helpers
 
-  def self.mail_stores_attendance
-    users = User.all
-    users.each do |user|
-      if user.is_store_asm? || user.is_store_owner?
-        AsmMailer.notification(u).deliver
-      end
-    end
-  end
-
   def self.mail_stores_specific_day_attendance(date)
     users = User.all
     users.each do |user|

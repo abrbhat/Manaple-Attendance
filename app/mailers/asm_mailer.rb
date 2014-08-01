@@ -8,16 +8,6 @@ class AsmMailer < ActionMailer::Base
   #   en.customer_mailer.thankyou.subject
   #
 
-  # Summary Notification
-  # Takes incharge object, send email
-  def notification(incharge)
-  	@incharge = incharge
-    @stores = incharge.stores
-    @store = incharge.store
-    @date = Time.zone.now.to_date
-    mail to: @incharge.email, subject: "Attendance at your Stores"
-  end
-
   def print_hyphen_if_empty(value)
     if value.blank?
       "-"
