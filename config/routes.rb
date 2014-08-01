@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get 'pages/send_test_mail'
   post 'pages/send_specific_day_notification_mail'
   get 'pages/choose_attendance_mail_date'
+  post 'pages/send_specific_day_notification_mail_specific_user'
+  get 'pages/choose_attendance_mail_date_specific_user'
   get 'pages/allot_stores'
   get 'pages/create_initial_transfers'
   get 'pages/transfer_attendance_data_view'

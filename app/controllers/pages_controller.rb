@@ -6,6 +6,11 @@ class PagesController < ApplicationController
     @date = Time.zone.now
   end
 
+  def choose_attendance_mail_date_specific_user
+    @date = Time.zone.now
+    @users = User.all.select{|user| user.should_receive_daily_attendance_notification_mail?}
+  end
+
   def send_test_mail
     AdminMailer.notification().deliver
   end
@@ -19,7 +24,21 @@ class PagesController < ApplicationController
     User.mail_stores_specific_day_attendance(@date)
   end
 
-  
+  def send_specific_day_notification_mail_specific_user
+    if params[:date].present?
+      @date = DateTime.strptime(params[:date]+' +05:30', '%d-%m-%Y %z')
+    else
+      @date = Time.zone.now
+    end
+    @users = []
+    user_ids = params[:to_user_ids]
+    user_ids.each do |user_id|
+      user = User.find(user_id)
+      user.mail_stores_specific_day_attendance_specific_user(@date)
+      @users << user
+    end   
+  end
+
   def allot_stores
     # this is retrospective action to be run only once
     if admin_user_signed_in?
