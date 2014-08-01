@@ -99,13 +99,13 @@ class Store < ActiveRecord::Base
 
   def opening_time_on(date)
     attendance_data_for_date = self.attendance_data_for date
-    first_data_for_date = attendance_data_for_date.select{|attendance_data| attendance_data["in_photo"].present? }.min_by{|attendance_data| attendance_data["in_photo"].created_at }    
+    first_data_for_date = attendance_data_for_date.select{|attendance_data| attendance_data["in_photo"].present? and attendance_data["in_photo"].is_not_rejected? }.min_by{|attendance_data| attendance_data["in_photo"].created_at }    
     return first_data_for_date["in_time"] if first_data_for_date.present?
   end
 
   def closing_time_on(date)
     attendance_data_for_date = self.attendance_data_for date
-    last_data_for_date = attendance_data_for_date.select{|attendance_data| attendance_data["out_photo"].present? }.max_by{|attendance_data| attendance_data["out_photo"].created_at }    
+    last_data_for_date = attendance_data_for_date.select{|attendance_data| attendance_data["out_photo"].present? and attendance_data["out_photo"].is_not_rejected?}.max_by{|attendance_data| attendance_data["out_photo"].created_at }    
     return last_data_for_date["out_time"] if last_data_for_date.present?
   end
 

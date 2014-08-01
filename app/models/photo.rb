@@ -34,6 +34,9 @@ class Photo < ActiveRecord::Base
   def is_rejected?
     status == "verification_rejected"
   end
+  def is_not_rejected?
+    (status == "verified" or status == "verification_pending")
+  end
   def is_verified?
     status == "verified"
   end
