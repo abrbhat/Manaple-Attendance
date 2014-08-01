@@ -19,6 +19,11 @@ class User < ActiveRecord::Base
       end
     end
   end
+  def mail_stores_specific_day_attendance_specific_user(date)
+    if self.should_receive_daily_attendance_notification_mail?
+      AsmMailer.specific_date_notification(self, date).deliver
+    end
+  end
   # Fundamental Employee Hierarchy Deciding Functions: 
   def is_store_staff?
     return authorizations.exists?(:permission => 'staff')
