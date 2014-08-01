@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
     users = User.all
     users.each do |user|
       if user.should_receive_daily_attendance_notification_mail?
-        AsmMailer.specific_date_notification(user, date).deliver
+#        AsmMailer.specific_date_notification(user, date).deliver
       end
     end
   end
