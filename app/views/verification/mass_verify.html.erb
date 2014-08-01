@@ -22,8 +22,11 @@
         <td> <%= photo.user.store.name %></td>
         <td> <%= photo.user.name %></td>
         <td> <%= photo.description %></td>
-        <td> <%= image_tag photo.image.url(:medium) %></td>
-        <td> <%= image_tag photo.original.image.url(:medium) if photo.original.present? %></td>
+        <td> <%= image_tag(photo.image.url(:original), size: "250x250")%></td>
+        <%  if photo.original.present? %>
+          <% original_photo = photo.original.image.url(:original) %>
+        <% end %>
+        <td> <%= image_tag(original_photo, size: "250x250") %></td>
         <td> <%= photo.ip %></td>
         <td> <%= photo.original.ip if photo.original.present? %></td>
         <td> 

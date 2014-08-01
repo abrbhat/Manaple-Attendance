@@ -62,10 +62,9 @@ Rails.application.configure do
   #   storage: :s3,
   #   s3_credentials: {
   #     bucket: 'photos-webapp',
-  #     access_key_id: 'AKIAI3KQ5MBQK3T7M2NA',
-  #     secret_access_key: '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'
+  #     access_key_id: 'AKIAIZ5UVV37QUAPPSUQ',
+  #     secret_access_key: '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'
   #   }
   # }
- 
 
 end

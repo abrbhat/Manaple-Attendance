@@ -7,7 +7,8 @@ class LeavesController < ApplicationController
     @stores = @incharge.stores
     @leaves = []
     @stores.each do |store|
-      store.employees.each do |employee|
+
+      store.employees_currently_eligible_for_attendance.each do |employee|
           @leaves << employee.leaves
       end
     end
@@ -52,7 +53,7 @@ class LeavesController < ApplicationController
 
   def apply
     @store = current_user.store
-    @employees = @store.employees
+    @employees = @store.employees_currently_eligible_for_attendance
     @leaves = @store.leaves.flatten
     @leaves.sort! {|x,y| y.created_at <=> x.created_at}
     @leaves_paginated = Kaminari.paginate_array(@leaves).page(params[:page]).per(30)

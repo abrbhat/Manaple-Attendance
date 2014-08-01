@@ -19,9 +19,9 @@ class AsmMailer < ActionMailer::Base
   def store_opened(store,opening_time)
     @opening_time = opening_time
     @store = store
-    if store.incharges != nil
-      incharges = store.incharges
-      emails = incharges.collect(&:email).join(",")
+    if store.users_who_should_receive_store_opening_mail != nil
+      users = store.users_who_should_receive_store_opening_mail
+      emails = users.collect(&:email).join(",")
       mail to: emails, subject: "Store Opened"
     end
   end
@@ -30,9 +30,9 @@ class AsmMailer < ActionMailer::Base
     @leave = leave
     @employee = @leave.user
     store = @employee.store
-    if store.incharges != nil
-      incharges = store.incharges
-      emails = incharges.collect(&:email).join(",")
+    if store.users_who_should_receive_leave_request_mail != nil
+      users = store.users_who_should_receive_leave_request_mail
+      emails = users.collect(&:email).join(",")
       mail to: emails, subject: @employee.name+" has applied for Leave"
     end
   end

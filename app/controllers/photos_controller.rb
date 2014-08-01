@@ -4,6 +4,10 @@ class PhotosController < ApplicationController
   before_filter :authenticate_user!
 
   def create
+    store = User.find(params[:photo][:photo_employee_id]).store
+    File.open(upload_path(store), 'wb') do |f|
+      f.write Base64.decode64(params[:photo][:photo_data])
+    end
     error = false
     @photo = Photo.new(photo_params)
     @photo.image = File.new(upload_path(@photo.user.store))   
@@ -26,8 +30,8 @@ class PhotosController < ApplicationController
     else
       render :json => {"errors" => "true"}, :status => 422
     end
-    
   end
+
   def new   
     if params[:employee].blank?
       sign_out :user
@@ -39,14 +43,13 @@ class PhotosController < ApplicationController
       @description = params[:description]
   end
 
-  def upload
-    store = User.find(params[:photo_employee_id]).store
-    File.open(upload_path(store), 'wb') do |f|
-      f.write Base64.decode64(params[:photo_data])
-    end
-    render :text => "ok"
-  end
-
+  # def upload
+  #   store = User.find(params[:photo_employee_id]).store
+  #   File.open(upload_path(store), 'wb') do |f|
+  #     f.write Base64.decode64(params[:photo_data])
+  #   end
+  #   render :text => "ok"
+  # end
 
   private
 

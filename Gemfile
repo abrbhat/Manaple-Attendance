@@ -1,14 +1,9 @@
 source 'http://rubygems.org'
 
 gem 'rails'
-#gem 'rails', '3.1.0'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
@@ -29,6 +24,8 @@ gem 'rails'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+gem 'rake', '10.3.2'
 
 gem 'nokogiri', '< 1.6'
 
@@ -85,3 +82,6 @@ gem "daemons"
 gem 'newrelic_rpm'
 
 gem 'axlsx_rails'
+
+gem 'execjs'
+gem 'therubyracer'
