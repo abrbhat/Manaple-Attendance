@@ -2,6 +2,10 @@ class PagesController < ApplicationController
   def main
   end
 
+  def delayed_jobs
+    @handlers = DelayedJob.pluck(:handler)
+  end
+
   def choose_attendance_mail_date
     @date = Time.zone.now
   end

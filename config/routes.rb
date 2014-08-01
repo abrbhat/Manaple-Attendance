@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'pages/create_initial_transfers'
   get 'pages/transfer_attendance_data_view'
   post 'pages/transfer_attendance_data'
-
+  get 'pages/delayed_jobs'
 
   get 'dashboard/index'
   get 'dashboard/notification_settings'   
