@@ -1,3 +1,6 @@
+var globalRawImageData;
+var globalSelectedEmployeeId;
+
 function getNextAttendancePage(currentPage){
 	var nextPage;
 	switch(currentPage) {
@@ -63,7 +66,7 @@ function initializeSpinner(){
 $(document).ready(function() {
 	var selectedEmployeeId, selectedAttendanceMarker, storeId;
 	storeId = $("#store-id").val();
-	goToAttendancePage('1');
+  goToAttendancePage('1');
 	initializeSpinner();
 	
 	$(".next-attendance-page-button").click(function(){
@@ -76,36 +79,42 @@ $(document).ready(function() {
 		setWebcam();
 	})
 	$( "#take-picture-button" ).click(function() {
-		var data_uri = Webcam.snap();
-    	var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
-    	$.ajax({
-	      type: "POST",
-	      url: "/photos/upload",
-	      async:"true",      
-	      data: {"photo_data":raw_image_data,
-	  			 "photo_employee_id":selectedEmployeeId},
-	      error: function(){
-	        $("#spinner").hide()
-	        alert('There was an error during file upload. Please contact at 8953342253.'); 
-	        showTakePictureButtonContainer();
-	      },
-	      success: function(data){	
-	      	showSavePhotoAndTakeAnotherButtonContainer();     
-        	$('#webcam').html('<img src="'+data_uri+'"/>');
-	      },
-	      beforeSend: function(){
-	      	showSpinner();	      	
-	      }
-	    });
+	  var data_uri = Webcam.snap();
+    var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+    globalRawImageData = raw_image_data;
+    globalSelectedEmployeeId = selectedEmployeeId;
+    showSavePhotoAndTakeAnotherButtonContainer();
+    $('#webcam').html('<img src="'+data_uri+'"/>');
+  	// $.ajax({
+   //    type: "POST",
+   //    url: "/photos/upload",
+   //    async:"true",      
+   //    data: {"photo_data":raw_image_data,
+  	// 		 "photo_employee_id":selectedEmployeeId},
+   //    error: function(){
+   //      $("#spinner").hide()
+   //      alert('There was an error during file upload. Please contact at 8953342253.'); 
+   //      showTakePictureButtonContainer();
+   //    },
+   //    success: function(data){	
+   //    	showSavePhotoAndTakeAnotherButtonContainer();     
+   //    	$('#webcam').html('<img src="'+data_uri+'"/>');
+   //    },
+   //  });
 	});	
 	$("#save-photo-button").click(function() {
+		showSpinner();
 		$.ajax({
 	      type: "POST",
 	      url: "/photos",
 	      async:"true",      
-	      data: {"photo[store_id]":storeId,
-	      		 "photo[user_id]":selectedEmployeeId,
-	  			 "photo[description]":selectedAttendanceMarker},
+	      data: {
+          "photo[store_id]":storeId,
+	      	"photo[user_id]":selectedEmployeeId,
+	  			"photo[description]":selectedAttendanceMarker,
+          "photo[photo_data]":globalRawImageData,
+          "photo[photo_employee_id]":globalSelectedEmployeeId
+          },
 	      error: function(){
 	        alert('There was an error during file upload. Please contact at 8953342253.'); 
 	        goToAttendancePage('1');
@@ -115,9 +124,6 @@ $(document).ready(function() {
 	      	$("#employee-name-attendance-marked").html(data["employee_name"]);
 	      	$("#description-attendance-marked").html(data["description"]);
 	      	$("#time-attendance-marked").html(data["time"]);   
-	      },
-	      beforeSend: function(){
-	      	showSpinner();
 	      }
 	    });
 	});	
@@ -137,5 +143,4 @@ $(document).ready(function() {
 	})
 
 });
-
 
