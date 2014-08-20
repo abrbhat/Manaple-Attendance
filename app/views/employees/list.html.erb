@@ -12,6 +12,7 @@
       <% if @employee_code_enabled %>
         <th>Employee Code</th>
       <% end %>
+      <th>Photo</th>
       <th>Employee Name</th>
       <% if @employee_designation_enabled %>
         <th>Employee Designation</th>
@@ -23,10 +24,14 @@
   <tbody>
       <% @employees_to_display_paginated.each do |employee| %>
         <tr>
-          <td> <%= employee.store.name %></td>
           <% if @employee_code_enabled %>
             <td> <%= employee.code %></td>
           <% end %>
+          <td> <%= employee.store.name %></td>
+          <%  if employee.photos.where("description = 'original'").present? %>
+            <% original_photo = employee.photos.where("description = 'original'").first.image.url(:thumb) %>
+          <% end %>
+          <td> <%= image_tag(original_photo)%></td>
           <td> <%= employee.name %></td>
           <% if @employee_designation_enabled %>
             <td> <%= employee.designation %></td>
