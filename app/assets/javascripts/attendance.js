@@ -80,27 +80,11 @@ $(document).ready(function() {
 	})
 	$( "#take-picture-button" ).click(function() {
 	  var data_uri = Webcam.snap();
-    var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
-    globalRawImageData = raw_image_data;
-    globalSelectedEmployeeId = selectedEmployeeId;
-    showSavePhotoAndTakeAnotherButtonContainer();
-    $('#webcam').html('<img src="'+data_uri+'"/>');
-  	// $.ajax({
-   //    type: "POST",
-   //    url: "/photos/upload",
-   //    async:"true",      
-   //    data: {"photo_data":raw_image_data,
-  	// 		 "photo_employee_id":selectedEmployeeId},
-   //    error: function(){
-   //      $("#spinner").hide()
-   //      alert('There was an error during file upload. Please contact at 8953342253.'); 
-   //      showTakePictureButtonContainer();
-   //    },
-   //    success: function(data){	
-   //    	showSavePhotoAndTakeAnotherButtonContainer();     
-   //    	$('#webcam').html('<img src="'+data_uri+'"/>');
-   //    },
-   //  });
+      var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+      globalRawImageData = raw_image_data;
+      globalSelectedEmployeeId = selectedEmployeeId;
+      showSavePhotoAndTakeAnotherButtonContainer();
+      $('#webcam').html('<img src="'+data_uri+'"/>');
 	});	
 	$("#save-photo-button").click(function() {
 		showSpinner();
