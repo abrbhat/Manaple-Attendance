@@ -171,6 +171,9 @@ class User < ActiveRecord::Base
       accessible_in["api"] << "upload_attendance_data"
       accessible_in["api"] << "get_employee_data"
       accessible_in["api"] << "get_attendance_data_markers"
+
+      accessible_in["pages"] << "troubleshoot_webcam_error"
+      accessible_in["pages"] << "download_amcap_setup"
     elsif is_store_observer?
       accessible_in["dashboard"] <<  "notification_settings"
       accessible_in["dashboard"] <<  "notification_settings_update"

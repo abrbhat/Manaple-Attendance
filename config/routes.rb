@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get 'pages/transfer_attendance_data_view'
   post 'pages/transfer_attendance_data'
   get 'pages/delayed_jobs'
+  get 'pages/troubleshoot_webcam_error'
+  get 'pages/download_amcap_setup'
 
   get 'dashboard/index'
   get 'dashboard/notification_settings'   

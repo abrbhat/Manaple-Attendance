@@ -6,6 +6,15 @@ class PagesController < ApplicationController
     @handlers = DelayedJob.pluck(:handler)
   end
 
+  def troubleshoot_webcam_error
+
+  end
+
+  def download_amcap_setup
+    setup_location = Rails.root.to_s + '/public/amcap_setup.zip'
+    send_file setup_location, :type=>"application/zip", :x_sendfile=>true
+  end
+
   def choose_attendance_mail_date
     @date = Time.zone.now
   end
