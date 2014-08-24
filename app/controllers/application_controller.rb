@@ -51,9 +51,9 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
-    if !(browser.chrome? or browser.firefox?)
+    if (current_user.is_store_common_user? and ( !(browser.chrome? or browser.firefox?) or browser.mobile? or browser.tablet?))
       sign_out :user
-      flash[:error] = "This site cannot be accessed by your browser. Please use Chrome or Firefox!"
+      flash[:error] = "This site cannot be accessed by your browser. Please use Chrome or Firefox on a Desktop!"
       new_user_session_path
     end
   end
