@@ -1,4 +1,22 @@
-
+<div id="webcam-error-modal">
+    <div class="modal fade" id="webcam-could-not-accessed-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">            
+            <h4 class="modal-title" id="myModalLabel">Error #21</h4>
+          </div>
+          <div class="modal-body">
+            Manaple.com cannot access your webcam
+          </div>
+          <div class="modal-footer">
+            <a href="/pages/troubleshoot_webcam_error" target="_blank">
+                <button type="button" class="btn btn-primary">Troubleshoot</button>
+            </a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
 
 <div class = "attendance-page" id= "attendance-page-1">
 	<%= render "choose_employee_name" %>
@@ -44,7 +62,15 @@
             live: null,
             uploadcomplete: null,
             uploadprogress: null,
-            error: function(msg) { alert("Webcam.js Error: " + msg); }
+            error: function(msg) { 
+                if (msg == "Could not access webcam."){
+                    $('#webcam-could-not-accessed-modal').modal('show');
+                }
+                else{
+                    alert("Webcam Error: " + msg);    
+                }
+            }
+                
         }, // callback hook functions
         
         init: function() {

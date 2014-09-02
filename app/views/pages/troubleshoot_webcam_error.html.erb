@@ -1,0 +1,70 @@
+<h2>Troubleshooting Guide: Inaccessible Webcam</h2>
+<h3>Step 1: Ensure that your Webcam is detected by Windows</h3>
+<ol>
+	<li>Disconnect Webcam from CPU.</li>
+	<li>Connect Webcam securely back into USB port in CPU.</li>
+	<li>
+		Upon connecting webcam, you should see message bubble in lower left corner.</br></br>
+		For Windows 7:</br>
+		<%= image_tag "webcam_troubleshooting/webcam_installed_windows_7_message.png" ,:class => "bordered-image" %></br></br>
+		For Windows XP:</br>
+		<%= image_tag "webcam_troubleshooting/webcam_installed_windows_xp_message.jpg" ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>If your system is unable to detect Webcam, try using a different USB port.</li>
+	<li>If your system is still does not detect webcam, there might be a hardware issue with your USB ports.</li>
+</ol>
+<h3>Step 2: Ensure that the Webcam is able to capture video</h3>
+<ol>
+	<li><%= link_to "Download AMcap",controller:"pages", action:"download_amcap_setup"%></li>
+	<li>Extract and Install AMCap.</li>
+	<li>Run AMCap from your Desktop.</li>
+	<li>You should be able to view the Video captured by the Webcam.</li>
+	<li>If you are not able to view any video, go back to Step 1.</li>
+</ol>
+<h3>Step 3: Ensure that the browser has permission to access Webcam</h3>
+<h4>For Google Chrome:</h4>
+<ol>
+	<li>
+		If there is a Red Cross appearing over the Video icon in Address Bar, this means that your browser has been denied permission to access Webcam.</br>
+		<%= image_tag "webcam_troubleshooting/chrome-video-cross.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		To resolve the situation, click on the Red Cross.</br>		
+	</li>
+	<li>
+		Select "Ask if manaple.com wants to access your camera" and click on "Done".</br>
+		<%= image_tag "webcam_troubleshooting/chrome-video-cross-message.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		You will see a new message below the address bar. Click on "Reload".</br>
+		<%= image_tag "webcam_troubleshooting/chrome-video-cross-reload.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		You will see another message below the address bar. Click on "Allow".</br>
+		<%= image_tag "webcam_troubleshooting/chrome-video-cross-allow.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+</ol>
+
+<h4>For Mozilla Firefox:</h4>
+<ol>
+	<li>
+		Click on the Globe icon in the left of the address bar.</br>
+		<%= image_tag "webcam_troubleshooting/firefox-video-globe.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		If you see that the option "Block" is selected, this means that your browser has been denied permission to access webcam.</br>
+		<%= image_tag "webcam_troubleshooting/firefox-video-block.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		To resolve the situation, select "Allow" from the dropdown menu.</br>
+		<%= image_tag "webcam_troubleshooting/firefox-video-allow.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		Click on Refresh icon.</br>
+		<%= image_tag "webcam_troubleshooting/firefox-video-reload.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+	<li>
+		Click "Share Selected Device"</br>
+		<%= image_tag "webcam_troubleshooting/firefox-video-share-selected.png" ,width:'938', height:'500' ,:class => "bordered-image" %></br></br>
+	</li>
+</ol>
