@@ -9,17 +9,22 @@ class ApplicationController < ActionController::Base
  
   protect_from_forgery
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
-  before_action :check_browser
   Time.zone = 'Kolkata'
 
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
       if current_user.is_store_incharge? or current_user.is_store_common_user? or current_user.is_store_observer? or current_user.is_master?
-        current_user.home_path
+        if (current_user.is_store_common_user? and ( !(browser.chrome? or browser.firefox?) or browser.mobile? or browser.tablet?))
+          sign_out :user
+          flash[:error] = "This site cannot be accessed by your browser. Please use Chrome or Firefox on a Desktop!"
+          return new_user_session_path
+        else
+          return current_user.home_path
+        end
       elsif !admin_user_signed_in?
         sign_out :user
         flash[:error] = "You are not allowed there."
-        new_user_session_path
+        return new_user_session_path
       end
     end
   end    
@@ -47,14 +52,6 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.for(:sign_up) { 
         |u| u.permit(registration_params) 
       }
-    end
-  end
-
-  def check_browser
-    if ( current_user && current_user.is_store_common_user? and ( !(browser.chrome? or browser.firefox?) or browser.mobile? or browser.tablet?))
-      sign_out :user
-      flash[:error] = "This site cannot be accessed by your browser. Please use Chrome or Firefox on a Desktop!"
-      new_user_session_path
     end
   end
 
