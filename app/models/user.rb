@@ -74,7 +74,39 @@ class User < ActiveRecord::Base
   	return (self.is_store_incharge? or self.is_store_observer?)	
   end
 
-
+  #Store specific hierarchy-deciding functions
+  def is_store_staff_of store
+    return authorizations.exists?(:permission => 'staff', :store_id => store.id)
+  end
+  def is_store_manager_of store
+    return authorizations.exists?(:permission => 'manager', :store_id => store.id)
+  end
+  def is_store_asm_of store
+    # Incharge who has to mark attendance too, unlike supervisor or owner
+    return authorizations.exists?(:permission => 'asm', :store_id => store.id)
+  end
+  def is_store_owner_of store
+    return authorizations.exists?(:permission => 'owner', :store_id => store.id)
+  end
+  def is_store_supervisor_of store
+    # Incharge who is not owner
+    return authorizations.exists?(:permission => 'supervisor', :store_id => store.id)
+  end
+  def is_store_common_user_of store
+    return authorizations.exists?(:permission => 'common_user', :store_id => store.id)
+  end
+  def is_store_observer_of store
+    return authorizations.exists?(:permission => 'observer', :store_id => store.id)
+  end  
+  def is_master_of store
+    is_master = false
+    self.authorizations.each do |authorization|
+      if authorization.permission == "master" and authorization.store == store
+        is_master = true
+      end
+    end
+    return is_master
+  end
 
   def stores
   	stores = []

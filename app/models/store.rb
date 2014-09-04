@@ -9,7 +9,7 @@ class Store < ActiveRecord::Base
   	employees = []
   	authorizations.each do |authorization|
       employee = authorization.user
-      if (employee.is_store_staff? or employee.is_store_manager?) and employee.is_active?
+      if (employee.is_store_staff_of(self) or employee.is_store_manager_of(self)) and employee.is_active?
           employees << employee
       end
     end
@@ -20,7 +20,7 @@ class Store < ActiveRecord::Base
     employees = []
     authorizations.each do |authorization|
       employee = authorization.user
-      if employee.is_store_asm? and employee.is_active?
+      if employee.is_store_asm_of(self) and employee.is_active?
           employees << employee
       end
     end
@@ -30,7 +30,7 @@ class Store < ActiveRecord::Base
   def incharges
     incharges = []
     authorizations.each do |authorization|
-      if authorization.user.is_store_incharge? and authorization.user.is_active?
+      if authorization.user.is_store_incharge_of(self) and authorization.user.is_active?
         incharges << authorization.user
       end
     end
@@ -40,7 +40,7 @@ class Store < ActiveRecord::Base
   def observers
     incharges = []
     authorizations.each do |authorization|
-      if authorization.user.is_store_observer?
+      if authorization.user.is_store_observer_of(self)
         incharges << authorization.user
       end
     end

@@ -2,7 +2,7 @@ class AttendanceController < ApplicationController
   before_filter :authenticate_user!
   def mark
   	@store = current_user.store
-    @employees = @store.employees + @store.asm
+    @employees = @store.employees_currently_eligible_for_attendance
   end
 
   def choose_attendance_description

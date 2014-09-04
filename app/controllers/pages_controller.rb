@@ -52,40 +52,92 @@ class PagesController < ApplicationController
     end   
   end
 
-  def allot_stores
-    # this is retrospective action to be run only once
-    if admin_user_signed_in?
-      Photo.all.each do |photo|
-        if photo.user.present?
-          photo.store_id = photo.user.store.id
-          photo.save
-        end
-      end
-      render :text => "done"
-    else
+  def enter_bulk_store_data
+    if !admin_user_signed_in?     
       render :text => "You need to be admin"
-    end
+      return
+    end 
+    @users = User.all.select{|user| !(user.is_store_common_user? or user.is_store_staff? or user.is_store_manager?)}
   end
 
-  def create_initial_transfers
-    if admin_user_signed_in?
-      if Transfer.all.blank?
-      # this is retrospective action to be run only once
-        User.all.each do |employee|
-            if employee.is_eligible_for_attendance?
-              employee.stores.each do |store|
-                authorization = employee.authorizations.select{|authorization| authorization.store == store}.first
-                Transfer.create(user_id: employee.id, to_store_id: store.id, date: authorization.created_at )
-              end
-            end
-        end
-        render :text => "transfer created"
-      else
-        render :text => "transfers already present"
-      end
-    else
+  def create_bulk_stores
+    if !admin_user_signed_in?     
       render :text => "You need to be admin"
+      return
     end 
+    new_store_data = params[:store_data]
+    asm_list = params[:asm_ids]
+    owner_list = params[:owner_ids]
+    observer_list = params[:observer_ids]
+    supervisor_list = params[:supervisor_ids]
+    master_id = params[:master_id]
+    new_store_data.each do |store_data|
+      name = store_data["name"]
+      password = store_data["password"]
+      email = store_data["email"]
+      phone_number = store_data["phone_number"]
+      if name.present?
+        common_user = User.create!(name: name, email: email, :password => password)
+        store = Store.create(name: name, email: email, phone: phone_number)
+        Authorization.create(user_id: common_user.id, store_id: store.id, permission: "common_user" )
+        asm_list.each do |asm_id|
+          if asm_id.present?
+            Transfer.create(user_id: asm_id, to_store_id: store.id, date: Time.zone.now )
+            Authorization.create(user_id: asm_id, store_id: store.id, permission: "asm" )
+          end
+        end
+        observer_list.each do |observer_id|
+          if observer_id.present?
+            Authorization.create(user_id: observer_id, store_id: store.id, permission: "observer" )
+          end
+        end
+        owner_list.each do |owner_id|
+          if owner_id.present?
+            Authorization.create(user_id: owner_id, store_id: store.id, permission: "owner" )
+          end
+        end
+        supervisor_list.each do |supervisor_id|
+          if supervisor_id.present?
+            Authorization.create(user_id: supervisor_id, store_id: store.id, permission: "supervisor" )
+          end
+        end
+        if master_id.present?
+          Authorization.create(user_id: master_id, store_id: store.id, permission: "master" )
+        end        
+      end
+    end
+    flash[:notice] = "Stores Created"
+    redirect_to(:controller => 'pages', :action => 'enter_bulk_store_data')
+  end
+
+  def select_bulk_authorizations_to_create
+    if !admin_user_signed_in?     
+      render :text => "You need to be admin"
+      return
+    end 
+    @stores = Store.all
+    @users = User.all.select{|user| !(user.is_store_common_user? or user.is_store_staff? or user.is_store_manager?)}
+  end
+
+  def create_bulk_authorizations
+    if !admin_user_signed_in?     
+      render :text => "You need to be admin"
+      return
+    end 
+    store_list = params[:store_ids]
+    user_id = params[:user_id]
+    permission = params[:permission]
+    store_list.each do |store_id|
+      store = Store.find(store_id)
+      if !store.authorizations.exists?(:user_id => user_id)
+        Authorization.create(user_id: user_id, store_id: store_id, permission: permission )
+        if permission == "asm"
+          Transfer.create(user_id: user_id, to_store_id: store_id, date: Time.zone.now )
+        end
+      end
+    end
+    flash[:notice] = "Authorizations Created"
+    redirect_to(:controller => 'pages', :action => 'select_bulk_authorizations_to_create')
   end
 
   def transfer_attendance_data_view

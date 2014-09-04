@@ -1,0 +1,42 @@
+<%= form_tag({controller:"pages",action:"create_bulk_authorizations"}, method: "post",class:"form-inline") do %>
+<h2>Create Authorizations</h2>
+<div class = "container left-side">
+  <div class="form-group">
+    <label class="control-label">Make User:</label>
+    <div class="">
+      <select class="form-control"  name="user_id">
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>" ><%= user.store.name if user.store.present? %> - <%= user.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  </br>
+  <div class="form-group">
+    <div class="">
+      <select class="form-control"  name="permission">       
+          <option value="asm" selected="selected">ASM</option>
+          <option value="supervisor" >Supervisor</option>
+          <option value="owner" >Owner</option>
+          <option value="observer" >Observer</option>
+          <option value="master" >Master</option>
+      </select>
+    </div>      
+  </div>
+  </br>
+  <div class="form-group">
+    <label class="control-label">Of Stores:</label>
+    <div class="">
+      <select class="form-control"  name="store_ids[]" multiple>
+        <% @stores.each do |store| %>
+          <option value="<%= store.id %>" ><%= store.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  
+  
+</div>
+<%= submit_tag "Save", :class => "form-submit-button" %>
+<%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button"}  ) %>
+<% end %>

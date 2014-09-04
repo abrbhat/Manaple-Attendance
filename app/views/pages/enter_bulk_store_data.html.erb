@@ -1,0 +1,80 @@
+<%= javascript_include_tag "pages" %>
+
+<%= form_tag({controller:"pages",action:"create_bulk_stores"}, method: "post",class:"form-inline") do %>
+<h2>Add Stores</h2>
+<div class="right-side clear-sides">
+  <div class='medium-button' id = 'add-one-row-button'>+1</div>
+  <div class='medium-button' id = 'add-25-rows-button'>+25</div>
+</div>
+<div class = "container left-side">
+  <div class="form-group">
+    <label class="control-label">Master User:</label>
+    <div class="">
+      <select class="form-control"  name="master_id">
+        <option value="" selected="selected">None</option>
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>" ><%= user.store.name if user.store.present? %> - <%= user.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  <div class="form-group">
+    <label class="control-label">ASMs:</label>
+    <div class="">
+      <select class="form-control"  name="asm_ids[]" multiple>
+        <option value="" selected="selected">None</option>
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>" ><%= user.store.name if user.store.present? %> - <%= user.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  <div class="form-group">
+    <label class="control-label">Observers:</label>
+    <div class="">
+      <select class="form-control"  name="observer_ids[]" multiple>
+        <option value="" selected="selected">None</option>
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>" ><%= user.store.name if user.store.present? %> - <%= user.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  <div class="form-group">
+    <label class="control-label">Owner:</label>
+    <div class="">
+      <select class="form-control"  name="owner_ids[]" multiple>
+        <option value="" selected="selected">None</option>
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>" ><%= user.store.name if user.store.present? %> - <%= user.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  <div class="form-group">
+    <label class="control-label">Supervisor:</label>
+    <div class="">
+      <select class="form-control"  name="supervisor_ids[]" multiple>
+        <option value="" selected="selected">None</option>
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>" ><%= user.store.name if user.store.present? %> - <%= user.name %></option>
+        <% end %>
+      </select>
+    </div>      
+  </div>
+  <table class="list-table">
+    <thead>
+        <tr>      
+          <th>Store Name</th>   
+          <th>Store Email</th>  
+          <th>Store Phone Number</th>       
+        </tr>
+    </thead>
+    <tbody id = 'add-store-table-body'>   
+      <%= render 'add_store_row' %>
+    </tbody>
+  </table>
+</div>
+<%= submit_tag "Save", :class => "form-submit-button" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button"}  ) %>
+<% end %>
