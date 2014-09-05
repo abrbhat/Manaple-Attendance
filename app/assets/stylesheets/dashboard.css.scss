@@ -407,6 +407,13 @@ label{
   background-color:#F0AD4E;
   border-color:#EEA236;
 }
+.status-dead-indicator{
+  @extend .btn;
+  @extend .btn-sm;
+  @extend .btn-default;
+  @extend .active;
+  cursor:default;
+}
 #spinner{
   width:0px;
   margin:0 auto;

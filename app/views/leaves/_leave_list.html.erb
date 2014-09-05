@@ -9,10 +9,10 @@
       <th>End Date</th> 
       <th>Reason</th>
       <th>
-        <% if current_user.is_store_common_user?  %>
-          Status
-        <% elsif current_user.is_store_incharge? %>
+        <% if current_user.can 'approve_leaves'  %>
           Action
+        <% else %>
+          Status
         <% end %>
       </th>
     </tr>
@@ -33,11 +33,7 @@
           </div> 
         </td>
         <td>
-          <% if current_user.is_store_common_user?  %>
-            <div class="<%= is_leave_approved(leave.status) %>">
-              <%= leave.status.tr('_', ' ').capitalize %>
-            </div>
-          <% elsif current_user.is_store_incharge? %>
+          <% if current_user.can 'approve_leaves' %>
             <% if leave.status == 'approved'%>
               <div class="status-positive-indicator">
                  Approved
@@ -52,6 +48,10 @@
             <% else %>
                 <%= link_to "Reject", leave_path(leave,leave:{:status => "rejected"}), :method=> :put,class: "medium-button" %>
             <% end %>
+          <% else %>
+            <div class="<%= is_leave_approved(leave.status) %>">
+              <%= leave.status.tr('_', ' ').capitalize %>
+            </div>
           <% end %>          
        </td>         
       </tr>

@@ -146,6 +146,7 @@ class User < ActiveRecord::Base
         permissions << 'modify_store_data'  
         permissions << 'modify_profile_settings'
         permissions << 'access_employee_list'
+        permissions << 'approve_leaves'
       elsif self.is_store_observer?
         permissions << 'view_attendance_data'
         permissions << 'modify_profile_settings'
@@ -157,6 +158,7 @@ class User < ActiveRecord::Base
         permissions << 'modify_store_data'  
         permissions << 'modify_profile_settings'
         permissions << 'access_employee_list'
+        permissions << 'approve_leaves'
       end
       allowed = permissions.include? permission
     end

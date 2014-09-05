@@ -17,7 +17,7 @@
       <% if @employee_designation_enabled %>
         <th>Employee Designation</th>
       <% end %>   
-      <th>Status</th>
+      <th></th>
       <th></th>   
     </tr>
   </thead>
@@ -35,11 +35,23 @@
           <td> <%= employee.name %></td>
           <% if @employee_designation_enabled %>
             <td> <%= employee.designation %></td>
-          <% end %>
-          <td><div class="<%= is_employee_active(employee.status)%>" ><%= employee.status.capitalize %> </div></td>
-            <td>
-              <%= link_to "Edit", employees_edit_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
-            </td>
+          <% end %>       
+          <td>            
+              <% if employee.is_active? %>
+                <%= form_tag({controller:"employees",action:"update"}, method: "post",class:"form-horizontal") do %>
+                  <input type="hidden" name ="employee[id]" value="<%= employee.id %>" >
+                  <input type="hidden" name ="employee[employee_status]" value="inactive" >
+                  <%= submit_tag "Deactivate", :class => "status-negative-indicator" %>              
+                <% end %>
+              <% else %>
+                <div class="status-dead-indicator">
+                   Deactivated
+                </div>                
+              <% end %>
+          </td>
+          <td>
+            <%= link_to "Edit", employees_edit_path(employee_id: employee.id), :method=> :get, class: "medium-button" %>
+          </td>
         </tr>
       <% end %>
   </tbody>
