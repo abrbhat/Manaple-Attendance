@@ -70,8 +70,13 @@
 						    <li class="<%= is_active?("dashboard#master_settings")  %>"><%= link_to "Master Settings", dashboard_master_settings_path %></li>					       
 					    <% end %> 
 					    <% if current_user.is_account_manager? %>	
-						    <li class="<%= is_active?("pages#enter_bulk_store_data")  %>"><%= link_to "Bulk Create Stores", pages_enter_bulk_store_data_path %></li>	
-						    <li class="<%= is_active?("pages#select_bulk_authorizations_to_create")  %>"><%= link_to "Bulk Create Authorizations", pages_select_bulk_authorizations_to_create_path %></li>				       
+						    <li class="dropdown">
+						        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Bulk Create<b class="caret"></b></a>
+						        <ul class="dropdown-options">
+						          	<li class="<%= is_active?("pages#enter_bulk_store_data")  %>"><%= link_to "Stores", pages_enter_bulk_store_data_path %></li>	
+						    		<li class="<%= is_active?("pages#select_bulk_authorizations_to_create")  %>"><%= link_to "Authorizations", pages_select_bulk_authorizations_to_create_path %></li>	
+						        </ul>	
+							</li>						    			       
 					    <% end %> 				      	
 					    <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
 				    </ul>	

@@ -113,17 +113,17 @@ class User < ActiveRecord::Base
 
   def stores
   	stores = []
-  	authorizations.each do |authorization|
-  		stores << authorization.store
-  	end
+    if is_account_manager?
+      stores = Store.all
+    else
+    	authorizations.each do |authorization|
+    		stores << authorization.store
+    	end
+    end
   	return stores.uniq
   end
-  def store
-    stores = []
-    authorizations.each do |authorization|
-      stores << authorization.store
-    end
-    return stores.first
+  def store    
+    return self.stores.first
   end
 
   def can(permission,object_id = nil)
@@ -152,6 +152,11 @@ class User < ActiveRecord::Base
         permissions << 'access_employee_list'
       elsif self.is_store_common_user?
         permissions << 'mark_attendance'
+      elsif self.is_account_manager?
+        permissions << 'view_attendance_data'
+        permissions << 'modify_store_data'  
+        permissions << 'modify_profile_settings'
+        permissions << 'access_employee_list'
       end
       allowed = permissions.include? permission
     end
@@ -226,6 +231,22 @@ class User < ActiveRecord::Base
 
       accessible_in["pages"] <<  "select_bulk_authorizations_to_create"
       accessible_in["pages"] <<  "create_bulk_authorizations"
+
+      accessible_in["dashboard"] <<  "attendance_specific_day"
+      accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
+      accessible_in["dashboard"] <<  "attendance_time_period_detailed"
+      accessible_in["dashboard"] <<  "employee_attendance_record"
+
+      accessible_in["leaves"] << "index"
+      accessible_in["leaves"] << "update"
+
+      accessible_in["employees"] << "create"
+      accessible_in["employees"] << "edit"
+      accessible_in["employees"] << "update"
+      accessible_in["employees"] << "list"
+      accessible_in["employees"] << "new"
+      accessible_in["employees"] << "transfer"
+      accessible_in["employees"] << "update_store"
     else
       accessible_in["dashboard"] = []
     end
