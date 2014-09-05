@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   config.per_page = 10
-  permit_params :email, :password, :password_confirmation, :name, :employee_code, :employee_designation, :employee_status
+  permit_params :email, :password, :password_confirmation, :name, :employee_code, :employee_designation, :employee_status, :category
 
   index do
     selectable_column
@@ -13,6 +13,7 @@ ActiveAdmin.register User do
     column :employee_code
     column :employee_designation
     column :employee_status
+    column :category  
     actions
   end
 
@@ -30,6 +31,7 @@ ActiveAdmin.register User do
       f.input :employee_designation
       f.input :password
       f.input :password_confirmation
+      f.input :category
     end
     f.actions
   end

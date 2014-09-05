@@ -14,13 +14,15 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if resource.class.name == "User"
       if current_user.is_store_incharge? or current_user.is_store_common_user? or current_user.is_store_observer? or current_user.is_master?
-        if (current_user.is_store_common_user? and ( !(browser.chrome? or browser.firefox?) or browser.mobile? or browser.tablet?))
+        if (current_user.is_store_common_user? and ( !(browser.chrome? or browser.firefox?) or browser.mobile? or browser.tablet?)) and !admin_user_signed_in?
           sign_out :user
           flash[:error] = "This site cannot be accessed by your browser. Please use Chrome or Firefox on a Desktop!"
           return new_user_session_path
         else
           return current_user.home_path
         end
+      elsif current_user.is_account_manager?
+        return current_user.home_path
       elsif !admin_user_signed_in?
         sign_out :user
         flash[:error] = "You are not allowed there."

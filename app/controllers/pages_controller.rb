@@ -53,18 +53,18 @@ class PagesController < ApplicationController
   end
 
   def enter_bulk_store_data
-    if !admin_user_signed_in?     
-      render :text => "You need to be admin"
+    unless current_user.is_account_manager?
+      render :text => "You are not allowed here"
       return
-    end 
+    end
     @users = User.all.select{|user| !(user.is_store_common_user? or user.is_store_staff? or user.is_store_manager?)}
   end
 
   def create_bulk_stores
-    if !admin_user_signed_in?     
-      render :text => "You need to be admin"
+    unless current_user.is_account_manager?
+      render :text => "You are not allowed here"
       return
-    end 
+    end
     new_store_data = params[:store_data]
     asm_list = params[:asm_ids]
     owner_list = params[:owner_ids]
@@ -106,13 +106,13 @@ class PagesController < ApplicationController
         end        
       end
     end
-    flash[:notice] = "Stores Created"
-    redirect_to(:controller => 'pages', :action => 'enter_bulk_store_data')
+    redirect_to pages_enter_bulk_store_data_path, notice: "Stores Created"
+    return
   end
 
   def select_bulk_authorizations_to_create
-    if !admin_user_signed_in?     
-      render :text => "You need to be admin"
+    unless current_user.is_account_manager?
+      render :text => "You are not allowed here"
       return
     end 
     @stores = Store.all
@@ -120,10 +120,10 @@ class PagesController < ApplicationController
   end
 
   def create_bulk_authorizations
-    if !admin_user_signed_in?     
-      render :text => "You need to be admin"
+    unless current_user.is_account_manager?
+      render :text => "You are not allowed here"
       return
-    end 
+    end
     store_list = params[:store_ids]
     user_id = params[:user_id]
     permission = params[:permission]
@@ -136,8 +136,7 @@ class PagesController < ApplicationController
         end
       end
     end
-    flash[:notice] = "Authorizations Created"
-    redirect_to(:controller => 'pages', :action => 'select_bulk_authorizations_to_create')
+    redirect_to pages_select_bulk_authorizations_to_create_path, notice: "Authorizations Created"
   end
 
   def transfer_attendance_data_view

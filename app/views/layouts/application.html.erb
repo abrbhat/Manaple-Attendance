@@ -24,52 +24,55 @@
 			  <!-- Collect the nav links, forms, and other content for toggling -->
 			  <div class="collapsible-navigation-bar" id="bs-example-navbar-collapse-1">
 				<% if user_signed_in? %>	
-					<ul class="right-aligned-navigation-links">
-						
-					<% if current_user.can 'view_attendance_data' %>
-						<li class="dropdown">
-					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Attendance Data<b class="caret"></b></a>
-					        <ul class="dropdown-options">
-					          <li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Specific Day", dashboard_attendance_specific_day_path %></li>
-					          <li class="<%= is_active?("dashboard#attendance_time_period_consolidated")  %>"><%= link_to "Time-Period (Consolidated)", dashboard_attendance_time_period_consolidated_path %></li>
-					          <li class="<%= is_active?("dashboard#attendance_time_period_detailed")  %>" ><%= link_to "Time-Period (Detailed)", dashboard_attendance_time_period_detailed_path %></li>
-					          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Individual Employee", dashboard_employee_attendance_record_path %></li>
-					        </ul>	
-					    </li>
-					<% end %>
-					<% if current_user.can 'modify_store_data' %>
-						<li class="dropdown">
-					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
-					        <ul class="dropdown-options">
-					          <% if current_user.leaves_enabled? %>
-					          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>		
-					          <% end %>			          
-					          <li class="<%= is_active?("employees#list")  %>" ><%= link_to "List All", employees_list_path %></li>
-					          <li class="<%= is_active?("employee#new")  %>" ><%= link_to "Create New", employees_new_path %></li>
-					          <% if current_user.transfers_enabled? %>
-					          <li class="<%= is_active?("employee#transfer")  %>" ><%= link_to "Transfer", employees_transfer_path %></li>
-					          <% end %>
-					        </ul>	
-					    </li>
-					<% end %>
-					<% if current_user.can 'modify_profile_settings' %>
-						<li class="dropdown">
-					        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Settings<b class="caret"></b></a>
-					        <ul class="dropdown-options">					          
-					          <li class="<%= is_active?("devise/registrations#edit")  %>"><%= link_to "Profile", edit_user_registration_path %></li>
-					        </ul>	
-					    </li>
-					<% end %>
-					<% if current_user.can 'mark_attendance' %>		    
-					    <li class="<%= is_active?("attendance#mark")  %>"><%= link_to "Home", attendance_mark_path %></li>
-					    <li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Attendance Data", dashboard_attendance_specific_day_path %></li>
-					    <% if current_user.leaves_enabled? %>
-					    	<li class="<%= is_active?("leaves#apply")  %>"><%= link_to "Leaves", apply_leaves_path %></li>
-					    <% end %>
-				    <% end %>  
-				    <% if current_user.is_master? %>	
-					    <li class="<%= is_active?("dashboard#master_settings")  %>"><%= link_to "Master Settings", dashboard_master_settings_path %></li>					       
-				    <% end %> 				      	
+					<ul class="right-aligned-navigation-links">						
+						<% if current_user.can 'view_attendance_data' %>
+							<li class="dropdown">
+						        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Attendance Data<b class="caret"></b></a>
+						        <ul class="dropdown-options">
+						          <li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Specific Day", dashboard_attendance_specific_day_path %></li>
+						          <li class="<%= is_active?("dashboard#attendance_time_period_consolidated")  %>"><%= link_to "Time-Period (Consolidated)", dashboard_attendance_time_period_consolidated_path %></li>
+						          <li class="<%= is_active?("dashboard#attendance_time_period_detailed")  %>" ><%= link_to "Time-Period (Detailed)", dashboard_attendance_time_period_detailed_path %></li>
+						          <li class="<%= is_active?("dashboard#employee_attendance_record")  %>"><%= link_to "Individual Employee", dashboard_employee_attendance_record_path %></li>
+						        </ul>	
+						    </li>
+						<% end %>
+						<% if current_user.can 'modify_store_data' %>
+							<li class="dropdown">
+						        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Employees<b class="caret"></b></a>
+						        <ul class="dropdown-options">
+						          <% if current_user.leaves_enabled? %>
+						          <li class="<%= is_active?("leaves#index")  %>"><%= link_to "Leave Manager", leaves_path %></li>		
+						          <% end %>			          
+						          <li class="<%= is_active?("employees#list")  %>" ><%= link_to "List All", employees_list_path %></li>
+						          <li class="<%= is_active?("employee#new")  %>" ><%= link_to "Create New", employees_new_path %></li>
+						          <% if current_user.transfers_enabled? %>
+						          <li class="<%= is_active?("employee#transfer")  %>" ><%= link_to "Transfer", employees_transfer_path %></li>
+						          <% end %>
+						        </ul>	
+						    </li>
+						<% end %>
+						<% if current_user.can 'modify_profile_settings' %>
+							<li class="dropdown">
+						        <a href="#" class="toggle-dropdown-button" data-toggle="dropdown">Settings<b class="caret"></b></a>
+						        <ul class="dropdown-options">					          
+						          <li class="<%= is_active?("devise/registrations#edit")  %>"><%= link_to "Profile", edit_user_registration_path %></li>
+						        </ul>	
+						    </li>
+						<% end %>
+						<% if current_user.can 'mark_attendance' %>		    
+						    <li class="<%= is_active?("attendance#mark")  %>"><%= link_to "Home", attendance_mark_path %></li>
+						    <li class="<%= is_active?("dashboard#attendance_specific_day")  %>"><%= link_to "Attendance Data", dashboard_attendance_specific_day_path %></li>
+						    <% if current_user.leaves_enabled? %>
+						    	<li class="<%= is_active?("leaves#apply")  %>"><%= link_to "Leaves", apply_leaves_path %></li>
+						    <% end %>
+					    <% end %>  
+					    <% if current_user.is_master? %>	
+						    <li class="<%= is_active?("dashboard#master_settings")  %>"><%= link_to "Master Settings", dashboard_master_settings_path %></li>					       
+					    <% end %> 
+					    <% if current_user.is_account_manager? %>	
+						    <li class="<%= is_active?("pages#enter_bulk_store_data")  %>"><%= link_to "Bulk Create Stores", pages_enter_bulk_store_data_path %></li>	
+						    <li class="<%= is_active?("pages#select_bulk_authorizations_to_create")  %>"><%= link_to "Bulk Create Authorizations", pages_select_bulk_authorizations_to_create_path %></li>				       
+					    <% end %> 				      	
 					    <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
 				    </ul>	
 				<% end %>

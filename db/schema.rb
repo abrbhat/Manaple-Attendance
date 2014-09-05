@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714210404) do
+ActiveRecord::Schema.define(version: 20140905141239) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -117,6 +117,8 @@ ActiveRecord::Schema.define(version: 20140714210404) do
     t.boolean  "employee_code_enabled"
     t.boolean  "transfers_enabled"
     t.boolean  "leaves_enabled"
+    t.boolean  "is_evercookie_set"
+    t.string   "evercookie_value"
   end
 
   create_table "transfers", force: true do |t|
@@ -150,6 +152,7 @@ ActiveRecord::Schema.define(version: 20140714210404) do
     t.text     "authentication_token"
     t.string   "employee_designation"
     t.string   "employee_status"
+    t.string   "category"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

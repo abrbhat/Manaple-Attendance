@@ -48,12 +48,15 @@ class User < ActiveRecord::Base
   def is_store_observer?
     return authorizations.exists?(:permission => 'observer')
   end  
+
+  def is_account_manager?
+    return (category == "account_manager")
+  end
+
   def is_master?
-    is_master = true
-    self.authorizations.each do |authorization|
-      if authorization.permission != "master"
-        is_master = false
-      end
+    is_master = false
+    if self.authorizations.present? and self.authorizations.select{|authorization| authorization.permission != "master"}.blank?
+      is_master = true      
     end
     return is_master
   end
@@ -217,6 +220,12 @@ class User < ActiveRecord::Base
     elsif is_master?      
       accessible_in["dashboard"] <<  "master_settings"
       accessible_in["dashboard"] <<  "master_settings_update"
+    elsif is_account_manager?
+      accessible_in["pages"] <<  "enter_bulk_store_data"
+      accessible_in["pages"] <<  "create_bulk_stores"
+
+      accessible_in["pages"] <<  "select_bulk_authorizations_to_create"
+      accessible_in["pages"] <<  "create_bulk_authorizations"
     else
       accessible_in["dashboard"] = []
     end
@@ -229,6 +238,8 @@ class User < ActiveRecord::Base
       attendance_mark_path   
     elsif is_master?
       dashboard_master_settings_path
+    elsif is_account_manager?
+      pages_enter_bulk_store_data_path
     else
       new_user_session_path
     end
