@@ -5,5 +5,6 @@
 //= require bootstrap
 //= require bootstrap-datepicker
 //= require bootstrap-multiselect
+//= require bootstrap-switch
 //= require dashboard
 //= require spinner

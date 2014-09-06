@@ -1,7 +1,7 @@
 $(document).ready(function () {
 $('.photo-verification-form').hide();
 $('.photo-container > .photo-container-element').hide();
-
+//$('.final-verification-check').bootstrapSwitch();
 count = $('.photo-container > .photo-container-element').size();
 
 i = 0;

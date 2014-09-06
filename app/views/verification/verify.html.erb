@@ -61,7 +61,8 @@
               <% end %>
               <td> <%= image_tag(original_photo, size: "400x300") %></td>
               <td> 
-           			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified" id="<%= photo.id %>-form"/>
+                <input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
+           			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified" id="<%= photo.id %>-form" class = "final-verification-check" />
       		    </td>
             </tr>
           <% end %>
