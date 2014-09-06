@@ -79,31 +79,7 @@ class PagesController < ApplicationController
       if name.present?
         common_user = User.create!(name: name, email: email, :password => password)
         store = Store.create(name: name, email: email, phone: phone_number)
-        Authorization.create(user_id: common_user.id, store_id: store.id, permission: "common_user" )
-        asm_list.each do |asm_id|
-          if asm_id.present?
-            Transfer.create(user_id: asm_id, to_store_id: store.id, date: Time.zone.now )
-            Authorization.create(user_id: asm_id, store_id: store.id, permission: "asm" )
-          end
-        end
-        observer_list.each do |observer_id|
-          if observer_id.present?
-            Authorization.create(user_id: observer_id, store_id: store.id, permission: "observer" )
-          end
-        end
-        owner_list.each do |owner_id|
-          if owner_id.present?
-            Authorization.create(user_id: owner_id, store_id: store.id, permission: "owner" )
-          end
-        end
-        supervisor_list.each do |supervisor_id|
-          if supervisor_id.present?
-            Authorization.create(user_id: supervisor_id, store_id: store.id, permission: "supervisor" )
-          end
-        end
-        if master_id.present?
-          Authorization.create(user_id: master_id, store_id: store.id, permission: "master" )
-        end        
+        Authorization.create(user_id: common_user.id, store_id: store.id, permission: "common_user" )       
       end
     end
     redirect_to pages_enter_bulk_store_data_path, notice: "Stores Created"
