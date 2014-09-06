@@ -1,5 +1,5 @@
 $(document).ready(function () {
-$('.photo-form').show();
+$('.photo-verification-form').hide();
 count = $('.photo-container > .photo-container-element').size();
 $('.photo-container > .photo-container-element').hide();
 
@@ -40,7 +40,7 @@ $(document).keypress(function(e) {
   $('#status').html('Marking ' + i + ' of ' + count);
   if (i == count+1){
     $('#status').html("You can submit now!");
-    $('.photo-form').show();
+    $('.photo-verification-form').show();
     $('.form-submit-button').removeAttr('disabled');
   }
 });

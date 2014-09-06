@@ -490,3 +490,17 @@ label{
 .bordered-image{
   border:1px solid lightgray;
 }
+.pass-button{
+  @extend .btn;
+  @extend .btn-success;
+  @extend .btn-lg;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.fail-button{
+  @extend .btn;
+  @extend .btn-danger;
+  @extend .btn-lg;
+  margin-top:10px;
+  margin-bottom:10px;
+}
