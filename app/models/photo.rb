@@ -31,6 +31,17 @@ class Photo < ActiveRecord::Base
     original_photo = user.photos.where("description = 'original'")
     return original_photo.first
   end
+
+  def other_photos(n)
+    photos_list = []
+    count = user.photos.count()
+    (1..n).each do |i|
+      id = Random.rand(1...count)
+      photos_list << user.photos[id]
+    end
+    return photos_list
+  end
+
   def is_rejected?
     status == "verification_rejected"
   end
