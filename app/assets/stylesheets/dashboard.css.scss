@@ -513,21 +513,3 @@ label{
   margin-top:10px;
   margin-bottom:10px;
 }
-.pass-indicator{
-  @extend .btn;
-  @extend .btn-success;
-  @extend .btn-lg;
-  margin-top:10px;
-  margin-bottom:10px;
-  font-size: 40px;
-  display:none;
-}
-.fail-indicator{
-  @extend .btn;
-  @extend .btn-success;
-  @extend .btn-lg;
-  margin-top:10px;
-  margin-bottom:10px;
-  font-size: 40px;
-  display:none;
-}
