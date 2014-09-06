@@ -23,6 +23,8 @@ class ApplicationController < ActionController::Base
         end
       elsif current_user.is_account_manager?
         return current_user.home_path
+      elsif current_user.is_verifier?
+        return current_user.home_path
       elsif !admin_user_signed_in?
         sign_out :user
         flash[:error] = "You are not allowed there."

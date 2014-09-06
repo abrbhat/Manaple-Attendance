@@ -117,8 +117,6 @@ ActiveRecord::Schema.define(version: 20140905141239) do
     t.boolean  "employee_code_enabled"
     t.boolean  "transfers_enabled"
     t.boolean  "leaves_enabled"
-    t.boolean  "is_evercookie_set"
-    t.string   "evercookie_value"
   end
 
   create_table "transfers", force: true do |t|

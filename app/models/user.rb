@@ -101,6 +101,11 @@ class User < ActiveRecord::Base
   def is_store_observer_of store
     return authorizations.exists?(:permission => 'observer', :store_id => store.id)
   end  
+
+  def is_verifier?
+    return authorizations.exists?(:permission => 'verifier')
+  end
+
   def is_master_of store
     is_master = false
     self.authorizations.each do |authorization|
@@ -263,6 +268,8 @@ class User < ActiveRecord::Base
       dashboard_master_settings_path
     elsif is_account_manager?
       pages_enter_bulk_store_data_path
+    elsif is_verifier?
+      verification_verify_path
     else
       new_user_session_path
     end

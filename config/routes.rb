@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
   get 'verification/mass_verify'
   post 'verification/do_mass_verification'
+  get 'verification/verify'
+  post 'verification/do_verification'
 
   post 'api/upload_attendance_data'
   get 'api/get_employee_data'
