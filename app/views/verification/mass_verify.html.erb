@@ -31,7 +31,7 @@
         <td> <%= photo.original.ip if photo.original.present? %></td>
         <td> 
         	<input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
-   			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
+   			  <input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
 		    </td>
       </tr>
       <% end %>
