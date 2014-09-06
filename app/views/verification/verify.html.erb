@@ -38,8 +38,8 @@
     </div>
   <% end %>
 </div>
-<h4 id="status"></h4>
 <div class = "photo-verification-form">
+  <div class="center-text"><h2>Final Check</h2></div>
   <%= form_tag({controller:"verification",action:"do_verification"}, method: "post") do %> 
     <ul style="list-style: none;">
     <% @photos.each do |photo| %>
@@ -47,8 +47,8 @@
     <table class="list-table">
       <thead>
         <tr>
+          <th>Photo</th>           
           <th>Name</th>
-          <th>Photo</th> 
           <th>Original photo</th>
           <th>Verify?</th>
         </tr>
@@ -56,12 +56,12 @@
       <tbody>
           <% if photo.user.present? %>
           <tr>      
-            <td> <%= photo.user.name %></td>
-            <td> <%= image_tag(photo.image.url(:original), size: "250x250")%></td>
+            <td> <%= image_tag(photo.image.url(:original), size: "400x300")%></td>
+            <td><h2><%= photo.user.name %></h2></td>
             <%  if photo.original.present? %>
               <% original_photo = photo.original.image.url(:original) %>
             <% end %>
-            <td> <%= image_tag(original_photo, size: "250x250") %></td>
+            <td> <%= image_tag(original_photo, size: "400x300") %></td>
             <td> 
               <input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
          			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
