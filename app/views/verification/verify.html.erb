@@ -41,9 +41,6 @@
 <div class = "photo-verification-form">
   <div class="center-text"><h2>Final Check</h2></div>
   <%= form_tag({controller:"verification",action:"do_verification"}, method: "post") do %> 
-    <ul style="list-style: none;">
-    <% @photos.each do |photo| %>
-    <li>
     <table class="list-table">
       <thead>
         <tr>
@@ -53,26 +50,24 @@
           <th>Verify?</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody>        
+        <% @photos.each do |photo| %>
           <% if photo.user.present? %>
-          <tr>      
-            <td> <%= image_tag(photo.image.url(:original), size: "400x300")%></td>
-            <td><h2><%= photo.user.name %></h2></td>
-            <%  if photo.original.present? %>
-              <% original_photo = photo.original.image.url(:original) %>
-            <% end %>
-            <td> <%= image_tag(original_photo, size: "400x300") %></td>
-            <td> 
-              <input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
-         			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
-    		    </td>
-          </tr>
+            <tr>      
+              <td> <%= image_tag(photo.image.url(:original), size: "400x300")%></td>
+              <td><h2><%= photo.user.name %></h2></td>
+              <%  if photo.original.present? %>
+                <% original_photo = photo.original.image.url(:original) %>
+              <% end %>
+              <td> <%= image_tag(original_photo, size: "400x300") %></td>
+              <td> 
+           			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified" id="<%= photo.id %>-form"/>
+      		    </td>
+            </tr>
           <% end %>
+        <% end %>
       </tbody>
     </table>
-    </li>
-    <% end %>
-    </ul>
     <%= submit_tag "Save", :class => "form-submit-button", :disabled => "disabled" %>
   <% end %>
 </div>
