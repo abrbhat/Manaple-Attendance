@@ -131,6 +131,14 @@ body {
   margin-top:10px;
   margin-bottom:10px;
 }
+.form-submit-button-block{
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+  @extend .btn-block;
+  margin-top:10px;
+  margin-bottom:10px;
+}
 .form-reset-button{
   @extend .btn;
   @extend .btn-default;
@@ -504,4 +512,22 @@ label{
   @extend .btn-lg;
   margin-top:10px;
   margin-bottom:10px;
+}
+.pass-indicator{
+  @extend .btn;
+  @extend .btn-success;
+  @extend .btn-lg;
+  margin-top:10px;
+  margin-bottom:10px;
+  font-size: 40px;
+  display:none;
+}
+.fail-indicator{
+  @extend .btn;
+  @extend .btn-success;
+  @extend .btn-lg;
+  margin-top:10px;
+  margin-bottom:10px;
+  font-size: 40px;
+  display:none;
 }

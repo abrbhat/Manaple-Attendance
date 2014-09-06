@@ -31,7 +31,7 @@
         <div class="col-md-3"><div class='fail-button'>Fail</div></div>
         <div class="col-md-6"> 
           <div class="pass-indicator">Pass</div>
-          <div class="pass-indicator">Fail</div>
+          <div class="fail-indicator">Fail</div>
         </div>
         <div class="col-md-3"><div class='pass-button'>Pass</div></div>
       </div>
@@ -47,7 +47,7 @@
           <th>Photo</th>           
           <th>Name</th>
           <th>Original photo</th>
-          <th>Verify?</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>        
@@ -69,6 +69,8 @@
         <% end %>
       </tbody>
     </table>
-    <%= submit_tag "Save", :class => "form-submit-button", :disabled => "disabled" %>
+    <div class="center-text">
+        <%= submit_tag "Save", :class => "form-submit-button-block", :disabled => "disabled" %>
+    </div>
   <% end %>
 </div>
