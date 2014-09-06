@@ -1,19 +1,17 @@
 <%= javascript_include_tag "verification" %>
-
-  <div class="container">
-    <% @photos.each do |photo| %>
-      <div class="row name"> 
-        <div class="col-md-12"><%= photo.user.name %></div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">Test</div>
-        <div class="col-md-6">Original</div>
-      </div>
-      <div class="row">
-        <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
-        <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
-      </div>
-    <% end %>
+<% @photos.each do |photo| %>
+  <div class="container photo-container">
+        <div class="row name"> 
+          <div class="col-md-12"><%= photo.user.name %></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">Test</div>
+          <div class="col-md-6">Original</div>
+        </div>
+        <div class="row">
+          <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
+          <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
+        </div>
     <div class="row name"> 
       <div class="col-md-12"><h3>Is Test Photo Same As Original?</h3></div>
     </div>
@@ -26,6 +24,7 @@
       <div class="col-md-3"><div class='pass-button'>Pass</div></div>
     </div>
   </div>
+<% end %>
 <h4 id="status"></h4>
 <%= form_tag({controller:"verification",action:"do_verification"}, method: "post") do %> 
   <ul style="list-style: none;">

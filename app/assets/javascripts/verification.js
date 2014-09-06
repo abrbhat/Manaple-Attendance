@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  count = $('ul > li').size();
+count = $('ul > li').size();
 count = count-1;
 $('ul > li').hide();
 $('ul > li:hidden:first').show();   // Show Sign Out Button
