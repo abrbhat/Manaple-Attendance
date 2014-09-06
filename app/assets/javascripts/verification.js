@@ -17,11 +17,12 @@ $(document).keypress(function(e) {
       id = $('.photo-container > .photo-container-element:eq('+i+')').prop('id').split(/\s*\-\s*/g)[0]
       form_id = id+'-form'
       $('#'+form_id).prop('checked', true);
+      $('#'+form_id).bootstrapSwitch('setState', true);
       current_visible.hide();
       i = i+1;
       $('.photo-container > .photo-container-element:eq('+i+')').show();
     }else{
-      $('ul > li').show();
+      $('.photo-verification-form').show();
     }
   }
   if(e.which == 70 || e.which == 102) {   // 'f/F'
@@ -30,11 +31,12 @@ $(document).keypress(function(e) {
       id = $('.photo-container > .photo-container-element:eq('+i+')').prop('id').split(/\s*\-\s*/g)[0]
       form_id = id+'-form'
       $('#'+form_id).prop('checked', false);
+      $('#'+form_id).bootstrapSwitch('setState', false);
       current_visible.hide();
       i = i+1;
       $('.photo-container > .photo-container-element:eq('+i+')').show();
     }else{
-      $('ul > li').show();
+      $('.photo-verification-form').show();
     }
   }
   $('#status').html('Marking ' + (i + 1) + ' of ' + count);
