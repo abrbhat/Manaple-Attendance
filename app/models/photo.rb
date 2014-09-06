@@ -32,16 +32,17 @@ class Photo < ActiveRecord::Base
     return original_photo.first
   end
 
-  def other_photos(n)
+  def other_verified_photos(n)
     photos_list = []
     count = user.photos.count()
-    (1..n).each do |i|
-      id = Random.rand(1...count)
-      selected_photo = user.photos[id]
-      while selected_photo.is_verified? do
-        photos_list << user.photos[id]        
+    (1..n).each do |i|      
+      selected_photo = nil
+      loop do 
+        id = Random.rand(1...count)
         selected_photo = user.photos[id]
-      end
+        break if selected_photo.is_verified?
+      end       
+      photos_list << selected_photo
     end
     return photos_list
   end

@@ -1,18 +1,18 @@
 $(document).ready(function () {
 $('.photo-verification-form').hide();
-count = $('.photo-container > .photo-container-element').size();
 $('.photo-container > .photo-container-element').hide();
+
+count = $('.photo-container > .photo-container-element').size();
 
 i = 0;
 $('.photo-container > .photo-container-element:eq(0)').show();
-i += 1;
 
-$('#status').html('Marking ' + i + ' of ' + count);
+$('#status').html('Marking ' + (i+1) + ' of ' + count);
 
 $(document).keypress(function(e) {
 
   if(e.which == 80 || e.which == 112) {   // 'p/P'
-    if (i<=count){
+    if (i<count){
       current_visible = $('.photo-container > .photo-container-element:eq('+i+')');
       id = $('.photo-container > .photo-container-element:eq(0)').prop('id').split(/\s*\-\s*/g)[0]
       form_id = id+'-form'
@@ -25,7 +25,7 @@ $(document).keypress(function(e) {
     }
   }
   if(e.which == 70 || e.which == 102) {   // 'f/F'
-    if (i<=count){
+    if (i<count){
       current_visible = $('.photo-container > .photo-container-element:eq('+i+')');
       id = $('.photo-container > .photo-container-element:eq(0)').prop('id').split(/\s*\-\s*/g)[0]
       form_id = id+'-form'
@@ -37,8 +37,8 @@ $(document).keypress(function(e) {
       $('ul > li').show();
     }
   }
-  $('#status').html('Marking ' + i + ' of ' + count);
-  if (i == count+1){
+  $('#status').html('Marking ' + (i + 1) + ' of ' + count);
+  if (i == count){
     $('#status').html("You can submit now!");
     $('.photo-verification-form').show();
     $('.form-submit-button').removeAttr('disabled');
