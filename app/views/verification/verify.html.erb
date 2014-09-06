@@ -1,6 +1,6 @@
 <h4>Press 't' for match(correct) and 'f' for mismatch(incorrect).</h4>
 <h4 id="status"></h4>
-<%= form_tag({controller:"verification",action:"do_mass_verification"}, method: "post") do %> 
+<%= form_tag({controller:"verification",action:"do_verification"}, method: "post") do %> 
 <ul style="list-style: none;">
 <% @photos.each do |photo| %>
 <li>
