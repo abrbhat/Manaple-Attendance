@@ -111,6 +111,21 @@ class User < ActiveRecord::Base
     return is_master
   end
 
+  def is_store_incharge_of store
+    return (self.is_store_owner_of(store) or self.is_store_asm_of(store) or self.is_store_supervisor_of(store))
+  end
+  def is_eligible_for_attendance_in store
+    return (self.is_store_staff_of(store) or self.is_store_asm_of(store) or self.is_store_manager_of(store))
+  end
+  
+  def should_receive_store_opening_mail_for store
+    return (self.is_store_incharge_of(store) or self.is_store_observer_of(store)  )
+  end
+  
+  def should_receive_daily_attendance_notification_mail_for store
+    return (self.is_store_incharge_of(store) or self.is_store_observer_of(store)) 
+  end
+
   def stores
   	stores = []
     if is_account_manager?
