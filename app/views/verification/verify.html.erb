@@ -1,26 +1,36 @@
 <%= javascript_include_tag "verification" %>
 <div class="photo-container">
   <% @photos.each do |photo| %>
-    <div class="container photo-container-element">
-          <div class="row name"> 
-            <div class="col-md-12 "><%= photo.user.name %></div>
+    <div class="container photo-container-element center-text well">
+          <div class="row">
+            <div class="col-md-5 "><h3>Test</h3></div>
+            <div class="col-md-2"></div>
+            <div class="col-md-5 "><h3>Original</h3></div>
           </div>
           <div class="row">
-            <div class="col-md-6">Test</div>
-            <div class="col-md-6">Original</div>
-          </div>
-          <div class="row">
-            <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
-            <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
+            <div class="col-md-5 "><%= image_tag(photo.image.url(:original), size: "400x300")%></div>
+            <div class="col-md-2">
+              <h1><%= photo.user.name %></h1>
+            </div>
+            <div class="col-md-5 ">
+                <div class="row">
+                  <div class="col-md-12"><%= image_tag(photo.image.url(:original), size: "400x300")%></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4"><%= image_tag(photo.image.url(:original), size: "133x100")%></div>
+                  <div class="col-md-4"><%= image_tag(photo.image.url(:original), size: "133x100")%></div>
+                  <div class="col-md-4"><%= image_tag(photo.image.url(:original), size: "133x100")%></div>
+                </div>             
+            </div>
           </div>
       <div class="row name"> 
-        <div class="col-md-12"><h3>Is Test Photo Same As Original?</h3></div>
+        <div class="col-md-12"><h3>Is the person in Test Photo same As Original?</h3></div>
       </div>
       <div class="row">
         <div class="col-md-3"><div class='fail-button'>Fail</div></div>
         <div class="col-md-6"> 
           <div class="pass-indicator">Pass</div>
-          <div class="pass-indicator">Pass</div>
+          <div class="pass-indicator">Fail</div>
         </div>
         <div class="col-md-3"><div class='pass-button'>Pass</div></div>
       </div>
