@@ -1,7 +1,7 @@
 <%= javascript_include_tag "verification" %>
 <div class="photo-container">
   <% @photos.each do |photo| %>
-    <div class="container photo-container-element center-text well">
+    <div class="container photo-container-element center-text well"  id ="<%= photo.id %>-container">
           <div class="row">
             <div class="col-md-5 "><h3>Test</h3></div>
             <div class="col-md-2"></div>
