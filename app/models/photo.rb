@@ -37,7 +37,11 @@ class Photo < ActiveRecord::Base
     count = user.photos.count()
     (1..n).each do |i|
       id = Random.rand(1...count)
-      photos_list << user.photos[id]
+      selected_photo = user.photos[id]
+      while selected_photo.is_verified? do
+        photos_list << user.photos[id]        
+        selected_photo = user.photos[id]
+      end
     end
     return photos_list
   end
