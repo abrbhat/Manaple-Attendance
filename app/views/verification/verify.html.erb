@@ -1,38 +1,64 @@
 <%= javascript_include_tag "verification" %>
+
+  <div class="container">
+    <% @photos.each do |photo| %>
+      <div class="row name"> 
+        <div class="col-md-12"><%= photo.user.name %></div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">Test</div>
+        <div class="col-md-6">Original</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
+        <div class="col-md-6"><%= image_tag(photo.image.url(:original), size: "250x250")%></div>
+      </div>
+    <% end %>
+    <div class="row name"> 
+      <div class="col-md-12"><h3>Is Test Photo Same As Original?</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"><div class='fail-button'>Fail</div></div>
+      <div class="col-md-6"> 
+        <div class="pass-indicator">Pass</div>
+        <div class="pass-indicator">Pass</div>
+      </div>
+      <div class="col-md-3"><div class='pass-button'>Pass</div></div>
+    </div>
+  </div>
 <h4 id="status"></h4>
 <%= form_tag({controller:"verification",action:"do_verification"}, method: "post") do %> 
-<ul style="list-style: none;">
-<% @photos.each do |photo| %>
-<li>
-<table class="list-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Photo</th> 
-      <th>Original photo</th>
-      <th>Verify?</th>
-    </tr>
-  </thead>
-  <tbody>
-      <% if photo.user.present? %>
+  <ul style="list-style: none;">
+  <% @photos.each do |photo| %>
+  <li>
+  <table class="list-table">
+    <thead>
       <tr>
-      
-        <td> <%= photo.user.name %></td>
-        <td> <%= image_tag(photo.image.url(:original), size: "250x250")%></td>
-        <%  if photo.original.present? %>
-          <% original_photo = photo.original.image.url(:original) %>
-        <% end %>
-        <td> <%= image_tag(original_photo, size: "250x250") %></td>
-        <td> 
-          <input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
-     			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
-		    </td>
+        <th>Name</th>
+        <th>Photo</th> 
+        <th>Original photo</th>
+        <th>Verify?</th>
       </tr>
-      <% end %>
-  </tbody>
-</table>
-</li>
-<% end %>
-</ul>
-<%= submit_tag "Save", :class => "form-submit-button", :disabled => "disabled" %>
+    </thead>
+    <tbody>
+        <% if photo.user.present? %>
+        <tr>      
+          <td> <%= photo.user.name %></td>
+          <td> <%= image_tag(photo.image.url(:original), size: "250x250")%></td>
+          <%  if photo.original.present? %>
+            <% original_photo = photo.original.image.url(:original) %>
+          <% end %>
+          <td> <%= image_tag(original_photo, size: "250x250") %></td>
+          <td> 
+            <input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
+       			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
+  		    </td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+  </li>
+  <% end %>
+  </ul>
+  <%= submit_tag "Save", :class => "form-submit-button", :disabled => "disabled" %>
 <% end %>
