@@ -14,7 +14,7 @@ $(document).keypress(function(e) {
   if(e.which == 80 || e.which == 112) {   // 'p/P'
     if (i<count){
       current_visible = $('.photo-container > .photo-container-element:eq('+i+')');
-      id = $('.photo-container > .photo-container-element:eq(0)').prop('id').split(/\s*\-\s*/g)[0]
+      id = $('.photo-container > .photo-container-element:eq('+i+')').prop('id').split(/\s*\-\s*/g)[0]
       form_id = id+'-form'
       $('#'+form_id).prop('checked', true);
       current_visible.hide();
@@ -27,7 +27,7 @@ $(document).keypress(function(e) {
   if(e.which == 70 || e.which == 102) {   // 'f/F'
     if (i<count){
       current_visible = $('.photo-container > .photo-container-element:eq('+i+')');
-      id = $('.photo-container > .photo-container-element:eq(0)').prop('id').split(/\s*\-\s*/g)[0]
+      id = $('.photo-container > .photo-container-element:eq('+i+')').prop('id').split(/\s*\-\s*/g)[0]
       form_id = id+'-form'
       $('#'+form_id).prop('checked', false);
       current_visible.hide();
