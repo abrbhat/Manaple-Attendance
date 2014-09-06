@@ -1,11 +1,5 @@
-<%= javascript_include_tag "pages" %>
-
 <%= form_tag({controller:"pages",action:"create_bulk_stores"}, method: "post",class:"form-inline") do %>
 <h2>Add Stores</h2>
-<div class="right-side clear-sides">
-  <div class='medium-button' id = 'add-one-row-button'>+1</div>
-  <div class='medium-button' id = 'add-25-rows-button'>+25</div>
-</div>
 <div class = "container left-side">
   <div class="form-group">
     <label class="control-label">Master User:</label>
@@ -67,11 +61,14 @@
         <tr>      
           <th>Store Name</th>   
           <th>Store Email</th>  
-          <th>Store Phone Number</th>       
+          <th>Store Phone Number</th>    
+          <th>Store Password</th>    
         </tr>
     </thead>
-    <tbody id = 'add-store-table-body'>   
-      <%= render 'add_store_row' %>
+    <tbody id = 'add-store-table-body'>
+      <% 30.times do %>   
+        <%= render 'add_store_row' %>
+      <% end %>
     </tbody>
   </table>
 </div>
