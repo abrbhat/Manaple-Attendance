@@ -18,9 +18,9 @@
                 </div>
                 <div class="row">
                   <% other_verified_photos = photo.other_verified_photos(3) %>
-                  <div class="col-md-4"><%= image_tag(photo.image.url(:original), size: "133x100")%></div>
-                  <div class="col-md-4"><%= image_tag(photo.image.url(:original), size: "133x100")%></div>
-                  <div class="col-md-4"><%= image_tag(photo.image.url(:original), size: "133x100")%></div>
+                  <div class="col-md-4"><%= image_tag(other_verified_photos[0].image.url(:original), size: "133x100")%></div>
+                  <div class="col-md-4"><%= image_tag(other_verified_photos[1].image.url(:original), size: "133x100")%></div>
+                  <div class="col-md-4"><%= image_tag(other_verified_photos[2].image.url(:original), size: "133x100")%></div>
                 </div>             
             </div>
           </div>
