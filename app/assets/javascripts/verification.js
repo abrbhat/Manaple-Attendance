@@ -11,7 +11,6 @@ $(document).ready(function () {
   i = 0;
   $('.photo-container > .photo-container-element:eq(0)').show();
 
-  $('#status').html('Marking ' + (i+1) + ' of ' + count);
   $(".pass-button").click(function(){
     if (i<count){
         current_visible = $('.photo-container > .photo-container-element:eq('+i+')');
@@ -26,9 +25,7 @@ $(document).ready(function () {
         $('.photo-verification-form').show();
         $('.verification-form-submit').removeAttr('disabled');
       }
-      $('#status').html('Marking ' + (i + 1) + ' of ' + count);
     if (i == count){
-      $('#status').html("You can submit now!");
       $('.photo-verification-form').show();
       $('.verification-form-submit').removeAttr('disabled');
     }
@@ -46,9 +43,7 @@ $(document).ready(function () {
         $('.photo-verification-form').show();
         $('.verification-form-submit').removeAttr('disabled');
       }
-    $('#status').html('Marking ' + (i + 1) + ' of ' + count);
     if (i == count){
-      $('#status').html("You can submit now!");
       $('.photo-verification-form').show();
       $('.verification-form-submit').removeAttr('disabled');
     }
@@ -84,9 +79,7 @@ $(document).ready(function () {
         $('.verification-form-submit').removeAttr('disabled');
       }
     }
-    $('#status').html('Marking ' + (i + 1) + ' of ' + count);
     if (i == count){
-      $('#status').html("You can submit now!");
       $('.photo-verification-form').show();
       $('.verification-form-submit').removeAttr('disabled');
     }
