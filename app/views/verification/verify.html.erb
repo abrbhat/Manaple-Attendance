@@ -1,4 +1,4 @@
-<h4>Press 't' for match(correct) and 'f' for mismatch(incorrect).</h4>
+<%= javascript_include_tag "verification" %>
 <h4 id="status"></h4>
 <%= form_tag({controller:"verification",action:"do_verification"}, method: "post") do %> 
 <ul style="list-style: none;">
@@ -7,32 +7,25 @@
 <table class="list-table">
   <thead>
     <tr>
-      <th>Store </th>
       <th>Name</th>
-      <th>Desc</th>
       <th>Photo</th> 
       <th>Original photo</th>
-      <th>IP</th> 
-      <th>Original IP</th>
       <th>Verify?</th>
     </tr>
   </thead>
   <tbody>
       <% if photo.user.present? %>
       <tr>
-        <td> <%= photo.user.store.name %></td>
+      
         <td> <%= photo.user.name %></td>
-        <td> <%= photo.description %></td>
         <td> <%= image_tag(photo.image.url(:original), size: "250x250")%></td>
         <%  if photo.original.present? %>
           <% original_photo = photo.original.image.url(:original) %>
         <% end %>
         <td> <%= image_tag(original_photo, size: "250x250") %></td>
-        <td> <%= photo.ip %></td>
-        <td> <%= photo.original.ip if photo.original.present? %></td>
         <td> 
-        	<input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
-   			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
+          <input type="hidden" name="verification_status[<%= photo.id %>]" value="verification_rejected">
+     			<input type="checkbox" name="verification_status[<%= photo.id %>]" value = "verified"/>
 		    </td>
       </tr>
       <% end %>
@@ -43,50 +36,3 @@
 </ul>
 <%= submit_tag "Save", :class => "form-submit-button", :disabled => "disabled" %>
 <% end %>
-
-<script>
-count = $('ul > li').size();
-count = count-1;
-$('ul > li').hide();
-$('ul > li:hidden:first').show();   // Show Sign Out Button
-i = 0;
-
-$('ul > li:hidden:first').show();
-i += 1;
-
-$('#status').html('Marking ' + i + ' of ' + count);
-
-$(document).keypress(function(e) {
-
-  if(e.which == 84 || e.which == 116) {   // 't'
-    if (i<=count){
-      current_visible = $('ul > li:eq('+i+')');
-      current_value = $('ul > li:eq('+i+') > table > tbody > tr:first > td:last > input:last');
-      current_visible.hide();
-      current_value.prop('checked', true);
-      i = i+1;
-      $('ul > li:eq('+i+')').show();
-    }else{
-      $('ul > li').show();
-    }
-  }
-  if(e.which == 70 || e.which == 102) {   // 'f'
-    if (i<=count){
-      current_visible = $('ul > li:eq('+i+')');
-      current_value = $('ul > li:eq('+i+') > table > tbody > tr:first > td:last > input:last');
-      current_visible.hide();
-      current_value.prop('checked', false);
-      i = i+1;
-      $('ul > li:eq('+i+')').show();
-    }else{
-      $('ul > li').show();
-    }
-  }
-  $('#status').html('Marking ' + i + ' of ' + count);
-  if (i == count+1){
-    $('#status').html("You can submit now!");
-    $('ul > li').show();
-    $('.form-submit-button').removeAttr('disabled');
-  }
-});
-</script>
