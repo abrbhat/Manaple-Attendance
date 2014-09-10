@@ -31,7 +31,13 @@
           <%  if employee.photos.where("description = 'original'").present? %>
             <% original_photo = employee.photos.where("description = 'original'").first.image.url(:thumb) %>
           <% end %>
-          <td> <%= image_tag(original_photo)%></td>
+          <td> 
+            <% if original_photo %>
+              <%= image_tag(original_photo)%>
+            <% else %>
+              -
+            <% end %>
+          </td>
           <td> <%= employee.name %></td>
           <% if @employee_designation_enabled %>
             <td> <%= employee.designation %></td>
