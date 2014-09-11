@@ -162,6 +162,10 @@ body {
   @extend .alert;
   @extend .alert-success;
 }
+.info-flash{
+  @extend .alert;
+  @extend .alert-info;
+}
 .default-button{
   @extend .btn;
   @extend .btn-default;

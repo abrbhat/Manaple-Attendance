@@ -86,18 +86,27 @@
 			</nav>		
 		</div>
 
-		<% if flash[:notice] %>
-		  <div class="notice-flash">
-		      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		      <%= flash[:notice] %>
-		  </div>
-		<% end %>
-		<% if flash[:error] %>
-		  <div class="error-flash">
-		      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		      <%= flash[:error] %>
-		  </div>
-		<% end %>
+
+		<% flash.each do |name, msg| %>
+			<% if msg.is_a?(String) %>
+		    	<% if name == 'alert' %>
+		    		<div class="error-flash">
+					    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					    <%= msg %>
+					</div>
+		    	<% elsif name == 'notice' %>
+		    		<div class="notice-flash">
+				      	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				      	<%= msg %>
+				  	</div>
+				<% else %>
+					<div class="info-flash">
+				      	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				      	<%= msg %>
+				  	</div>
+		    	<% end %>
+		    <% end %>
+		<% end %>  
 		<%= yield %>
 	</div>	
 </div>

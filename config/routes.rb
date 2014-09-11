@@ -60,7 +60,7 @@ Rails.application.routes.draw do
   resources :leaves do
     get 'apply', on: :collection
   end
-  root to: redirect("/dashboard/attendance_specific_day")
+  root to: redirect("/users/sign_in")
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
