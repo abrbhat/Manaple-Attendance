@@ -1,23 +1,23 @@
 <h2>Choose User to send attendance mail to</h2>
 <div class = "form-container left-side">
-<%= form_tag({controller:"pages",action:"send_specific_day_notification_mail_specific_user"}, method: "post",class:"form-horizontal") do %>
-	<div class="form-group">
-	    <label class="control-label">User:</label>
-	    <select class="form-control"  name="to_user_ids[]" multiple size="30">
-		  	<% @users.each do |user| %>
-		    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name if user.store.present? %></option>
-		 	<% end %>
-		</select>
-		<br>
-		<div class="date-chooser-container-2">
-	    	<div class= "inline-form-element more-side-margins">Date: </div>
-			<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="send-attendance-mail-date-chooser" name="date" >
+	<%= form_tag({controller:"pages",action:"send_specific_day_notification_mail_specific_user"}, method: "post",class:"form-horizontal") do %>
+		<div class="form-group">
+		    <label class="control-label">User:</label>
+		    <div class="">
+			    <select class="form-control"  name="to_user_ids[]" multiple size ="30">
+				  	<% @users.each do |user| %>
+				    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name if user.store.present? %></option>
+				 	<% end %>
+				</select>
+			</div>
+			<div class="date-chooser-container">
+		    	<div class= "inline-form-element more-side-margins">Date: </div>
+				<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="send-attendance-mail-date-chooser" name="date" >
+			</div>
 		</div>
-	</div>
-</div>	
-	<br>
+		<br>
 
-  <%= submit_tag "Send", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
-  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
-<% end %>
+	  <%= submit_tag "Send", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+	  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
+	<% end %>
 </div>
