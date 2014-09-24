@@ -20,7 +20,7 @@ class VerificationController < ApplicationController
 	def verify
 		store_ids = current_user.authorizations.where(permission: 'verifier').pluck(:store_id)
 		@photos = Photo.where(store_id: store_ids).where("status = 'verification_pending'")
-		@photos = @photos.select{|photo| photo.description != 'original'}
+		@photos = @photos.select{|photo| photo.description != 'original'}.first(50)
 	end
 
 	def do_verification

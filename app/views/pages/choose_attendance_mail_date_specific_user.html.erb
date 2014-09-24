@@ -3,15 +3,14 @@
 <%= form_tag({controller:"pages",action:"send_specific_day_notification_mail_specific_user"}, method: "post",class:"form-horizontal") do %>
 	<div class="form-group">
 	    <label class="control-label">User:</label>
-	    <div class="">
-		    <select class="form-control"  name="to_user_ids[]" multiple>
-			  	<% @users.each do |user| %>
-			    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name if user.store.present? %></option>
-			 	<% end %>
-			</select>
-		</div>
-		<div class="date-chooser-container">
-	    <div class= "inline-form-element more-side-margins">Date: </div>
+	    <select class="form-control"  name="to_user_ids[]" multiple size="30">
+		  	<% @users.each do |user| %>
+		    	<option value="<%= user.id %>" ><%= user.name %> - <%= user.store.name if user.store.present? %></option>
+		 	<% end %>
+		</select>
+		<br>
+		<div class="date-chooser-container-2">
+	    	<div class= "inline-form-element more-side-margins">Date: </div>
 			<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="send-attendance-mail-date-chooser" name="date" >
 		</div>
 	</div>

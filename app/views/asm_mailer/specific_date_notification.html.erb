@@ -17,13 +17,11 @@ Summary:
   <tr>
     <th>Store Name</td>
     <th>Opening Time</td>
-    <th>Closing Time</td>
   </tr>
   <% @stores.each do |store| %>
     <tr>
       <td><%= store.name %></td>
       <td><%= store.opening_time_on(@date).present? ? store.opening_time_on(@date) : '-' %></td>
-      <td><%= store.closing_time_on(@date).present? ? store.closing_time_on(@date) : '-' %></td>
     </tr>
   <% end %>
 </table>
@@ -42,7 +40,6 @@ Detailed Data:
         <th>Employee Designation</th>
       <% end %>
       <th>In Time</th>
-      <th>Out Time</th>
       <th>Status</th>
     </tr>
   </thead>
@@ -60,8 +57,6 @@ Detailed Data:
         <td>
           <%= attendance_data['in_time'].present? ? attendance_data['in_time'] : '-' %>
         </td>
-        <td>
-          <%= attendance_data['out_time'].present? ? attendance_data['out_time'] : '-' %>
         <td> 
             <%= attendance_data['status'].tr('_', ' ').capitalize %>                    
         </td>

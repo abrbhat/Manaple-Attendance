@@ -15,7 +15,11 @@
             </div>
             <div class="col-md-5 ">
                 <div class="row">
-                  <div class="col-md-12"><%= image_tag(photo.original.image.url(:original), size: "400x300")%></div>
+                  <div class="col-md-12">
+                    <%  if photo.original.present? %>
+                      <%= image_tag(photo.original.image.url(:original), size: "400x300")%>
+                    <% end %>
+                  </div>
                 </div>
                 <div class="row">
                   <% other_verified_photos = photo.other_verified_photos(3) %>

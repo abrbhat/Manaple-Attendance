@@ -253,6 +253,8 @@ class User < ActiveRecord::Base
 
       accessible_in["pages"] <<  "select_bulk_authorizations_to_create"
       accessible_in["pages"] <<  "create_bulk_authorizations"
+      accessible_in["pages"] <<  "choose_attendance_mail_date_specific_user"
+      accessible_in["pages"] <<  "send_specific_day_notification_mail_specific_user"
 
       accessible_in["dashboard"] <<  "attendance_specific_day"
       accessible_in["dashboard"] <<  "attendance_time_period_consolidated"
