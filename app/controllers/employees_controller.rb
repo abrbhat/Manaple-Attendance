@@ -67,7 +67,7 @@ class EmployeesController < ApplicationController
     end
     @employee_code_enabled = @stores.first.employee_code_enabled
     @employee_designation_enabled = @stores.first.employee_designation_enabled  
-    relevant_transfers = transfers.select{|transfer| transfer.to_store.present? and transfer.from_store.present?}  
+    relevant_transfers = transfers.select{|transfer| transfer.to_store.present? and transfer.from_store.present?}.sort_by(&:date).reverse      
     @transfers_paginated = Kaminari.paginate_array(relevant_transfers).page(params[:page]).per(30)
   end
 
