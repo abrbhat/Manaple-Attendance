@@ -4,29 +4,29 @@
   <%= devise_error_messages! %>
 
   <div class="form-group">
-    <%= f.label :email, class:"form-label col-md-6" %>
-    <div class="col-md-6">
+    <%= f.label :email, class:"form-label col-xs-6" %>
+    <div class="col-xs-6">
       <%= f.email_field :email, autofocus: true, class:"form-element", disabled: true %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label "New Password", class:"form-label col-md-6"  %>
-    <div class="col-md-6">
+    <%= f.label "New Password", class:"form-label col-xs-6"  %>
+    <div class="col-xs-6">
       <%= f.password_field :password, autocomplete: "off", class:"form-element" %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label "Enter New Password Again", class:"form-label col-md-6"  %>
-    <div class="col-md-6">
+    <%= f.label "Enter New Password Again", class:"form-label col-xs-6"  %>
+    <div class="col-xs-6">
       <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-element" %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :current_password, class:"form-label col-md-6"  %>
-    <div class="col-md-6">
+    <%= f.label :current_password, class:"form-label col-xs-6"  %>
+    <div class="col-xs-6">
       <%= f.password_field :current_password, autocomplete: "off", class:"form-element" %>
     </div>
   </div>

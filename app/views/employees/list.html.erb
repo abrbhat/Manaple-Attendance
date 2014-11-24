@@ -1,8 +1,14 @@
 <h1>Employees</h1>
 <div class="attendance-navigator-container">
 <%= form_tag({controller:"employees",action:"list"}, method: "get") do %>
-  <%= render "dashboard/store_chooser_dropdown" %>  
-  <%= submit_tag "Go", :class => "proceed-button"%>
+  <div class = "row">
+    <div class = "col-xs-3">
+      <%= render "dashboard/store_chooser_dropdown" %>  
+    </div>
+    <div class = "col-xs-2">
+      <%= submit_tag "Go", :class => "proceed-button"%>
+    </div>
+  </div>
 <% end %>
 </div>
 <table class="list-table">

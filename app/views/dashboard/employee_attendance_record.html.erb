@@ -1,5 +1,4 @@
 <div class="panel-header">
-  <div class="left-side">
     <h3>Attendance Record for:</h3>
     <h3><%= @employee.name%></h3>
     <% if @employee_designation_enabled %>
@@ -8,19 +7,24 @@
     <% if @employee_code_enabled %>
       <h4><%= print_hyphen_if_empty(@employee.code) %></h4>
     <% end %>
-  </div>
 </div>
 <div class="attendance-navigator-container">
-  <%= render "employee_chooser_dropdown" , employee_id: @employee.id %>
 	<%= form_tag({controller:"dashboard",action:"employee_attendance_record"}, method: "get") do %>
-  <div class="time-period-chooser-container">
-		<input type="text" class="inline-form-element" value="<%= @start_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-start-chooser" name="time_period_start" >
-		<div class= "inline-form-element more-side-margins">to</div>
-		<input type="text" class="inline-form-element" value="<%= @end_date.strftime("%d-%m-%Y") %>" id="attendance-data-time-period-end-chooser" name="time_period_end" >
-	</div>
-  <input type="hidden"  value="<%= @employee.id %>" name="employee_id" >
-	<%= submit_tag "Go", :class => "proceed-button" %>
-  <%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xlsx,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), employee_id: @employee.id) , class:'medium-button right-side' %>
+    <div class = "row">
+      <div class = "col-xs-2">
+        <%= render "employee_chooser_dropdown" , employee_id: @employee.id %>
+      </div>
+      <div class = "col-xs-7">
+        <%= render "time_period_chooser_container" %>
+      </div>
+      <div class = "col-xs-1">
+        <%= submit_tag "Go", :class => "proceed-button" %>
+      </div>
+      <div class = "col-xs-2">
+        <%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xlsx,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), employee_id: @employee.id) , class:'medium-button right-side' %>
+      </div>
+    </div>
+    <input type="hidden"  value="<%= @employee.id %>" name="employee_id" >
   <% end %>
 </div>
 <table class="list-table">

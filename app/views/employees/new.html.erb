@@ -4,8 +4,6 @@
   <div class='medium-button' id = 'add-one-row-button'>+1</div>
   <div class='medium-button' id = 'add-25-rows-button'>+25</div>
 </div>
-<div class = "container left-side">
-
 <%= form_tag({controller:"employees",action:"create"}, method: "post",class:"form-inline") do %>
 <table class="list-table">
   <thead>
@@ -28,4 +26,3 @@
   <%= submit_tag "Save", :class => "form-submit-button" %>
   <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button"}  ) %>
 <% end %>
-</div>

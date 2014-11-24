@@ -1,18 +1,36 @@
 <div class="panel-header">
-  <div class="left-side"><h3>Attendance Specific Day:</h3></br></div>
+  <h3>Attendance Specific Day:</h3></br>
 </div>
 <div class="attendance-navigator-container">
 
 	<%= form_tag({controller:"dashboard",action:"attendance_specific_day"}, method: "get") do %>
-  <%= render "store_chooser_dropdown" %>
-  <div class="date-chooser-container">
-    <div class= "inline-form-element more-side-margins">Date: </div>
-		<input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" name="date" >
-	</div>
-	<%= submit_tag "Go", :class => "proceed-button" %>
-  <%= link_to "Download XLS", dashboard_attendance_specific_day_path(format: :xlsx,date: @date.strftime("%d-%m-%Y")), class:'medium-button right-side' %>
+    <div class = "row">
+      <div class = "col-xs-3">
+        <%= render "store_chooser_dropdown" %>
+      </div>
+      <div class = "col-xs-7">
+        <div class = "row">
+          <div class = "col-xs-6">
+            <div class="date-chooser-container row">
+              <div class = "col-xs-3">
+                <div class= "inline-form-element more-side-margins">Date: </div>
+              </div>
+              <div class = "col-xs-9">
+          		  <input type="text" class="inline-form-element" value="<%= @date.strftime("%d-%m-%Y") %>" id="attendance-data-date-chooser" name="date" >
+              </div>
+          	</div>
+          </div>
+          <div class = "col-xs-2 ">
+            <%= submit_tag "Go", :class => "proceed-button" %>
+          </div>
+        </div>
+      </div>      
+    	 
+      <div class = "col-xs-2">
+        <%= link_to "Download XLS", dashboard_attendance_specific_day_path(format: :xlsx,date: @date.strftime("%d-%m-%Y")), class:'medium-button right-side' %>
+      </div>
+    </div>
   <% end %>
-
 </div>
 <table class="list-table-with-hover">
   <thead>

@@ -1,12 +1,22 @@
 <div class="panel-header">
-  <div class="left-side"><h3>Attendance Time-Period (Consolidated):</h3></br></div>
+  <h3>Attendance Time-Period (Consolidated):</h3></br>
 </div>
 <div class="attendance-navigator-container">
 	<%= form_tag({controller:"dashboard",action:"attendance_time_period_consolidated"}, method: "get") do %>
-  <%= render "store_chooser_dropdown" %>
-  <%= render "time_period_chooser_container" %>
-	<%= submit_tag "Go", :class => "proceed-button"%>
-  <%= link_to "Download XLS", dashboard_attendance_time_period_consolidated_path(format: :xlsx,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), stores: @stores_to_display) , class:'medium-button right-side' %>
+    <div class = "row">
+      <div class = "col-xs-2">
+        <%= render "store_chooser_dropdown" %>
+      </div>
+      <div class = "col-xs-7">
+        <%= render "time_period_chooser_container" %>
+      </div>
+      <div class = "col-xs-1">
+  	    <%= submit_tag "Go", :class => "proceed-button"%>
+      </div>
+      <div class = "col-xs-2">
+        <%= link_to "Download XLS", dashboard_attendance_time_period_consolidated_path(format: :xlsx,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), stores: @stores_to_display) , class:'medium-button right-side' %>
+      </div>
+    </div>
   <% end %>
 </div>
 <table class="list-table">

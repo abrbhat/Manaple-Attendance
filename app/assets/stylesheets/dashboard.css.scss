@@ -80,9 +80,19 @@ body {
   float:left !important;
   width: auto !important;
 }
+.inline-form-element-right{
+  @extend .form-element;
+  float:right !important;
+  width: auto !important;
+}
 .more-side-margins{  
   margin-left:5px;
   margin-right:5px;
+  border:none !important;
+  box-shadow:none !important;
+  background-color: transparent !important;
+}
+.remove-border{
   border:none !important;
   box-shadow:none !important;
   background-color: transparent !important;
@@ -121,6 +131,9 @@ body {
   @extend .form-element;
   float:left !important;
   width: auto !important;
+}
+.inline-date-picker{
+  @extend .form-element;
 }
 .form-element-group{
   @extend .form-group;
@@ -173,7 +186,10 @@ body {
 //Dashboard
 .dashboard{
   @extend .container;
+  width: 1200px !important;
+  min-width: 900px !important;
 }
+
 .centering-table{
   display: table; 
   height: 100%;
@@ -285,6 +301,7 @@ font-family: Arial;
 .panel-header{
   width:100%;
   clear:both;
+  padding: 5px;
 }
 .proceed-button
 {
@@ -352,7 +369,7 @@ label{
   clear:both;
 }
 .date-chooser-container{
-  width:25%;
+  width:100%;
   float:left;
   margin-left:20px;
   margin-right:10px;
@@ -459,7 +476,7 @@ label{
  }
 
 .store-dropdown-container{
-  width:20%;
+  width:100%;
   float:left;
  }
 /* Dropdown SubMenu Styles*/
