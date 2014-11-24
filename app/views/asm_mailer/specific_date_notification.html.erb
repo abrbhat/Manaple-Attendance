@@ -13,7 +13,7 @@ Attendance Data
 <br><br>
 Summary:
 <br>
-<table width="350px">
+<table width="500px" cellpadding="3">
   <tr>
     <th>Store Name</th>
     <th>Closing Time on <%= (@date - 1.day).strftime("%d-%m-%Y") %></th>
@@ -21,16 +21,16 @@ Summary:
   </tr>
   <% @stores.each do |store| %>
     <tr>
-      <td><%= store.name %></td>
-      <td><%= store.closing_time_on(@date - 1.day) ? store.closing_time_on(@date - 1.day) : '-'%>
-      <td><%= store.opening_time_on(@date).present? ? store.opening_time_on(@date) : '-' %></td>
+      <td align = "center"><%= store.name %></td>
+      <td align = "center"><%= store.closing_time_on(@date - 1.day) ? store.closing_time_on(@date - 1.day) : '-'%>
+      <td align = "center"><%= store.opening_time_on(@date).present? ? store.opening_time_on(@date) : '-' %></td>
     </tr>
   <% end %>
 </table>
 <br>
 Detailed Data:
 <br>
-<table width="700px" cellpadding="3">
+<table width="800px" cellpadding="3">
   <thead>
     <tr>
       <th>Store</th>
@@ -43,27 +43,27 @@ Detailed Data:
       <% end %>
       <th>Out Time on <%= (@date - 1.day).strftime("%d-%m-%Y") %></th>
       <th>In Time on <%= @date.strftime("%d-%m-%Y") %></th>
-      <th>Status</th>
+      <th>Status on <%= @date.strftime("%d-%m-%Y") %></th>
     </tr>
   </thead>
   <tbody>
     <% @attendance_data_all.each do |attendance_data| %>
       <tr>
-        <td> <%= attendance_data['store'].name %></td>
+        <td  align = "center"> <%= attendance_data['store'].name %></td>
         <% if @employee_code_enabled %>
-          <td> <%= attendance_data['employee'].code %></td>
+          <td align = "center"> <%= attendance_data['employee'].code %></td>
         <% end %>
-        <td> <%= attendance_data['employee'].name %></td>
+        <td align = "center"> <%= attendance_data['employee'].name %></td>
         <% if @employee_designation_enabled %>
           <td> <%= attendance_data['employee'].designation %></td>
         <% end %>
-        <td>
-          <%= attendance_data['out_time'].present? ? attendance_data['in_time'] : '-' %>
+        <td align = "center">
+          <%= attendance_data['out_time_yesterday'].present? ? attendance_data['out_time_yesterday'] : '-' %>
         </td>
-        <td>
+        <td align = "center">
           <%= attendance_data['in_time'].present? ? attendance_data['in_time'] : '-' %>
         </td>
-        <td> 
+        <td align = "center"> 
             <%= attendance_data['status'].tr('_', ' ').capitalize %>                    
         </td>
       </tr>

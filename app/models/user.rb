@@ -374,7 +374,6 @@ class User < ActiveRecord::Base
       attendance_data["out_status"] = attendance_data["out_photo"].status
       unless attendance_data["out_photo"].is_rejected?
         attendance_data["out_time"] = attendance_data["out_photo"].created_at.strftime("%I:%M%p")
-        attendance_data["status"] = "present"
         attendance_data["out_attendance_status"] = "present"
       end
     end
