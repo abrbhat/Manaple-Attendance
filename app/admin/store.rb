@@ -1,6 +1,6 @@
 ActiveAdmin.register Store do
 
-  permit_params :name, :email, :phone, :in_out_enabled, :mid_day_enabled, :mid_day_in_out_enabled, :employee_code_enabled,:transfers_enabled,:leaves_enabled, :employee_designation_enabled, :store_opening_mail_enabled, :in_time_start, :in_time_end, :out_time_start, :out_time_end
+  permit_params :name, :email, :phone, :in_out_enabled, :mid_day_enabled, :mid_day_in_out_enabled, :employee_code_enabled,:transfers_enabled,:leaves_enabled, :employee_designation_enabled, :store_opening_mail_enabled, :in_time_start, :in_time_end, :out_time_start, :out_time_end, :is_evercookie_set
   index do
     selectable_column
     id_column
@@ -19,6 +19,7 @@ ActiveAdmin.register Store do
     column :in_time_end
     column :out_time_start
     column :out_time_end
+    column :is_evercookie_set
     actions
   end
 
@@ -40,6 +41,8 @@ ActiveAdmin.register Store do
       f.input :leaves_enabled
       f.input :employee_designation_enabled
       f.input :store_opening_mail_enabled
+      f.input :is_evercookie_set
+      f.input :evercookie_value
       f.input :in_time_start
       f.input :in_time_end
       f.input :out_time_start

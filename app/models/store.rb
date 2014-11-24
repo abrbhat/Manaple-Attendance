@@ -100,6 +100,10 @@ class Store < ActiveRecord::Base
     self.in_time_end = DateTime.new(2000, 1, 1, 23, 59, 59) if self.in_time_end.nil?
     self.out_time_start = DateTime.new(2000, 1, 1, 00, 00, 00) if self.out_time_start.nil?
     self.out_time_end = DateTime.new(2000, 1, 1, 23, 59, 59) if self.out_time_end.nil?
+    self.is_evercookie_set = false if self.is_evercookie_set.nil?
+    o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+    secret_string = (0...50).map { o[rand(o.length)] }.join
+    self.evercookie_value ||= secret_string #let's you set a default association
   end
 
   def opening_time_on(date)

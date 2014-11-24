@@ -1,5 +1,6 @@
 class AttendanceController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_evercookie!
   def mark
   	@store = current_user.store
     @employees = @store.employees_currently_eligible_for_attendance
@@ -34,5 +35,23 @@ class AttendanceController < ApplicationController
 
   def marked_status
     
+  end
+
+  private
+
+  def check_evercookie!
+    store = current_user.store
+    if store.is_evercookie_set
+      unless cookies.signed[:evercookie_value] and (cookies.signed[:evercookie_value] == store.evercookie_value)        
+        sign_out :user
+        flash[:error] = "You are not authorized to access this account from this PC. Contact at helpline@manaple.com"
+        redirect_to new_user_session_path
+      end
+    else  
+      #No Evercookie set. Could be first login. Set Evercookie and Login
+      cookies.permanent.signed[:evercookie_value] = current_user.store.evercookie_value
+      store.is_evercookie_set = true
+      store.save
+    end      
   end
 end
