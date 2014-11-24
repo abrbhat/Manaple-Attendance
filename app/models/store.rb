@@ -95,6 +95,7 @@ class Store < ActiveRecord::Base
     self.mid_day_in_out_enabled = false if self.mid_day_in_out_enabled.nil?
     self.employee_code_enabled = false if self.employee_code_enabled.nil?
     self.employee_designation_enabled = false if self.employee_designation_enabled.nil?
+    self.store_opening_mail_enabled = true if self.store_opening_mail_enabled.nil?
   end
 
   def opening_time_on(date)

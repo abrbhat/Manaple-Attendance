@@ -2,12 +2,13 @@ ActiveAdmin.register Photo do
 
   config.per_page = 20
 
-  permit_params :created_at,:description, :image_file_name, :image_content_type, :image_file_size, :image_updated_at, :status, :ip
+  permit_params :created_at,:description, :created_at, :image_created_at,:image_file_name, :image_content_type, :image_file_size, :image_updated_at, :status, :ip
 
   index do
     column :description
     column :user
     column :created_at
+    column :image_created_at
     column :image_updated_at
     column :status
     column :ip

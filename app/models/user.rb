@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
   end
   
   def should_receive_store_opening_mail_for store
-    return (self.is_store_incharge_of(store) or self.is_store_observer_of(store)  )
+    return ((self.is_store_incharge_of(store) or self.is_store_observer_of(store)) and self.receive_store_opening_mail)
   end
   
   def should_receive_daily_attendance_notification_mail_for store
@@ -506,6 +506,7 @@ class User < ActiveRecord::Base
 
   def set_defaults
     self.employee_status ||= 'active'    
+    self.receive_store_opening_mail = true if self.receive_store_opening_mail.nil?
   end
 
   def is_active?

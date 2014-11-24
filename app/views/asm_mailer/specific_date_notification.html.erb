@@ -9,18 +9,20 @@ Dear <%= @incharge.name%>,
 Dear Sir,
 <% end %>
 <br><br>
-Attendance Data for <%= @date.strftime("%d-%m-%Y") %>
+Attendance Data 
 <br><br>
 Summary:
 <br>
 <table width="350px">
   <tr>
-    <th>Store Name</td>
-    <th>Opening Time</td>
+    <th>Store Name</th>
+    <th>Closing Time on <%= (@date - 1.day).strftime("%d-%m-%Y") %></th>
+    <th>Opening Time on <%= @date.strftime("%d-%m-%Y") %></th>
   </tr>
   <% @stores.each do |store| %>
     <tr>
       <td><%= store.name %></td>
+      <td><%= store.closing_time_on(@date - 1.day) ? store.closing_time_on(@date - 1.day) : '-'%>
       <td><%= store.opening_time_on(@date).present? ? store.opening_time_on(@date) : '-' %></td>
     </tr>
   <% end %>

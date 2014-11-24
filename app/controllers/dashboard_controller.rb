@@ -30,6 +30,7 @@ class DashboardController < ApplicationController
     @transfers_enabled = store.transfers_enabled
     @employee_code_enabled = store.employee_code_enabled
     @employee_designation_enabled = store.employee_designation_enabled
+    @store_opening_mail_enabled = store.store_opening_mail_enabled
   end
 
   def master_settings_update
@@ -194,7 +195,7 @@ class DashboardController < ApplicationController
   end
 
   def store_params
-    params.require(:store).permit(:mid_day_enabled,:mid_day_in_out_enabled, :leaves_enabled, :employee_designation_enabled, :employee_code_enabled, :transfers_enabled)
+    params.require(:store).permit(:mid_day_enabled,:mid_day_in_out_enabled, :leaves_enabled, :employee_designation_enabled, :employee_code_enabled, :transfers_enabled, :store_opening_mail_enabled)
   end
 
   

@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   config.per_page = 10
-  permit_params :email, :password, :password_confirmation, :name, :employee_code, :employee_designation, :employee_status, :category
+  permit_params :email, :password, :password_confirmation, :name, :employee_code, :employee_designation, :employee_status, :category, :receive_store_opening_mail
 
   index do
     selectable_column
@@ -14,6 +14,7 @@ ActiveAdmin.register User do
     column :employee_designation
     column :employee_status
     column :category  
+    column :receive_store_opening_mail
     actions
   end
 
@@ -32,8 +33,24 @@ ActiveAdmin.register User do
       f.input :password
       f.input :password_confirmation
       f.input :category
+      f.input :receive_store_opening_mail
     end
     f.actions
+  end
+
+  controller do
+    def update
+      user = params["user"]
+
+      # If we haven't set a password explicitly, we don't want it reset so 
+      # don't pass those fields upstream and devise will ignore them
+      if user && (user["password"] == nil || user["password"].empty?)
+        user.delete("password")
+        user.delete("password_confirmation")
+      end
+
+      update!
+    end
   end
 
 end

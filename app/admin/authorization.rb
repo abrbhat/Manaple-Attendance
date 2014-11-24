@@ -8,6 +8,7 @@ ActiveAdmin.register Authorization do
     column :store
     column :user
     column :permission
+    column :created_at
     column :updated_at
     actions
   end

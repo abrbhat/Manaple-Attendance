@@ -19,8 +19,8 @@ class AsmMailer < ActionMailer::Base
   def store_opened(store,opening_time)
     @opening_time = opening_time
     @store = store
-    if store.users_who_should_receive_store_opening_mail != nil
-      users = store.users_who_should_receive_store_opening_mail
+    if store.users_who_should_receive_store_opening_mail != nil and store.store_opening_mail_enabled
+      users = store.users_who_should_receive_store_opening_mail.select {|user| user.receive_store_opening_mail}
       emails = users.collect(&:email).join(",")
       mail to: emails, subject: "Store Opened"
     end

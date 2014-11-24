@@ -25,24 +25,31 @@
     <div class="form-element-group">
       	<label  class="form-label col-sm-8">Leaves Enabled:</label>
       	<div class="col-sm-4">
-			<input type="hidden" name="store[leaves_enabled]" value="off">
-			<input type="checkbox" name="store[leaves_enabled]"  <%= "checked" if @leaves_enabled==true %> />
-		</div>
+  			<input type="hidden" name="store[leaves_enabled]" value="off">
+  			<input type="checkbox" name="store[leaves_enabled]"  <%= "checked" if @leaves_enabled==true %> />
+  		</div>
     </div>	
     <div class="form-element-group">
       	<label  class="form-label col-sm-8">Employee Designation Enabled:</label>
       	<div class="col-sm-4">
-			<input type="hidden" name="store[employee_designation_enabled]" value="off">
-			<input type="checkbox" name="store[employee_designation_enabled]"  <%= "checked" if @employee_designation_enabled==true %> />
-		</div>
+  			<input type="hidden" name="store[employee_designation_enabled]" value="off">
+  			<input type="checkbox" name="store[employee_designation_enabled]"  <%= "checked" if @employee_designation_enabled==true %> />
+  		</div>
     </div>
     <div class="form-element-group">
       	<label  class="form-label col-sm-8">Employee Code Enabled:</label>
       	<div class="col-sm-4 ">
-			<input type="hidden" name="store[employee_code_enabled]" value="off">
-			<input type="checkbox" name="store[employee_code_enabled]"  <%= "checked" if @employee_code_enabled==true %> />
-		</div>
+  			<input type="hidden" name="store[employee_code_enabled]" value="off">
+  			<input type="checkbox" name="store[employee_code_enabled]"  <%= "checked" if @employee_code_enabled==true %> />
+  		</div>
     </div>	
+    <div class="form-element-group">
+        <label  class="form-label col-sm-8">Store Opening Mail Enabled:</label>
+        <div class="col-sm-4 ">
+        <input type="hidden" name="store[store_opening_mail_enabled]" value="off">
+        <input type="checkbox" name="store[store_opening_mail_enabled]"  <%= "checked" if @store_opening_mail_enabled==true %> />
+      </div>
+    </div>
 	<%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
 	<%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
 <% end %>
