@@ -31,6 +31,10 @@ class DashboardController < ApplicationController
     @employee_code_enabled = store.employee_code_enabled
     @employee_designation_enabled = store.employee_designation_enabled
     @store_opening_mail_enabled = store.store_opening_mail_enabled
+    @in_time_start = store.in_time_start.strftime( "%H:%M:%S" )
+    @in_time_end = store.in_time_end.strftime( "%H:%M:%S" )
+    @out_time_start = store.out_time_start.strftime( "%H:%M:%S" )
+    @out_time_end = store.out_time_end.strftime( "%H:%M:%S" )
   end
 
   def master_settings_update
@@ -175,6 +179,8 @@ class DashboardController < ApplicationController
     @employee_designation_enabled = @all_stores.first.employee_designation_enabled
     @mid_day_enabled = @all_stores.first.mid_day_enabled
     @mid_day_in_out_enabled = @all_stores.first.mid_day_in_out_enabled
+    
+    
     @start_date = get_start_date
     @end_date = get_end_date
     @date = get_date
@@ -195,7 +201,7 @@ class DashboardController < ApplicationController
   end
 
   def store_params
-    params.require(:store).permit(:mid_day_enabled,:mid_day_in_out_enabled, :leaves_enabled, :employee_designation_enabled, :employee_code_enabled, :transfers_enabled, :store_opening_mail_enabled)
+    params.require(:store).permit(:mid_day_enabled,:mid_day_in_out_enabled, :leaves_enabled, :employee_designation_enabled, :employee_code_enabled, :transfers_enabled, :store_opening_mail_enabled, :in_time_start, :in_time_end, :out_time_start, :out_time_end)
   end
 
   

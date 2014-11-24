@@ -50,6 +50,30 @@
         <input type="checkbox" name="store[store_opening_mail_enabled]"  <%= "checked" if @store_opening_mail_enabled==true %> />
       </div>
     </div>
+    <div class="form-element-group">
+        <label  class="form-label col-sm-8">In Time Start(Use Chrome To Enter)</label>
+        <div class="col-sm-4 ">
+          <input id = "store_in_time_start" type = "time" name = "store[in_time_start]" value = "<%= @in_time_start %>" >
+        </div>
+    </div>
+    <div class="form-element-group">
+        <label  class="form-label col-sm-8">In Time End(Use Chrome To Enter)</label>
+        <div class="col-sm-4 ">
+          <input id = "store_in_time_end" type = "time" name = "store[in_time_end]" value = "<%= @in_time_end%>">      
+        </div>
+    </div>
+    <div class="form-element-group">
+        <label  class="form-label col-sm-8">Out Time Start(Use Chrome To Enter)</label>
+        <div class="col-sm-4 ">
+          <input id = "store_out_time_start" type = "time" name = "store[out_time_start]" value = "<%= @out_time_start%>">    
+        </div>
+    </div>
+    <div class="form-element-group">
+        <label  class="form-label col-sm-8">Out Time End(Use Chrome To Enter)</label>
+        <div class="col-sm-4 ">
+          <input id = "store_out_time_end" type = "time" name = "store[out_time_end]" value = "<%= @out_time_end%>">  
+        </div>
+    </div>
 	<%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
 	<%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
 <% end %>

@@ -4,14 +4,22 @@
 	<div class="col-md-6">
 		<div class="centering-table">
 			<div class="centering-table-cell">
-				<div class = "attendance-marker-option big-button next-attendance-page-button" data-attendance-marker-value="in">In</div>
+				<% if @in_attendance_marking_available %>
+					<div class = "attendance-marker-option big-button next-attendance-page-button" data-attendance-marker-value="in">In</div>
+				<% else %>
+					<div class = "attendance-marker-option big-button " disabled = "disabled" >Not Available</br>In Time : <%= @in_time_start.strftime( "%I:%M %p" ) %> to <%= @in_time_end.strftime( "%I:%M %p" ) %></div>					
+				<% end %>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="centering-table">
 			<div class="centering-table-cell">
-				<div class = "attendance-marker-option big-button next-attendance-page-button" data-attendance-marker-value="out">Out</div>
+				<% if @in_attendance_marking_available %>
+					<div class = "attendance-marker-option big-button next-attendance-page-button" data-attendance-marker-value="out">Out</div>
+				<% else %>
+					<div class = "attendance-marker-option big-button " disabled = "disabled" >Not Available</br>Out Time : <%= @out_time_start.strftime( "%I:%M %p" ) %> to <%= @out_time_end.strftime( "%I:%M %p" ) %></div>				
+				<% end %>				
 			</div>
 		</div>
 	</div>

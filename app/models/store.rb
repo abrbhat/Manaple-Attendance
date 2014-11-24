@@ -96,6 +96,10 @@ class Store < ActiveRecord::Base
     self.employee_code_enabled = false if self.employee_code_enabled.nil?
     self.employee_designation_enabled = false if self.employee_designation_enabled.nil?
     self.store_opening_mail_enabled = true if self.store_opening_mail_enabled.nil?
+    self.in_time_start = DateTime.new(2000, 1, 1, 00, 00, 00) if self.in_time_start.nil?
+    self.in_time_end = DateTime.new(2000, 1, 1, 23, 59, 59) if self.in_time_end.nil?
+    self.out_time_start = DateTime.new(2000, 1, 1, 00, 00, 00) if self.out_time_start.nil?
+    self.out_time_end = DateTime.new(2000, 1, 1, 23, 59, 59) if self.out_time_end.nil?
   end
 
   def opening_time_on(date)
