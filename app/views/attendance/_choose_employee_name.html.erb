@@ -3,7 +3,7 @@
 <% @employees.each do |employee| %>
 	<div class="centering-table">
 	    <div class="centering-table-cell">
-    		<div class="employee-name-option big-button next-attendance-page-button" data-employee-id = "<%= employee.id %>"> <%= employee.name %></div>
+    		<div class="employee-name-option big-button next-attendance-page-button" data-employee-id = "<%= employee.id %>"> <%= employee.name %><%= " - #{employee.code}" if @store.employee_code_enabled %></div>
 	    </div>
 	</div>
 <% end %>

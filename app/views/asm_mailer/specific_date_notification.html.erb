@@ -30,7 +30,7 @@ Summary:
 <br>
 Detailed Data:
 <br>
-<table width="700px">
+<table width="700px" cellpadding="3">
   <thead>
     <tr>
       <th>Store</th>
@@ -41,7 +41,8 @@ Detailed Data:
       <% if @employee_designation_enabled %>
         <th>Employee Designation</th>
       <% end %>
-      <th>In Time</th>
+      <th>Out Time on <%= (@date - 1.day).strftime("%d-%m-%Y") %></th>
+      <th>In Time on <%= @date.strftime("%d-%m-%Y") %></th>
       <th>Status</th>
     </tr>
   </thead>
@@ -56,6 +57,9 @@ Detailed Data:
         <% if @employee_designation_enabled %>
           <td> <%= attendance_data['employee'].designation %></td>
         <% end %>
+        <td>
+          <%= attendance_data['out_time'].present? ? attendance_data['in_time'] : '-' %>
+        </td>
         <td>
           <%= attendance_data['in_time'].present? ? attendance_data['in_time'] : '-' %>
         </td>

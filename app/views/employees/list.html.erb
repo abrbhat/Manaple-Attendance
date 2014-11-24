@@ -30,10 +30,10 @@
   <tbody>
       <% @employees_to_display_paginated.each do |employee| %>
         <tr>
+          <td> <%= employee.store.name %></td>
           <% if @employee_code_enabled %>
             <td> <%= employee.code %></td>
-          <% end %>
-          <td> <%= employee.store.name %></td>
+          <% end %>          
           <%  if employee.photos.where("description = 'original'").present? %>
             <% original_photo = employee.photos.where("description = 'original'").first.image.url(:thumb) %>
           <% end %>
