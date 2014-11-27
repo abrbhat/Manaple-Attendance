@@ -15,7 +15,7 @@
 	<div class="col-xs-6">
 		<div class="centering-table">
 			<div class="centering-table-cell">
-				<% if @in_attendance_marking_available %>
+				<% if @out_attendance_marking_available %>
 					<div class = "attendance-marker-option big-button next-attendance-page-button" data-attendance-marker-value="out">Out</div>
 				<% else %>
 					<div class = "attendance-marker-option big-button " disabled = "disabled" >Not Available</br>Out Time : <%= @out_time_start.strftime( "%I:%M %p" ) %> to <%= @out_time_end.strftime( "%I:%M %p" ) %></div>				
