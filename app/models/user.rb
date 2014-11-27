@@ -323,7 +323,7 @@ class User < ActiveRecord::Base
     end
   end
   def attendance_data_for(date,store)    
-    photos_for_date = self.photos_for(date)  
+    photos_for_date = self.photos_for(date)
     if store.present?
       store_on_date = store
     else
@@ -459,6 +459,30 @@ class User < ActiveRecord::Base
     else
       return self.store
     end
+  end
+
+  def stores_on date
+    all_transfers = self.transfers
+    transfers_before_date = all_transfers.select {|transfer| transfer.date < date}
+    stores_on_date = []
+    transfers_before_date.each do |transfer|
+      store_a = transfer.from_store
+      store_b = transfer.to_store
+      if store_b.present?
+        store_b_leaving_transfers = all_transfers.select{|leaving_transfer| leaving_transfer.from_store == store_b and leaving_transfer.date > transfer.date}
+        if store_b_leaving_transfers.blank?
+          #Means store B is never left till current date
+          stores_on_date << store_b
+        else 
+          store_b_leaving_transfers_before_date = store_b_leaving_transfers.select{|leaving_transfer| leaving_transfer.date < date}
+          if store_b_leaving_transfers_before_date.blank?
+            #Means store B was not left till required date
+            stores_on_date << store_b
+          end
+        end
+      end
+    end
+    return stores_on_date
   end
 
   def transfers_enabled?

@@ -7,6 +7,7 @@
     <% if @employee_code_enabled %>
       <h4><%= print_hyphen_if_empty(@employee.code) %></h4>
     <% end %>
+    <h4><%= @store.name %></h4>
 </div>
 <div class="attendance-navigator-container">
 	<%= form_tag({controller:"dashboard",action:"employee_attendance_record"}, method: "get") do %>
@@ -21,10 +22,11 @@
         <%= submit_tag "Go", :class => "proceed-button" %>
       </div>
       <div class = "col-xs-2">
-        <%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xlsx,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), employee_id: @employee.id) , class:'medium-button right-side' %>
+        <%= link_to "Download XLS", dashboard_employee_attendance_record_path(format: :xlsx,time_period_start: @start_date.strftime("%d-%m-%Y"),time_period_end: @end_date.strftime("%d-%m-%Y"), employee_id: @employee.id, store_id: @store.id) , class:'medium-button right-side' %>
       </div>
     </div>
     <input type="hidden"  value="<%= @employee.id %>" name="employee_id" >
+    <input type="hidden"  value="<%= @store.id %>" name="store_id" >   
   <% end %>
 </div>
 <table class="list-table">
