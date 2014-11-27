@@ -77,7 +77,8 @@
 						    		<li class="<%= is_active?("pages#select_bulk_authorizations_to_create")  %>"><%= link_to "Authorizations", pages_select_bulk_authorizations_to_create_path %></li>	
 						        </ul>	
 							</li>	
-							<li class="<%= is_active?("pages#choose_attendance_mail_date_specific_user")  %>"><%= link_to "Send Attendance Reports", pages_choose_attendance_mail_date_specific_user_path %></li>	    			       
+							<li class="<%= is_active?("pages#choose_attendance_mail_date_specific_user")  %>"><%= link_to "Send Attendance Reports", pages_choose_attendance_mail_date_specific_user_path %></li>
+							<li class="<%= is_active?("pages#choose_store_to_reset_evercookie")  %>"><%= link_to "Reset PC", pages_choose_store_to_reset_evercookie_path %></li>	    			       
 					    <% end %> 		
 					    	      	
 					    <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>

@@ -1,0 +1,19 @@
+<h2>Reset PC</h2>
+<div class = "form-container left-side">
+<%= form_tag({controller:"pages",action:"reset_evercookie"}, method: "post",class:"form-horizontal") do %>
+	<div class="form-group">
+	    <label class="col-sm-2 control-label">From:</label>
+	    <div class="col-sm-10">
+		    <select class="form-control"  name="store_id">
+			  	<% @stores.each do |store| %>
+			    	<option value="<%= store.id %>" ><%= store.name %></option>
+			 	<% end %>
+			</select>
+		</div>
+	</div>
+  
+
+  <%= submit_tag "Save", :class => "form-submit-button col-sm-offset-6 col-sm-2" %>
+  <%= submit_tag("Cancel", { :name => 'reset', :id => 'reset_button', :type => "reset", :class => "form-reset-button col-sm-offset-1 col-sm-2"}  ) %>
+<% end %>
+</div>

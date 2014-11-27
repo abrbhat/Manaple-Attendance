@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   post 'pages/create_bulk_stores'
   get 'pages/select_bulk_authorizations_to_create'
   post 'pages/create_bulk_authorizations'
+  get 'pages/choose_store_to_reset_evercookie'
+  post 'pages/reset_evercookie'
 
   get 'dashboard/index'
   get 'dashboard/notification_settings'   

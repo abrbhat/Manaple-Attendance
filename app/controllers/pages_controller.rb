@@ -1,6 +1,5 @@
 class PagesController < ApplicationController
-  def main
-  end
+  before_action :check_if_account_manager_signed_in, except: [:troubleshoot_webcam_error, :download_amcap_setup, :delayed_jobs]
 
   def delayed_jobs
     @handlers = DelayedJob.pluck(:handler)
@@ -52,19 +51,11 @@ class PagesController < ApplicationController
     end   
   end
 
-  def enter_bulk_store_data
-    unless current_user.is_account_manager?
-      render :text => "You are not allowed here"
-      return
-    end
+  def enter_bulk_store_data    
     @users = User.all.select{|user| !(user.is_store_common_user? or user.is_store_staff? or user.is_store_manager?)}
   end
 
-  def create_bulk_stores
-    unless current_user.is_account_manager?
-      render :text => "You are not allowed here"
-      return
-    end
+  def create_bulk_stores    
     new_store_data = params[:store_data]
     asm_list = params[:asm_ids]
     owner_list = params[:owner_ids]
@@ -86,20 +77,24 @@ class PagesController < ApplicationController
     return
   end
 
-  def select_bulk_authorizations_to_create
-    unless current_user.is_account_manager?
-      render :text => "You are not allowed here"
-      return
-    end 
+  def select_bulk_authorizations_to_create    
     @stores = Store.all
     @users = User.all.select{|user| !(user.is_store_common_user? or user.is_store_staff? or user.is_store_manager?)}
   end
 
-  def create_bulk_authorizations
-    unless current_user.is_account_manager?
-      render :text => "You are not allowed here"
-      return
-    end
+  def choose_store_to_reset_evercookie    
+    @stores = Store.all    
+  end
+
+  def reset_evercookie    
+    store = Store.find(params[:store_id])
+    store.is_evercookie_set = false
+    store.save
+    redirect_to pages_choose_store_to_reset_evercookie_path, notice: "PC reset done for #{store.name}"
+    return
+  end
+
+  def create_bulk_authorizations    
     store_list = params[:store_ids]
     user_id = params[:user_id]
     permission = params[:permission]
@@ -143,4 +138,13 @@ class PagesController < ApplicationController
     end 
   end
 
+  protected
+
+  def check_if_account_manager_signed_in
+    unless ((current_user.present? and current_user.is_account_manager?) or admin_user_signed_in?)
+      sign_out :user
+      flash[:error] = "You are not allowed there."
+      redirect_to new_user_session_path
+    end
+  end
 end
