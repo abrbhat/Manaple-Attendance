@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124102910) do
+ActiveRecord::Schema.define(version: 20141127174334) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -99,7 +99,6 @@ ActiveRecord::Schema.define(version: 20141124102910) do
     t.integer  "store_id"
   end
 
-  add_index "photos", ["created_at"], name: "index_photos_on_created_at"
   add_index "photos", ["description"], name: "index_photos_on_description"
   add_index "photos", ["store_id"], name: "index_photos_on_store_id"
   add_index "photos", ["user_id"], name: "index_photos_on_user_id"
@@ -110,20 +109,20 @@ ActiveRecord::Schema.define(version: 20141124102910) do
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "in_out_enabled",               default: true
+    t.boolean  "in_out_enabled"
     t.boolean  "mid_day_in_out_enabled"
     t.boolean  "mid_day_enabled"
     t.boolean  "employee_designation_enabled"
     t.boolean  "employee_code_enabled"
     t.boolean  "transfers_enabled"
     t.boolean  "leaves_enabled"
-    t.boolean  "is_evercookie_set"
-    t.string   "evercookie_value"
     t.boolean  "store_opening_mail_enabled"
     t.time     "in_time_start"
     t.time     "in_time_end"
     t.time     "out_time_start"
     t.time     "out_time_end"
+    t.boolean  "is_evercookie_set"
+    t.boolean  "evercookie_value"
   end
 
   create_table "transfers", force: true do |t|
