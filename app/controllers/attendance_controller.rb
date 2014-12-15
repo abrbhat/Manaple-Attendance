@@ -2,6 +2,10 @@ class AttendanceController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_evercookie!
   def mark
+    if !(browser.chrome? or browser.firefox?) or browser.mobile? or browser.tablet?
+      flash[:error] = "Please use Chrome or Firefox on a Desktop if you want to mark attendance."
+      redirect_to dashboard_attendance_specific_day_path    
+    end
   	@store = current_user.store
     @employees = @store.employees_currently_eligible_for_attendance
     @in_attendance_marking_available = false

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127174334) do
+ActiveRecord::Schema.define(version: 20141127180423) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20141127174334) do
     t.time     "out_time_start"
     t.time     "out_time_end"
     t.boolean  "is_evercookie_set"
-    t.boolean  "evercookie_value"
+    t.string   "evercookie_value"
   end
 
   create_table "transfers", force: true do |t|

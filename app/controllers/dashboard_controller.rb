@@ -120,7 +120,6 @@ class DashboardController < ApplicationController
     else
       @store = @employee.stores.first
     end
-    logger.debug "store: #{@store.name}"
     @attendance_data_for = Hash.new
     (@start_date.to_date..(@end_date.midnight).to_date).each do |date|        
         @attendance_data_for[date.strftime("%d-%m-%Y")] = @employee.attendance_data_for(date,@store)     
