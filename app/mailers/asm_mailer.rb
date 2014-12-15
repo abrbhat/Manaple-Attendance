@@ -50,7 +50,9 @@ class AsmMailer < ActionMailer::Base
     @attendance_data_all.sort_by!{|attendance_data| [attendance_data['store'].name,attendance_data['employee'].name.capitalize]} 
     @attendance_data_all.each do |attendance_data|
       attendance_data_yesterday = @attendance_data_all_yesterday.select{|attendance_data_yesterday| attendance_data_yesterday['employee'] == attendance_data['employee']}.first
-      attendance_data['out_time_yesterday'] = attendance_data_yesterday['out_time'] if attendance_data_yesterday['out_time'].present?
+      if attendance_data_yesterday.present? and attendance_data_yesterday['out_time'].present?
+        attendance_data['out_time_yesterday'] = attendance_data_yesterday['out_time'] 
+      end
     end
     mail to: @incharge.email, subject: "Attendance at your Stores"
   end
