@@ -439,7 +439,7 @@ class User < ActiveRecord::Base
     joining_transfers.each do |joining_transfer|
       time_period = Hash.new
       time_period["begin"] = joining_transfer.date
-      leaving_transfers_after_this_joining = leaving_transfers.select{|transfer| transfer.date > joining_transfer.date}
+      leaving_transfers_after_this_joining = leaving_transfers.select{|transfer| transfer.date > joining_transfer.date or (transfer.date == joining_transfer.date and transfer.created_at > joining_transfer.created_at)}
       if leaving_transfers_after_this_joining.blank?
         time_period["end"] = end_date
       else
