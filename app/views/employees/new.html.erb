@@ -1,9 +1,17 @@
 <%= javascript_include_tag "employees" %>
-<h2>Add Employees</h2>
-<div class="right-side clear-sides">
-  <div class='medium-button' id = 'add-one-row-button'>+1</div>
-  <div class='medium-button' id = 'add-25-rows-button'>+25</div>
+<div class = 'row'>
+  <div class = 'col-xs-6'>
+    <h2>Add Employees</h2>
+  </div>
+  <div class = 'col-xs-2 col-xs-offset-4'>
+    <div class="right-side">
+      <div class='medium-button' id = 'add-one-row-button'>+1</div>
+      <div class='medium-button' id = 'add-25-rows-button'>+25</div>
+    </div>
+  </div>
 </div>
+
+
 <%= form_tag({controller:"employees",action:"create"}, method: "post",class:"form-inline") do %>
 <table class="list-table">
   <thead>
