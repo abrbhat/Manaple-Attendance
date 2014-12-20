@@ -443,7 +443,8 @@ class User < ActiveRecord::Base
       if leaving_transfers_after_this_joining.blank?
         time_period["end"] = end_date
       else
-        time_period["end"] = leaving_transfers_after_this_joining.min_by(&:date).date
+        corresponding_leaving_transfer = leaving_transfers_after_this_joining.sort_by{|leaving_transfer| [leaving_transfer.date,leaving_transfer.created_at]}.first
+        time_period["end"] = corresponding_leaving_transfer.date
       end
       time_period_dates = (time_period["begin"].to_date..(time_period["end"]).to_date).to_a
       dates = dates + time_period_dates
