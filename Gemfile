@@ -85,3 +85,5 @@ gem 'axlsx_rails'
 
 gem 'execjs'
 gem 'therubyracer'
+
+gem 'posix-spawn'
