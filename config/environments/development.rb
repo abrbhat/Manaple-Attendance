@@ -58,13 +58,5 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  # config.paperclip_defaults = {
-  #   storage: :s3,
-  #   s3_credentials: {
-  #     bucket: 'photos-webapp',
-  #     access_key_id: 'AKIAIZ5UVV37QUAPPSUQ',
-  #     secret_access_key: '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'
-  #   }
-  # }
 
 end
