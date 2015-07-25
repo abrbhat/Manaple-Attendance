@@ -20,23 +20,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   config.action_mailer.delivery_method = :letter_opener
-  # config.action_mailer.smtp_settings = {
-  #   address:        "smtp.gmail.com",
-  #   port:           587, 
-  #   domain:         "gmail.com",
-  #   authentication: "plain",
-  #   user_name:      "yours@gmail.com",
-  #   password:       "yours",
-  #   enable_starttls_auto: false
-  #   # openssl_verify_mode: 'none',
-  #   # address:        "smtp.manaple.com",
-  #   # port:           587, 
-  #   # domain:         "manaple.com",
-  #   # authentication: "plain",
-  #   # user_name:      "no-reply@manaple.com",
-  #   # password:       "rlMZCfw9",
-  #   # enable_starttls_auto: false
-  # }
 
 
   # Print deprecation notices to the Rails logger.
