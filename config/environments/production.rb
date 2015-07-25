@@ -68,14 +68,14 @@ Rails.application.configure do
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
 
-  config.action_mailer.default_url_options = {:host => 'manaple.com'}
+  config.action_mailer.default_url_options = {:host => ENV["MAIL_HOSTNAME"]}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:        "smtp.manaple.com",
+    address:        ENV["SMTP_ADDRESS"],
     port:           587,
-    domain:         "manaple.com",
+    domain:         ENV["MAIL_DOMAIN"],
     authentication: "plain",
-    user_name:      "no-reply@manaple.com",
+    user_name:      ENV["MAIL_USERNAME"],
     password:       ENV["MAIL_PASSWORD"],
     enable_starttls_auto: false
   }
@@ -97,9 +97,9 @@ Rails.application.configure do
   config.paperclip_defaults = {
     storage: :s3,
     s3_credentials: {
-      bucket: 'photos-webapp',
-      access_key_id: 'AKIAJDWPC5XVSVOPCYGQ',
-      secret_access_key: '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'
+      bucket: ENV["BUCKET_NAME"],
+      access_key_id: ENV["BUCKET_KEY_ID"],
+      secret_access_key: ENV["BUCKET_ACCESS_KEY"]
     }
   }
 
