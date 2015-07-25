@@ -1,32 +1,7 @@
-About
------
+## About
 
-A low cost attendance management solution
+Manaple is attendance management web app complete with features such as in/out/mid-day attendance, leaves, data downloading in xls format and access levels. It also has a complementary chrome extension for taking offline attendance. The extension can be found at: https://github.com/abrbhat/manaple-chrome-extension
 
-Getting Started
------
+## License
 
-Clone the repository and run on localhost!
-
-Permission Levels:        String to be entered
-
-Staff						staff
-Manager						manager
-ASM							asm
-Owner						owner
-Common User					common_user
-
-Both Staff and Manager are considered as employees
-Both ASM and Owner are considered as store incharge
-
-  Photo Status				String to be entered
-Photo Verified				verified
-Verification Pending		verification_pending
-Photo Rejected				verification_rejected
-
-Attendance Status	:		String to be entered
-In : in
-Out : out
-Mid-Day In : mid_day_in
-Mid-Day Out: mid_day_out
-Mid-Day: mid_day_present
+Manaple Attendance Management App is released under the [MIT License](http://www.opensource.org/licenses/MIT).
