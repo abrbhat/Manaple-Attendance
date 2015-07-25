@@ -76,7 +76,7 @@ Rails.application.configure do
     domain:         "manaple.com",
     authentication: "plain",
     user_name:      "no-reply@manaple.com",
-    password:       "rlMZCfw9",
+    password:       ENV["MAIL_PASSWORD"],
     enable_starttls_auto: false
   }
 
